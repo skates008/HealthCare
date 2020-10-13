@@ -1,0 +1,130 @@
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">{{headerTitle}}</h3>
+        </div>
+    </div>
+    <div>
+        <div class="kt-form">
+            <div class="kt-portlet__body">
+                <div *ngIf="!reschedule">
+                    <div class="form-group kt-form__group row">
+                        <label for="pratitioner" class="col-sm-2 col-form-label">Practitioner</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" [(ngModel)]="appointment.practitioner">
+                                <option disabled value="">Select</option>
+                                <option>Jackson BlackField</option>
+                                <option>Andy Ray</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group kt-form__group row">
+                        <label for="type" class="col-sm-2 col-form-label">Type</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" [(ngModel)]="appointment.type">
+                                <option disabled> Select</option>
+                                <option>Standard Appointment</option>
+                                <option>General Appointment</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group kt-form__group row">
+                        <label for="type" class="col-sm-2 col-form-label">Participants</label>
+                        <div class="col-m-10">
+                            <select2 [data]="exampleData" [width]="300"
+                                [value]="appointment.participant && appointment.participant.id" (valueChanged)="changed($event)"
+                                [options]="options"></select2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group kt-form__group row">
+                    <label for="type" class="col-sm-2 col-form-label">Date</label>
+                    <div class="col-sm-10">
+                        <mat-form-field class="w-100">
+                            <input matInput [matDatepicker]="picker || appointment.date" placeholder="Choose a date"
+                                required [(ngModel)]="appointment.date">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- <div class="form-group kt-form__group row">
+                    <label for="type" class="col-sm-2 col-form-label">Time</label>
+                    <div class="col-sm-4">
+                        <ngb-timepicker [(ngModel)]="appointment.starttimeObj" [meridian]="meridian"></ngb-timepicker>
+                    </div>
+                    <div class="col-sm-2">
+                        <label style="margin-top: 45px;">To</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <ngb-timepicker [(ngModel)]="appointment.endtimeObj" [meridian]="meridian"></ngb-timepicker>
+                    </div>
+                </div> -->
+
+                <div class="form-group kt-form__group row">
+                    <label for="type" class="col-sm-2 col-form-label">Time</label>
+                    <div class="col-sm-4" class="time-picker">
+                        <input [ngxTimepicker]="timepicker" [(ngModel)]="appointment.starttimeObj"
+                            placeholder="Start Time">
+                        <ngx-material-timepicker #timepicker (timeSet)="onChangeTime($event)"></ngx-material-timepicker>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>To</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input [ngxTimepicker]="timepicker2" [(ngModel)]="endtime" disabled placeholder="End Time">
+                        <ngx-material-timepicker #timepicker2></ngx-material-timepicker>
+                    </div>
+                </div>
+
+                <div class="form-group kt-form__group row" *ngIf="selecTimeErr">
+                    <label for="type" class="col-sm-2 col-form-label">
+                    </label>
+                    <label for="type" class="col-sm-10 col-form-label time-error">
+                        {{selecTimeErrText}}
+                    </label>
+                </div>
+
+
+                <div class="form-group kt-form__group row">
+                    <label for="type" class="col-sm-2 col-form-label">Reason For Reschedule</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="appointment.rescheduleReason" />
+                    </div>
+                </div>
+                <div>
+
+                    <div *ngIf="!reschedule" class="form-group kt-form__group row">
+                        <label for="type" class="col-sm-2 col-form-label">Note</label>
+                        <div class="col-sm-10">
+                            <textarea type="text" class="form-control" [(ngModel)]="appointment.note"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-10">
+                                <button (click)="submit()" [disabled]="!isFormValid()"
+                                    class="btn btn-md kt-font-bold kt-font-transform-u new-appointment-save"
+                                    data-ktwizard-type="action-submit">
+                                    {{buttonText}}
+                                </button>
+                                &nbsp;
+                                <button type="button" mat-raised-button [mat-dialog-close]="" cdkFocusInitial
+                                    matTooltip="Cancel changes">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>

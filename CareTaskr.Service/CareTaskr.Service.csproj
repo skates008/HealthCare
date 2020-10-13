@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;Test</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.4.2" />
+    <PackageReference Include="CsvHelper" Version="15.0.1" />
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <PackageReference Include="EWSoftware.PDI" Version="2020.1.18" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.1" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="1.5.0" />
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.6" />
+    <PackageReference Include="MimeKit" Version="2.5.1" />
+    <PackageReference Include="SendGrid" Version="9.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Caretaskr.Common\Caretaskr.Common.csproj" />
+    <ProjectReference Include="..\Caretaskr.Data\Caretaskr.Data.csproj" />
+    <ProjectReference Include="..\CareTaskr.FHIR\CareTaskr.FHIR.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,20 @@
+$primaryColor: #e44868;
+$baseColor: #ffffff;
+
+.next-button {
+  font-weight: 500;
+  height: 35px;
+  font-size: 1rem;
+  padding-right: 2.75rem;
+  padding-left: 2.75rem;
+  background-color: $primaryColor;
+  color: $baseColor;
+}
+.next-button:hover {
+  background-color: darken($primaryColor, (20%));
+  color: $baseColor;
+}
+
+.welcome-card{
+  max-width: 100%;
+}

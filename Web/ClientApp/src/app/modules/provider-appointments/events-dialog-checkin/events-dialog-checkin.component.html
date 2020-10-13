@@ -1,0 +1,344 @@
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">{{eventDetails && eventDetails.appointmentTypeName}}</h3>
+            <mat-icon (click)="closeDialogBox()" class="close-icon">close</mat-icon>
+        </div>
+        <div class = "row actions-btns " *ngIf="appointmenttStatus == 'Confirmed'">
+            <div class="col-md-4">
+                <button class="btn btn-primary event-actions edit-btn" mat-raised-button
+                    (click)="editAppointment(eventDetails)">
+                    <mat-icon class="btn-icon">edit</mat-icon>
+                    Edit
+                </button>
+            </div>
+            <div class="col-md-8">
+                <button class="btn event-actions cancel-btn" mat-raised-button
+                    (click)="showCancelAppointment()">
+                    <mat-icon class="btn-icon">close</mat-icon>
+                    Cancel Appointment
+                </button>
+            </div>
+        </div>
+<!-- 
+        <ng-container ktPortletTools>
+          
+        </ng-container> -->
+        
+    </div>
+   
+    <kt-portlet-body>
+    <div>
+        <div  *ngIf="appointmenttStatus == 'Confirmed'">
+            <div  class="row appt-actions">
+            <div class="col-md-6 appt-detail">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Practitioner:</strong></p>
+                    </div>
+                    <div class="col-md-8">
+                        <p>{{eventDetails && eventDetails.practitionerName}} </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Starts:</strong></p>
+                    </div>
+                    <div class="col-md-8">
+                        <p>at {{formattedStarttime}} for {{appointmentInterval}} </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Client:</strong></p>
+
+                    </div>
+
+                    <div class="col-md-8">
+                        <p>{{eventDetails && eventDetails.patientName}} </p>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Contact:</strong></p>
+                    </div>
+
+                    <div class="col-md-8">
+                        <p>{{eventDetails && eventDetails.contact}} </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Address:</strong></p>
+                    </div>
+
+                    <div class="col-md-8">
+                        <p>{{eventDetails && eventDetails.address.address}} </p>
+                    </div>
+                </div>
+               
+            </div>
+            </div>
+            <div class = "row">
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <p><strong>Notes:</strong></p>
+                    </div>
+                    <div class="col-md-8">
+                        <p>{{eventDetails && eventDetails.note != null ?  eventDetails.note : "Notes not found"}} </p>
+                    </div>
+                </div>
+        
+                <div class = "col-md-6 text-right" *ngIf="appointmenttStatus == 'Confirmed' && !showCancelAppointmentSection">
+                    <iframe width="100%" height="250" frameborder="0" style="border:0" [src]="locationSrc |  safe: 'resourceUrl'"></iframe>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row client-details">
+            <div class="col-md-6" *ngIf="appointmenttStatus != 'Confirmed'">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Client:</strong></p>
+
+                    </div>
+
+                    <div class="col-md-8">
+                        <p>{{eventDetails && eventDetails.patientName}} </p>
+
+                    </div>
+                </div>
+
+              
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Contact:</strong></p>
+                    </div>
+
+                    <div class="col-md-8">
+                        <p>{{eventDetails && eventDetails.contact}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Address:</strong></p>
+                    </div>
+
+                    <div class="col-md-8">
+                        <p>{{eventDetails && eventDetails.address.address}} </p>
+                    </div>
+                </div>
+            </div> 
+           
+
+            <div *ngIf="appointmenttStatus == 'CheckedIn'" class="col-md-6">
+                <p class="checkedin-time">
+                    Checked in at {{checkInTime}}
+                </p>
+            </div>
+
+            <div *ngIf="appointmenttStatus == 'CheckedOut'" class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Checked In Time:</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>{{checkInTime}} </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Checked Out Time:</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>{{checkOutTime}} </p>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+
+        <!-- <div class="check-in text-right" *ngIf="appointmenttStatus == 'Confirmed' && !showCancelAppointmentSection">
+            <button class="btn btn-primary event-actions check-in-btn" mat-raised-button
+                (click)="apptAction(eventDetails,'CheckIn')">Navigate</button>
+        </div> -->
+
+        <div class="check-in" *ngIf="appointmenttStatus == 'Confirmed' && !showCancelAppointmentSection">
+            <button class="btn btn-primary event-actions navigate-btn" mat-raised-button [disabled]="loading" [ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}"
+                (click)="openNavigation()">Navigate</button>
+            
+            <button class="btn btn-primary event-actions check-in-btn" mat-raised-button
+                (click)="apptAction(eventDetails,'CheckIn')">Check In</button> 
+        </div>
+
+        <div class="check-in text-right" *ngIf="appointmenttStatus == 'CheckedIn'">
+            <button class="btn btn-primary event-actions check-in-btn" mat-raised-button
+                (click)="apptAction(eventDetails, 'CheckOut')">Check Out</button>
+        </div>
+        <ng-container *ngIf="!showInternalNote">
+            <div [formGroup]="checkoutForm" class="checkout-form" *ngIf="appointmenttStatus=='CheckedOut'">
+                <div class="note checkout-form-details">
+                    <p class="checkout-form-header">Note</p>
+                    <div class=" note-form">
+                        <div class="row">
+
+                            <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <textarea matInput placeholder="External Note" rows="8"
+                                        formControlName="externalNote" required></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <mat-label>Select Care Plan</mat-label>
+                                    <mat-select formControlName="careplanId" required>
+                                        <mat-option *ngFor="let items of careplanDropdown" [value]="items.id">
+                                            {{items.text}} <small>({{items.status}})</small>
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div [formGroup]="checkoutForm" class="billable-item checkout-form-details">
+                    <div class="row checkout-form-header billable-header">
+                        <div class="col-md-6">
+                            <p class="">Billable Item</p>
+                        </div>
+                        <div class="col-md-6 text-right" style="margin-bottom: 10px;">
+                            <button mat-mini-fab (click)="addTimeItem()">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngFor="let billableItemGroup of checkoutForm.controls.billableItems.controls; let i=index">
+                        <div class="row" [formGroup]="billableItemGroup">
+                            <div class="col-md-3 kt-margin-bottom-20-mobile">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" matInput
+                                        placeholder="Enter Start Time" formControlName="startTime" required />
+                                    <owl-date-time #dt1></owl-date-time>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-5 kt-margin-bottom-20-mobile">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <mat-label>Select BillableItem</mat-label>
+                                    <mat-select (selectionChange)="billableSelected(i,$event.value)"
+                                        formControlName="id" required>
+                                        <mat-option *ngFor="let items of billableItemDropDown" [value]="items.id">
+                                            {{items.text}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-3">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input matInput placeholder="{{billableItemGroup.controls.placeholder.value == 'Quantity'?'Quantity':billableItemGroup.controls.placeholder}}"
+                                    formControlName="quantity" type="number"
+                                        min="0" required />
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-1">
+                                <button mat-icon-button color="warn" matTooltip="Delete Time Name" type="button"
+                                    (click)="deleteItems(i)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="check-in text-right" style="margin-top: 10px;">
+                        <button class="btn btn-primary event-actions check-in-btn" mat-raised-button  [disabled]="checkoutForm.invalid"
+                            (click)="nextButton()">Next</button>
+                    </div> -->
+                    <div class="check-in text-right" style="margin-top: 10px;">
+                        <button class="btn btn-primary event-actions check-in-btn" mat-raised-button
+                            (click)="onSubmit()" [disabled]="checkoutForm.invalid">Submit</button>
+                    </div>
+                </div>
+
+            </div>
+        </ng-container>
+
+        <div class="" *ngIf="showInternalNote">
+            <div  class="checkout-form">
+                <div class="note checkout-form-details">
+                    <p class="checkout-form-header">Note</p>
+                    <div class=" note-form">
+                        <div class="row">
+
+                            <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <textarea matInput placeholder="Internal Note" rows="8" [(ngModel)] = "internalNote"
+                                    ></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="check-in text-right" style="margin-top: 10px;">
+                            <button class="btn btn-primary event-actions check-in-btn" mat-raised-button
+                                (click)="addInternalNotes()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="showCancelAppointmentSection">
+            <h5 class="cancel-appointment-header">Cancel Appointment</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <label class="reason-header">Reason</label>
+                    </div>
+                    <div>
+                        <mat-radio-group aria-labelledby="example-radio-group-label" [(ngModel)]="selectedRadio"
+                            class="example-radio-group" (change)="radioChange($event)">
+                            <mat-radio-button class="example-radio-button" *ngFor="let cancelReason of cancelReasons"
+                                [value]="cancelReasons.indexOf(cancelReason)+1">
+                                {{cancelReason}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <textarea matInput placeholder="Notes" [(ngModel)]="cancelNotes"></textarea>
+                        <!-- <mat-error>Notes<strong>required</strong></mat-error> -->
+                        <mat-hint align="start">Please enter <strong> notes</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="kt-margin-bottom-10 text-right">
+                <div class="col-md-12">
+                    <button type="button" mat-raised-button class="cancel-btn" (click)="cancelAppointment(eventDetails)"
+                        [disabled]="!cancelFormValid()" matTooltip="Cancel Appointmet">
+                        Cancel Appointment
+                    </button> &nbsp;
+                    <button type="button" mat-raised-button (click)="hideCancelApptDialog()" cdkFocusInitial
+                        matTooltip="Dont cancel Appointment">
+                        Don't Cancel Appointment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </kt-portlet-body>
+<!-- </kt-portlet> -->
+</div>
+<!-- </div> -->

@@ -1,0 +1,118 @@
+<div mat-dialog-content class="pl-2 pr-2 pb-2 welcome-card">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+            <form class="kt-form" id="kt-form" [formGroup]="firstFormGroup">
+                <div class="kt-wizard-v2__content">
+                    <div class="kt-heading kt-heading--md">
+                        <h1>Welcome to Caretaskr!</h1>
+                    </div>
+                    <div class="kt-form__section kt-form__section--first">
+                        <div class="kt-wizard-v2__form">
+                            <h2>Let's take care of your details</h2>
+                            <h3>Firstly, what's your name?</h3>
+                            <!-- ROW 1 -->
+                            <div class="form-group row pt-5 pl-3">
+                                   <!-- First Name -->
+                                   <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Enter First Name"
+                                            formControlName="firstname" />
+                                        <mat-error>First name is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>first name</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <!-- Last Name -->
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Enter Last Name" formControlName="lastname" />
+                                        <mat-error>Last name is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>last name</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                            <mat-label>Which of these apply to you?</mat-label>
+                                            <mat-select formControlName="hasCarer"
+                                                (selectionChange)="carerSelected($event.value)">
+                                                <mat-option [value]="false">I’m an individual looking to receive therapy services</mat-option>
+                                                <mat-option [value]="true">I’m a Guardian or Carer registering on behalf of an individual looking to receive therapy services</mat-option>
+                                            </mat-select>
+                                        <!-- <input matInput placeholder="Enter Preferred Name" formControlName="preferredname"/> -->
+                                        <mat-error>Carer is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>Carer</strong></mat-hint>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row pl-3">
+
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile" *ngIf="currentCarer">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>Carer's Email</mat-label>
+                                        <input matInput placeholder="Carer's Email" formControlName="carerEmail" />
+                                        <mat-error>Carer's Email is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>Carer's Email</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile" *ngIf="currentCarer">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>Carer's First Name</mat-label>
+                                        <input matInput placeholder="Carer's First Name" formControlName="carerFirstName" />
+                                        <mat-error>Carer's First Name is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>Carer's First Name</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile" *ngIf="currentCarer">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>Carer's Last Name</mat-label>
+                                        <input matInput placeholder="Carer's Last Name" formControlName="carerLastName" />
+                                        <mat-error>Carer's Last Name is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>Carer's Last Name</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="form-group row pl-3">
+
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile" *ngIf="currentCarer">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>Carer's Contact</mat-label>
+                                        <input matInput placeholder="Carer's Contact" formControlName="carerContact" />
+                                        <mat-error>Carer's Contact is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>Carer's Contact</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile" *ngIf="currentCarer">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>Relation to Participant</mat-label>
+                                        <input matInput placeholder="Carer's Relation to Participant" formControlName="carerRelation" />
+                                        <mat-error>Carer's Relation to Participant is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>Carer's eelation to Participant</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                            <div>
+                                <button class="btn btn-elevate kt-login__btn-primary next-button" mat-button (click)="onSubmit(false)"
+                                    matStepperNext>Save and Continue</button>
+                            </div>
+                            <!-- END ROW 1 -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

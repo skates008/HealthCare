@@ -1,0 +1,132 @@
+<div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
+    <!--Begin:: App Aside-->
+    <div class="kt-grid__item kt-app__toggle" id="kt_user_profile_aside">
+        <!--begin:: Widgets/Applications/User/Profile1-->
+        <div class="kt-portlet kt-portlet--height-fluid-">
+            <div class="kt-portlet__head  kt-portlet__head--noborder">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                    </h3>
+                </div>
+            </div>
+            <div class="kt-portlet__body kt-portlet__body--fit-y">
+                <!--begin::Widget -->
+                <div class="kt-widget kt-widget--user-profile-1">
+                    <div class="kt-widget__head">
+                        <div class="kt-widget__media">
+                            <img *ngIf="company?.profileImage" [src]="company?.profileImage"
+                                alt="image">
+
+                            <img *ngIf="!company?.profileImage" src="../../../../assets/media/company-logos/company.jpg"
+                                alt="image">
+
+                            <mat-icon (click)="openUploadDialog()" class="upload-icon">edit</mat-icon>
+
+                        </div>
+                        <div class="kt-widget__content">
+                            <div class="kt-widget__section">
+                                <a href="javascript:;" class="kt-widget__username">
+                                        {{company?.name}}
+                                    <!-- <i class="flaticon2-correct kt-font-success"></i> -->
+                                </a>
+                                <span class="kt-widget__subtitle">
+                                    {{company?.services}}
+                                </span>
+                                <!-- <button (click)="openUploadDialog()" class="btn btn-secondary upload" mat-raised-button> 
+                                    Upload
+                                    <mat-icon>image</mat-icon>
+                                </button>&nbsp; -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-widget__body">
+                        <div class="kt-widget__content">
+                            <div class="kt-widget__info">
+                                <span class="kt-widget__label">ABN:</span>
+                                <span class="kt-widget__data">{{ company?.abnNumber }}</span>
+                            </div>
+                            <div class="kt-widget__info">
+                                <span class="kt-widget__label">Email:</span>
+                                <span class="kt-widget__data">{{ company?.businessEmail }}</span>
+                            </div>
+                            <div class="kt-widget__info">
+                                <span class="kt-widget__label">Phone:</span>
+                                <span class="kt-widget__data">{{ company?.phoneNumber }}</span>
+                            </div>
+                            <div class="kt-widget__info">
+                                <span class="kt-widget__label">Location:</span>
+                                <span class="kt-widget__data">{{company?.businessAddress?.city}}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kt-widget__items">
+                            <a [routerLink]="['basic']" [routerLinkActive]="['kt-widget__item--active']"
+                                class="kt-widget__item ">
+                                <span class="kt-widget__section">
+                                    <span class="kt-widget__desc">
+                                        Basic Information
+                                    </span>
+                                </span>
+                            </a>
+                            <a [routerLink]="['business']" [routerLinkActive]="['kt-widget__item--active']"
+                            class="kt-widget__item">
+                            <span class="kt-widget__section">
+                                <span class="kt-widget__desc">
+                                    Business Information
+                                </span>
+                            </span>
+                            </a>
+                            <a [routerLink]="['service']" [routerLinkActive]="['kt-widget__item--active']"
+                            class="kt-widget__item">
+                            <span class="kt-widget__section">
+                                <span class="kt-widget__desc">
+                                   Services
+                                </span>
+                            </span>
+                            </a>
+                            <a [routerLink]="['account']" [routerLinkActive]="['kt-widget__item--active']"
+                            class="kt-widget__item">
+                            <span class="kt-widget__section">
+                                <span class="kt-widget__desc">
+                                    Bank Information
+                                </span>
+                            </span>
+                            </a>
+                            <a [routerLink]="['billingSetting']" [routerLinkActive]="['kt-widget__item--active']"
+                            class="kt-widget__item">
+                            <span class="kt-widget__section">
+                                <span class="kt-widget__desc">
+                                    Billing/Invoice Settings
+                                </span>
+                            </span>
+                            </a>
+                            <a [routerLink]="['appointment-type']" [routerLinkActive]="['kt-widget__item--active']"
+                            class="kt-widget__item">
+                            <span class="kt-widget__section">
+                                <span class="kt-widget__desc">
+                                    Appointment Type
+                                </span>
+                            </span>
+                            </a>
+                           
+                        </div>
+                    </div>
+                </div>
+                <!--end::Widget -->
+            </div>
+        </div>
+        <!--end:: Widgets/Applications/User/Profile1-->
+    </div>
+    <!--End:: App Aside-->
+
+    <!--Begin:: App Content-->
+    <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
+        <div class="row">
+            <div class="col-xl-12">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+    <!--End:: App Content-->
+</div>
+

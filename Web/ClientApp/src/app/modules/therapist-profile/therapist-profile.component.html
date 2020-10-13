@@ -1,0 +1,130 @@
+<kt-portlet>
+    <kt-portlet-header title="Therapist Profile" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTools>
+            <!-- <a [routerLink]="['../../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Back to the participant list">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a> -->
+            <a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" (click)="editTherapist(1)"
+                mat-raised-button matTooltip="edit">
+                <span class="kt-hidden-mobile">Edit</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- General Information Card -->
+                <mat-card class="kt-margin-bottom-20">
+                    <mat-card-header class="profile-header">
+                        <mat-card-title>General</mat-card-title>
+                    </mat-card-header>
+                    <mat-divider></mat-divider>
+                    <div class="row">
+                        <div class="col-md-6 profile-info">
+                            <mat-list>
+                                <mat-list-item>Full Name</mat-list-item>
+                                <mat-divider></mat-divider>
+
+                                <mat-list-item>User Name</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Email Address</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Occupation</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Company Name</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Phone Number</mat-list-item>
+
+                            </mat-list>
+                        </div>
+                        <div class="col-md-6 profile-info-detail">
+                            <!-- <mat-list>
+                                <mat-list-item>
+                                    {{user && user.fullname}}</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{user && user.username}}</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{user && user.email}}</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{user && user.occupation}}</mat-list-item>
+                                <mat-divider></mat-divider>
+
+                                <mat-list-item>
+                                    {{user && user.companyName}}</mat-list-item>
+                                <mat-divider></mat-divider>
+
+                                <mat-list-item>
+                                    {{user && user.phone}}</mat-list-item>
+
+                            </mat-list> -->
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div class="col-md-4">
+                <mat-card class="kt-margin-bottom-20">
+                    <mat-card-header class="profile-header">
+                        <mat-card-title>Contact Information</mat-card-title>
+                    </mat-card-header>
+                    <mat-divider></mat-divider>
+                    <div class="row">
+                        <div class="col-md-6 profile-info">
+                            <mat-list>
+                                <mat-list-item>State</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>City</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Address Line</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Post Code</mat-list-item>
+                            </mat-list>
+                        </div>
+                        <div class="col-md-6 profile-info-detail">
+                            <!-- <mat-list>
+                                <mat-list-item>
+                                    {{user && user.address.state}}</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{user && user.address.city}}</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{user && user.address.addressLine}}</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{user && user.address.postCode}}</mat-list-item>
+                            </mat-list> -->
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-md-4">
+                <mat-card class="kt-margin-bottom-20">
+                    <mat-card-header class="profile-header">
+                        <mat-card-title>Field Of Expertise</mat-card-title>
+                    </mat-card-header>
+                    <mat-divider></mat-divider>
+                    <div class="row">
+                        <mat-list>
+                            <mat-list-item>XXXX</mat-list-item>
+                            <mat-divider></mat-divider>
+                            <mat-list-item>XXXX</mat-list-item>
+                            <mat-divider></mat-divider>
+                            <mat-list-item>XXXX</mat-list-item>
+                            <mat-divider></mat-divider>
+                            <mat-list-item>XXXX</mat-list-item>
+                        </mat-list>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+
+
+    </kt-portlet-body>
+</kt-portlet>

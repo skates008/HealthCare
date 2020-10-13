@@ -1,0 +1,360 @@
+<!-- {{ firstFormGroup.value | json }} -->
+<kt-portlet>
+	<kt-portlet-body>
+
+		<!--begin: Wizard -->
+		<div #wizard class="kt-wizard-v4" id="kt_wizard_v4" data-ktwizard-state="step-first">
+			<!--begin: Form Wizard Nav -->
+			<div class="kt-wizard-v4__nav">
+				<div class="kt-wizard-v4__nav-items">
+					<a class="kt-wizard-v4__nav-item" href="javascript:;" data-ktwizard-type="step" data-ktwizard-state="current">
+						<div class="kt-wizard-v4__nav-body">
+							<div class="kt-wizard-v4__nav-number">
+								1
+							</div>
+							<div class="kt-wizard-v4__nav-label">
+								<div class="kt-wizard-v4__nav-label-title">
+									Basic Details
+								</div>
+								<div class="kt-wizard-v4__nav-label-desc">
+									Company Profile
+								</div>
+							</div>
+						</div>
+					</a>
+					<a class="kt-wizard-v4__nav-item" href="javascript:;" data-ktwizard-type="step">
+						<div class="kt-wizard-v4__nav-body">
+							<div class="kt-wizard-v4__nav-number">
+								2
+							</div>
+							<div class="kt-wizard-v4__nav-label">
+								<div class="kt-wizard-v4__nav-label-title">
+									Your Business
+								</div>
+								<div class="kt-wizard-v4__nav-label-desc">
+									Setup Business Details
+								</div>
+							</div>
+						</div>
+					</a>
+					<a class="kt-wizard-v4__nav-item" href="javascript:;" data-ktwizard-type="step">
+						<div class="kt-wizard-v4__nav-body">
+							<div class="kt-wizard-v4__nav-number">
+								3
+							</div>
+							<div class="kt-wizard-v4__nav-label">
+								<div class="kt-wizard-v4__nav-label-title">
+									Your Primary Contact
+								</div>
+								<div class="kt-wizard-v4__nav-label-desc">
+									Primary Contact Details
+								</div>
+							</div>
+						</div>
+					</a>
+					<a class="kt-wizard-v4__nav-item" href="javascript:;" data-ktwizard-type="step">
+						<div class="kt-wizard-v4__nav-body">
+							<div class="kt-wizard-v4__nav-number">
+								4
+							</div>
+							<div class="kt-wizard-v4__nav-label">
+								<div class="kt-wizard-v4__nav-label-title">
+									Your Services
+								</div>
+								<div class="kt-wizard-v4__nav-label-desc">
+									Setup Services Details
+								</div>
+							</div>
+						</div>
+					</a>
+					<!-- <a class="kt-wizard-v4__nav-item" href="javascript:;" data-ktwizard-type="step">
+						<div class="kt-wizard-v4__nav-body">
+							<div class="kt-wizard-v4__nav-number">
+								4
+							</div>
+							<div class="kt-wizard-v4__nav-label">
+								<div class="kt-wizard-v4__nav-label-title">
+									Completed
+								</div>
+								<div class="kt-wizard-v4__nav-label-desc">
+									Review and Submit
+								</div>
+							</div>
+						</div>
+					</a> -->
+				</div>
+			</div>
+			<!--end: Form Wizard Nav -->
+			<div class="kt-portlet">
+				<div class="kt-portlet__body kt-portlet__body--fit">
+					<div class="kt-grid">
+						<div class="kt-grid__item kt-grid__item--fluid kt-wizard-v4__wrapper">
+							<!--begin: Form Wizard Form-->
+							<form class="kt-form" id="kt_form" [formGroup]="firstFormGroup">
+								<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="3000" [showCloseButton]="true"
+									(close)="onAlertClose($event)">
+									Something went wrong, please make changes and try saving again. {{message}}
+								</kt-alert>
+								<!--begin: Form Wizard Step 1-->
+								<div class="kt-wizard-v4__content" data-ktwizard-type="step-content" data-ktwizard-state="current">
+									<div class="kt-heading kt-heading--md">Enter your Basic Details <br>
+										<small><b style="color: red;">*</b> field is required</small> </div>
+
+											<div class="form-group kt-form__group row">											<!-- Company Name -->
+												<div class="col-lg-4 kt-margin-bottom-20-mobile">
+													<mat-form-field class="mat-form-field-fluid">
+														<input required matInput placeholder="Enter Company Name"
+															formControlName="name" />
+														<mat-error>Company name is <strong>required</strong></mat-error>
+														<mat-hint align="start">Please enter <strong>Company name</strong>
+														</mat-hint>
+													</mat-form-field>
+												</div>
+
+												<!-- Trading Name -->
+												<div class="col-lg-4 kt-margin-bottom-20-mobile">
+													<mat-form-field class="mat-form-field-fluid">
+														<input matInput placeholder="Enter Trading Name" formControlName="tradingName" />
+														<mat-error>Trading name is <strong>required</strong></mat-error>
+														<mat-hint align="start">Please enter <strong>trading name</strong>
+														</mat-hint>
+													</mat-form-field>
+												</div>
+
+												<!-- Company Type -->
+												<div class="col-lg-4 kt-margin-bottom-20-mobile">
+													<mat-form-field class="mat-form-field-fluid">
+														<mat-label>Company Type</mat-label>
+														<mat-select required formControlName="companyType">
+															<mat-option value="Individual/Sole Trader">Individual/Sole Trader</mat-option>
+															<mat-option value="Partnership">Partnership</mat-option>
+															<mat-option value="Company">Company</mat-option>
+															<mat-option value="Trust">Trust</mat-option>
+															<mat-option value="Charity">Charity</mat-option>
+														</mat-select>
+													</mat-form-field>
+												</div>
+											</div>
+
+											<div class="form-group kt-form__group row">	
+												<!-- ABN Number -->
+												<div class="col-lg-4 kt-margin-bottom-20-mobile">
+													<mat-form-field class="mat-form-field-fluid">
+														<input required matInput placeholder="Enter ABN Number" formControlName="abnNumber" />
+														<mat-error>ABN Number is <strong>required</strong></mat-error>
+														<mat-hint align="start">Please enter <strong>ABN Number</strong>
+														</mat-hint>
+													</mat-form-field>
+												</div>
+											</div>
+
+											<kt-address formControlName="registeredCompanyAddress"></kt-address>
+
+								</div>
+								<!--end: Form Wizard Step 1-->
+
+								<!--begin: Form Wizard Step 2-->
+								<div class="kt-wizard-v4__content" data-ktwizard-type="step-content">
+									<div class="kt-heading kt-heading--md">Enter Your Business Details<br>
+										<small><b style="color: red;">*</b> field is required</small></div>
+									<div class="form-group kt-form__group row">	
+										
+										  <!-- Business contact telephone number -->
+										  <div class="col-lg-4 kt-margin-bottom-20-mobile">
+											<mat-form-field class="mat-form-field-fluid">
+												<input type="number" matInput required placeholder="Enter Phone Number" formControlName="phoneNumber" />
+												<mat-error>Phone Number is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Phone Number</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+
+										<!-- Business email -->
+										<div class="col-lg-4 kt-margin-bottom-20-mobile">
+											<mat-form-field class="mat-form-field-fluid">
+												<input matInput required placeholder="Enter Business Email" formControlName="businessEmail" />
+												<mat-error>Business email is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Business email</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+
+										<!-- Business Website -->
+										<div class="col-lg-4 kt-margin-bottom-20-mobile">
+											<mat-form-field class="mat-form-field-fluid">
+												<input matInput placeholder="Enter Business Website" formControlName="businessWebsite" />
+												<mat-error>Business Website is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Business Website</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+									</div>
+
+									<kt-address formControlName="businessAddress"></kt-address>
+								</div>
+								<!--end: Form Wizard Step 2-->
+
+								<!--begin: Form Wizard Step 3-->
+								<div class="kt-wizard-v4__content" data-ktwizard-type="step-content">
+									<div class="kt-heading kt-heading--md">Enter Your Primary Contact Details<br>
+										<small><b style="color: red;">*</b> field is required</small></div>
+									<div class="form-group kt-form__group row">	
+										
+										<!-- Primary Contact Name -->
+										<div class="col-lg-4 kt-margin-bottom-20-mobile">
+											<mat-form-field class="mat-form-field-fluid">
+												<input matInput required placeholder="Enter Primary Contact  First Name" formControlName="primaryContactFirstName" />
+												<mat-error>Primary contact first Name is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Primary contact first name</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+
+									   	<!-- Primary Contact Name -->
+									   	<div class="col-lg-4 kt-margin-bottom-20-mobile">
+											<mat-form-field class="mat-form-field-fluid">
+												<input matInput required placeholder="Enter Primary Contact  Last Name" formControlName="primaryContactLastName" />
+												<mat-error>Primary Contact Last Name is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Primary Contact Last Name</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+
+										<!-- Primary Contact Position -->
+										<div class="col-lg-4 kt-margin-bottom-20-mobile">
+											<mat-form-field class="mat-form-field-fluid">
+												<input matInput placeholder="Enter Primary Contact Position" formControlName="PrimaryContactPosition" />
+												<mat-error>Primary Contact Position is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Primary Contact Position</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+									</div>
+
+									<div class="form-group kt-form__group row">	
+										<!-- Primary Contact Name -->
+										<div class="col-lg-4 kt-margin-bottom-20-mobile">
+											<mat-form-field class="mat-form-field-fluid">
+												<input matInput placeholder="Enter Primary Contact's Phone" formControlName="PrimaryContactNo" />
+												<mat-error>Primary Contact's Phone is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Primary Contact's Phone</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+									</div>
+								</div>
+								<!--end: Form Wizard Step 3-->
+
+								<!--begin: Form Wizard Step 4-->
+								<div class="kt-wizard-v4__content" data-ktwizard-type="step-content">
+									<div class="kt-heading kt-heading--md">Enter Your Service Details</div>
+									<div class="form-group row pl-3">
+										
+										<!-- Services Provided -->
+									    <div class="col-lg-4 kt-margin-bottom-20-mobile">
+											<mat-form-field class="mat-form-field-fluid">
+												<input matInput placeholder="Enter Service" formControlName="otherServices" />
+												<mat-error>Services is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Services</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+					
+										 <!-- Registration Number -->
+										 <div class="col-lg-4 kt-margin-bottom-20-mobile">
+											 <mat-form-field class="mat-form-field-fluid">
+												 <input matInput placeholder="Enter Registration Number" formControlName="ndisRegistrationNumber" />
+												 <mat-error>Registration Number is <strong>required</strong></mat-error>
+												 <mat-hint align="start">Please enter <strong>registration Number</strong>
+												 </mat-hint>
+											 </mat-form-field>
+										 </div>
+
+										  <!-- Medicare Registration Number -->
+										  <div class="col-lg-4 kt-margin-bottom-20-mobile">
+											<mat-form-field class="mat-form-field-fluid">
+												<input matInput placeholder="Enter Medicare Registration Number" formControlName="medicareRegistrationNumber" />
+												<mat-error>Medicare Registration Number is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Medicare registration Number</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+								  </div>
+
+
+								</div>
+								<!--end: Form Wizard Step 4-->
+
+								<!--begin: Form Wizard Step 5-->
+								<!-- <div class="kt-wizard-v4__content" data-ktwizard-type="step-content">
+									<div class="kt-heading kt-heading--md">Review your Details and Submit</div>
+									<div class="kt-form__section kt-form__section--first">
+										<div class="kt-wizard-v4__review">
+											<div class="kt-wizard-v4__review-item">
+												<div class="kt-wizard-v4__review-title">
+													Basic Details
+												</div>
+												<div class="kt-wizard-v4__review-content">
+													Legal Entity Name: {{ firstFormGroup.controls.name.value }}<br/>
+													Trading as name: {{ firstFormGroup.controls.tradingName.value }}<br/>
+													Company Type: {{ firstFormGroup.controls.companyType.value }}<br/>
+													ABN#: {{ firstFormGroup.controls.abnNumber.value }} <br/>
+													Address: {{ firstFormGroup.controls.address.value | json }}
+												</div>
+											</div>
+											<div class="kt-wizard-v4__review-item">
+												<div class="kt-wizard-v4__review-title">
+													Business Details
+												</div>
+												<div class="kt-wizard-v4__review-content">
+													Phone Number: {{ firstFormGroup.controls.phoneNumber.value }}<br/>
+													Business Email: {{ firstFormGroup.controls.businessEmail.value }}<br/>
+													Business Website: {{ firstFormGroup.controls.businessWebsite.value }}<br/>
+													Business Address: {{ firstFormGroup.controls.businessAddress.value | json }}
+												</div>
+											</div>
+											<div class="kt-wizard-v4__review-item">
+												<div class="kt-wizard-v4__review-title">
+													Service Details
+												</div>
+												<div class="kt-wizard-v4__review-content">
+													Card Number: xxxx xxxx xxxx 1111<br/>
+													Card Name: John Wick<br/>
+													Card Expiry: 01/21
+												</div>
+											</div>
+										</div>
+									</div>
+								</div> -->
+								<!--end: Form Wizard Step 5-->
+
+								<!-- <kt-alert *ngIf="firstFormGroup.invalid" type="warn" [showCloseButton]="true"
+									(close)="onAlertClose($event)">
+									<b style="color: red;">*</b> field is required
+								</kt-alert> -->
+
+								<!--begin: Form Actions -->
+								<div class="kt-form__actions">
+									<button class="btn btn-secondary btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" data-ktwizard-type="action-prev">
+										Previous
+									</button>
+									
+									<button (click)="onSubmit()" [disabled]="firstFormGroup.invalid" mat-raised-button matTooltip="Save & Continue" color="primary"  class="btn" data-ktwizard-type="action-submit">
+										Submit
+									</button>
+									<button class="btn btn-brand btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" data-ktwizard-type="action-next">
+										Next Step
+									</button>
+								</div>
+								<!--end: Form Actions -->
+							</form>
+							<!--end: Form Wizard Form-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--end: Wizard -->
+
+	</kt-portlet-body>
+</kt-portlet>

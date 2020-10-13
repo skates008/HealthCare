@@ -1,0 +1,83 @@
+<!-- <p>allergy works!</p> -->
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">ADD BUDGET</h3>
+        </div>
+    </div>
+    <div>
+        <div class="kt-form">
+            <div class="kt-portlet__body">
+                <div>
+                    <div class="form-group kt-form__group row">
+                        <label for="category" class="col-sm-2 col-form-label">Budget Name</label>
+                        <div class="col-sm-10">
+                            <input [(ngModel)]="budget.budgetName" type=text placeholder="Type Budget Name"
+                                class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group kt-form__group row">
+                        <label for="category" class="col-sm-2 col-form-label">Total Budget</label>
+                        <div class="col-sm-10">
+                            <input [(ngModel)]="budget.totalBudget" type=number placeholder="Enter your budget"
+                                class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group kt-form__group row">
+                        <label for="category" class="col-sm-2 col-form-label">Source Of Budget</label>
+                        <div class="col-sm-10">
+                            <select [(ngModel)]="budget.sourceOfBudget" class="form-control">
+                                <option value= null disabled selected> Select Source Of Budget</option>
+                                <option value = 1>NDIS</option>
+                                <option value = 2>Self Funded</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group kt-form__group row">
+                        <label for="type" class="col-sm-2 col-form-label">Start Date</label>
+                        <div class="col-sm-10">
+                            <mat-form-field class="w-100">
+                                <input matInput [matDatepicker]="picker" [(ngModel)]="budget.startDate"
+                                    placeholder="Choose a date" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group kt-form__group row">
+                        <label for="type" class="col-sm-2 col-form-label">End Date</label>
+                        <div class="col-sm-10">
+                            <mat-form-field class="w-100">
+                                <input matInput [matDatepicker]="endpicker" [(ngModel)]="budget.endDate"
+                                    placeholder="Choose a end date" required>
+                                <mat-datepicker-toggle matSuffix [for]="endpicker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #endpicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-10">
+                                <button (click)="submit()" type="button" mat-raised-button color="primary">
+                                    Add Budget
+                                </button>
+                                &nbsp;
+                                <button type="button" mat-raised-button [mat-dialog-close]="" cdkFocusInitial
+                                    matTooltip="Cancel changes">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>

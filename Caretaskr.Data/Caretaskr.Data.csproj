@@ -1,0 +1,145 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;Test</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200302183601_AllergiesAddIsActive.cs" />
+    <Compile Remove="Migrations\20200302183601_AllergiesAddIsActive.Designer.cs" />
+    <Compile Remove="Migrations\20200317221325_CreateTimeEntry.cs" />
+    <Compile Remove="Migrations\20200317221325_CreateTimeEntry.Designer.cs" />
+    <Compile Remove="Migrations\20200317221726_CreateTimeEntry.cs" />
+    <Compile Remove="Migrations\20200317221726_CreateTimeEntry.Designer.cs" />
+    <Compile Remove="Migrations\20200318085221_TimeEntryAppointmentIdFix.cs" />
+    <Compile Remove="Migrations\20200318085221_TimeEntryAppointmentIdFix.Designer.cs" />
+    <Compile Remove="Migrations\20200319160955_CreateProviderUsers.cs" />
+    <Compile Remove="Migrations\20200319160955_CreateProviderUsers.Designer.cs" />
+    <Compile Remove="Migrations\20200320115241_AddProviderToPatient.cs" />
+    <Compile Remove="Migrations\20200320115241_AddProviderToPatient.Designer.cs" />
+    <Compile Remove="Migrations\20200320120453_AddProvider.cs" />
+    <Compile Remove="Migrations\20200320120453_AddProvider.Designer.cs" />
+    <Compile Remove="Migrations\20200320120842_AddProvider.cs" />
+    <Compile Remove="Migrations\20200320120842_AddProvider.Designer.cs" />
+    <Compile Remove="Migrations\20200322161824_AddCostToTimeEntryBillableItem.cs" />
+    <Compile Remove="Migrations\20200322161824_AddCostToTimeEntryBillableItem.Designer.cs" />
+    <Compile Remove="Migrations\20200324123908_CreatePAtientRecord.cs" />
+    <Compile Remove="Migrations\20200324123908_CreatePAtientRecord.Designer.cs" />
+    <Compile Remove="Migrations\20200324174734_addProviderToBillableItem.cs" />
+    <Compile Remove="Migrations\20200324174734_addProviderToBillableItem.Designer.cs" />
+    <Compile Remove="Migrations\20200324222659_addPatientRecordToAppointment.cs" />
+    <Compile Remove="Migrations\20200324222659_addPatientRecordToAppointment.Designer.cs" />
+    <Compile Remove="Migrations\20200327132440_UpdateCarePlanGoals.cs" />
+    <Compile Remove="Migrations\20200327132440_UpdateCarePlanGoals.Designer.cs" />
+    <Compile Remove="Migrations\20200327183110_UpdateCarePlanGoals3.cs" />
+    <Compile Remove="Migrations\20200327183110_UpdateCarePlanGoals3.Designer.cs" />
+    <Compile Remove="Migrations\20200408145825_AddTenantDataKeyToEntities.cs" />
+    <Compile Remove="Migrations\20200408145825_AddTenantDataKeyToEntities.Designer.cs" />
+    <Compile Remove="Migrations\20200408151036_AddTenantDataKeyToEntities.cs" />
+    <Compile Remove="Migrations\20200408151036_AddTenantDataKeyToEntities.Designer.cs" />
+    <Compile Remove="Migrations\20200413082503_updateDataKeys.cs" />
+    <Compile Remove="Migrations\20200413082503_updateDataKeys.Designer.cs" />
+    <Compile Remove="Migrations\20200413082538_updateDataKeysToEntities.cs" />
+    <Compile Remove="Migrations\20200413082538_updateDataKeysToEntities.Designer.cs" />
+    <Compile Remove="Migrations\20200413084223_addentitiesRelations.cs" />
+    <Compile Remove="Migrations\20200413084223_addentitiesRelations.Designer.cs" />
+    <Compile Remove="Migrations\20200413084643_updateDataKeysToEntities.cs" />
+    <Compile Remove="Migrations\20200413084643_updateDataKeysToEntities.Designer.cs" />
+    <Compile Remove="Migrations\20200415203654_test.cs" />
+    <Compile Remove="Migrations\20200415203654_test.Designer.cs" />
+    <Compile Remove="Migrations\20200415211708_merge.cs" />
+    <Compile Remove="Migrations\20200415211708_merge.Designer.cs" />
+    <Compile Remove="Migrations\20200415211944_merge.cs" />
+    <Compile Remove="Migrations\20200415211944_merge.Designer.cs" />
+    <Compile Remove="Migrations\20200415212752_merge.cs" />
+    <Compile Remove="Migrations\20200415212752_merge.Designer.cs" />
+    <Compile Remove="Migrations\20200507042556_changeEntity.cs" />
+    <Compile Remove="Migrations\20200507042556_changeEntity.Designer.cs" />
+    <Compile Remove="Migrations\20200507162258_Invoicing.cs" />
+    <Compile Remove="Migrations\20200507162258_Invoicing.Designer.cs" />
+    <Compile Remove="Migrations\20200507162816_Invoicing.cs" />
+    <Compile Remove="Migrations\20200507162816_Invoicing.Designer.cs" />
+    <Compile Remove="Migrations\20200507163204_Invoicing.cs" />
+    <Compile Remove="Migrations\20200507163204_Invoicing.Designer.cs" />
+    <Compile Remove="Migrations\20200507163412_Invoicing.cs" />
+    <Compile Remove="Migrations\20200507163412_Invoicing.Designer.cs" />
+    <Compile Remove="Migrations\20200507163654_Invoicing.cs" />
+    <Compile Remove="Migrations\20200507163654_Invoicing.Designer.cs" />
+    <Compile Remove="Migrations\20200507164538_Invoicing.cs" />
+    <Compile Remove="Migrations\20200507164538_Invoicing.Designer.cs" />
+    <Compile Remove="Migrations\20200511142955_AppointmentType.cs" />
+    <Compile Remove="Migrations\20200511142955_AppointmentType.Designer.cs" />
+    <Compile Remove="Migrations\20200511160740_AppointmentType.cs" />
+    <Compile Remove="Migrations\20200511160740_AppointmentType.Designer.cs" />
+    <Compile Remove="Migrations\20200511161345_AppointmentType.cs" />
+    <Compile Remove="Migrations\20200511161345_AppointmentType.Designer.cs" />
+    <Compile Remove="Migrations\20200511162505_AppointmentType.cs" />
+    <Compile Remove="Migrations\20200511162505_AppointmentType.Designer.cs" />
+    <Compile Remove="Migrations\20200511163711_AppointmentType.cs" />
+    <Compile Remove="Migrations\20200511163711_AppointmentType.Designer.cs" />
+    <Compile Remove="Migrations\20200511164036_AppointmentTypeX.cs" />
+    <Compile Remove="Migrations\20200511164036_AppointmentTypeX.Designer.cs" />
+    <Compile Remove="Migrations\20200511164357_AppointmentTypeX.cs" />
+    <Compile Remove="Migrations\20200511164357_AppointmentTypeX.Designer.cs" />
+    <Compile Remove="Migrations\20200511170151_AppointmentTypeX.cs" />
+    <Compile Remove="Migrations\20200511170151_AppointmentTypeX.Designer.cs" />
+    <Compile Remove="Migrations\20200511170252_AppointmentTypeX.cs" />
+    <Compile Remove="Migrations\20200511170252_AppointmentTypeX.Designer.cs" />
+    <Compile Remove="Migrations\20200511175050_AppointmentTypeY.cs" />
+    <Compile Remove="Migrations\20200511175050_AppointmentTypeY.Designer.cs" />
+    <Compile Remove="Migrations\20200511180952_AppointmentTypeZ.cs" />
+    <Compile Remove="Migrations\20200511180952_AppointmentTypeZ.Designer.cs" />
+    <Compile Remove="Migrations\20200511181856_AppointmentType.cs" />
+    <Compile Remove="Migrations\20200511181856_AppointmentType.Designer.cs" />
+    <Compile Remove="Migrations\20200514081657_billingtype.cs" />
+    <Compile Remove="Migrations\20200514081657_billingtype.Designer.cs" />
+    <Compile Remove="Migrations\20200514121441_document.cs" />
+    <Compile Remove="Migrations\20200514121441_document.Designer.cs" />
+    <Compile Remove="Migrations\20200521085346_appntement_address.cs" />
+    <Compile Remove="Migrations\20200521085346_appntement_address.Designer.cs" />
+    <Compile Remove="Migrations\20200521101706_appntement_address.cs" />
+    <Compile Remove="Migrations\20200521101706_appntement_address.Designer.cs" />
+    <Compile Remove="Migrations\20200526161456_patientRecordFile.cs" />
+    <Compile Remove="Migrations\20200526161456_patientRecordFile.Designer.cs" />
+    <Compile Remove="Migrations\20200527121344_Assesment.cs" />
+    <Compile Remove="Migrations\20200527121344_Assesment.Designer.cs" />
+    <Compile Remove="Migrations\20200529110338_PatientRecordFileType.cs" />
+    <Compile Remove="Migrations\20200529110338_PatientRecordFileType.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.6.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.21" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CareTaskr.Domain\CareTaskr.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

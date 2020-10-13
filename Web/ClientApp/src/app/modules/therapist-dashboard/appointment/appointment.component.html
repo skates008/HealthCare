@@ -1,0 +1,18 @@
+<div class="kt-widget1">
+	<ng-container *ngFor="let item of futureAppointments">
+		<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: item}"></ng-container>
+	</ng-container>
+</div>
+
+<ng-template #itemTemplate let-item="item">
+	<div class="kt-widget1__item">
+		<div class="kt-widget1__info">
+			<a class="kt-widget4__title" href="javascript:;">
+				<h3 class="kt-widget1__title">{{item.patientName}}</h3>
+				<span class="kt-widget1__desc">{{item.appointmentType}}</span>
+			</a>
+		</div>
+		<span class="kt-widget1__number" [ngClass]="item.valueClass">{{item.appointmentDate | date}}</span>
+		<span class="kt-widget1__desc">{{item.appointmentDate | date:'shortTime'}}</span>
+	</div>
+</ng-template>

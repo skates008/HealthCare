@@ -1,0 +1,228 @@
+<kt-portlet>
+    <kt-portlet-header title="Therapy Service Summary #{{therapyService.id}} - {{ therapyService.title}}"
+        [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTools>
+            <!-- <a [routerLink]="['../../']" class="kt-margin-r-10" mat-raised-button
+                matTooltip="Back to the therapyService list">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a> -->
+            <!-- <a href="javascript:;" class="kt-margin-r-10" color="primary" (click)="edit(therapyService.id)"
+                mat-raised-button matTooltip="edit">
+                <span class="kt-hidden-mobile">Edit</span>
+            </a> -->
+
+            <a href="javascript:;" class="kt-margin-r-10" color="primary" (click)="exportPDF(therapyService.id)"
+            mat-raised-button matTooltip="Export as PDF">
+            <span class="kt-hidden-mobile">Export as PDF</span>
+        </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- General Information Card -->
+                <mat-card class="kt-margin-bottom-20">
+                    <div class="row">
+                        <div class="col-md-4 profile-info">
+                            <mat-list>
+                                <mat-list-item>Provider Name</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Provider Address</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Provider Email</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>NDIS Register no</mat-list-item>
+                            </mat-list>
+                        </div>
+                        <div class="col-md-8 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    {{ therapyService.providerName}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ therapyService.providerAddress}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ therapyService.providerEmail}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ therapyService.providerNDIS}} </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-md-4">
+                <!-- General Information Card -->
+                <mat-card class="kt-margin-bottom-20">
+                    <div class="row">
+                        <div class="col-md-4 profile-info">
+                            <mat-list>
+                                <mat-list-item>Participant Name</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Participant Address</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Participant Email</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>NDIS Register no</mat-list-item>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+                        </div>
+                        <div class="col-md-8 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    {{ therapyService.participantName}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ therapyService.participantAddress}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ therapyService.participantEmail}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ therapyService.participantNDIS}} </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-md-4">
+                <!-- General Information Card -->
+                <mat-card class="kt-margin-bottom-20">
+                    <div class="row">
+                        <div class="col-md-4 profile-info">
+                            <mat-list>
+                                <mat-list-item>Issue Date</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Start Date</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>End Date</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Careplan Number</mat-list-item>
+                            </mat-list>
+                        </div>
+                        <div class="col-md-8 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    {{ therapyService.issueDate | date: 'mediumDate'}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ therapyService.startDate | date: 'mediumDate'}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ therapyService.endDate | date: 'mediumDate'}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    #{{ therapyService.careplanId}} </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+
+            <div class="col-md-12" style="margin-bottom: 30px;">
+                <div class="familgoal" *ngFor="let therapyService of therapyService.shortTermGoals; index as i">
+                    <h5>{{ therapyService.name }}</h5>
+                    <table class="table table-striped">
+                        <thead class="bg-light-blue">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Goal Description</th>
+                                <th scope="col">Goal OutCome</th>
+                                <th scope="col">Goal OutCome Detail</th>
+                                <th scope="col">Goal Strategy</th>
+    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let therapyServiceItem of therapyService.goals; index as i" >
+                                <th scope="row">{{i+1}}</th>
+                                <td>
+                                    {{ therapyServiceItem.goalDescription }}
+                                </td>
+                                <td>{{ therapyServiceItem.goalOutCome }}</td>
+                                <td>{{ therapyServiceItem.goalOutComeDetail }}</td>
+                                <td>{{ therapyServiceItem.goalStrategy }} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                </div>
+             
+            </div>
+
+            <div class="col-md-6">
+ 
+                <div class="total-section">
+                    <div class="row next-appointment-section">
+                        <div class="col-md-7">
+                            Plan Incharge Name
+                        </div>
+                        <div class="col-md-5 text-right">
+                            {{ therapyService.planInchargeName }}
+                        </div>
+                    </div>
+
+                    <div class="row next-appointment-section">
+                        <div class="col-md-7">
+                            Plan Incharge Email
+                        </div>
+                        <div class="col-md-5 text-right">
+                            {{ therapyService.planInchargeEmail }}
+                        </div>
+                    </div>
+
+                    <div class="row next-appointment-section">
+                        <div class="col-md-7">
+                            <b>Plan Incharge Phone</b>
+                        </div>
+                        <div class="col-md-5 text-right">
+                            <b>
+                                {{ therapyService.planInchargePhone }}
+                            </b>
+                        </div>
+                    </div>
+
+                </div>
+        
+            </div>
+
+            <div class="col-md-6">
+ 
+                        <div class="total-section">
+                            <div class="row next-appointment-section">
+                                <div class="col-md-7">
+                                    Family Goal
+                                </div>
+                                <div class="col-md-5 text-right">
+                                    {{ therapyService.familyGoal }}
+                                </div>
+                            </div>
+
+                            <div class="row next-appointment-section">
+                                <div class="col-md-7">
+                                    Further Therapy
+                                </div>
+                                <div class="col-md-5 text-right">
+                                    {{ therapyService.furtherTherapy }}
+                                </div>
+                            </div>
+
+                            <div class="row next-appointment-section">
+                                <a href="javascript:;" class="kt-margin-r-10 btn-block" color="primary"
+                                    mat-raised-button matTooltip="Enter Payment">
+                                    <span class="kt-hidden-mobile">Submit to NDIS</span>
+                                </a>
+                            </div>
+
+                        </div>
+                
+            </div>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

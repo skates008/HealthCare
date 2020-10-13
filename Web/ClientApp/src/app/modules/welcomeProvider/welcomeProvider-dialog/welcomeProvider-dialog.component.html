@@ -1,0 +1,201 @@
+<div mat-dialog-content class="pl-2 pr-2 pb-2 welcomeTherapist-card">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+            <form class="kt-form" id="kt-form" [formGroup]="firstFormGroup">
+                <div class="kt-wizard-v2__content">
+                    <div class="kt-heading kt-heading--md">
+                        <h1>Welcome to Caretaskr!</h1>
+                    </div>
+                    <div class="kt-form__section kt-form__section--first">
+                        <div class="kt-wizard-v2__form">
+                            <h2>Let's take care of your details</h2>
+                            <h3>Firstly, please fill these details</h3>
+                            <kt-alert *ngIf="hasFormErrors" type="warn" [showCloseButton]="true" [duration]="10000"
+								(close)="onAlertClose($event)">
+								Oh snap! Change a few things up and try submitting again.
+							</kt-alert>
+                            <!-- ROW 1 -->
+                            <div class="form-group row pl-3">
+                                   <!-- Company Name -->
+                                   <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Enter Company Name"
+                                            formControlName="name" />
+                                        <mat-error>Company name is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>Company name</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <!-- Trading Name -->
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Enter Trading Name" formControlName="tradingName" />
+                                        <mat-error>Trading name is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>trading name</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+
+                                 <!-- Trading Name -->
+                                 <!-- <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Enter Entity Name" formControlName="entityName" />
+                                        <mat-error>Entity name is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>Entity name</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div> -->
+                                 <!-- Company Name -->
+                                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Enter Address Name"
+                                            formControlName="address" />
+                                        <mat-error>Address is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>address</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="form-group row  pl-3">
+                               
+                             <!-- Trading Name -->
+                             <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                 <mat-form-field class="mat-form-field-fluid">
+                                     <input matInput placeholder="Enter Phone Number" formControlName="phoneNumber" />
+                                     <mat-error>Phone Number is <strong>required</strong></mat-error>
+                                     <mat-hint align="start">Please enter <strong>Phone Number</strong>
+                                     </mat-hint>
+                                 </mat-form-field>
+                             </div>
+
+                              <!-- ABN Number -->
+                              <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                 <mat-form-field class="mat-form-field-fluid">
+                                     <input matInput placeholder="Enter ABN Number" formControlName="abnNumber" />
+                                     <mat-error>ABN Number is <strong>required</strong></mat-error>
+                                     <mat-hint align="start">Please enter <strong>ABN Number</strong>
+                                     </mat-hint>
+                                 </mat-form-field>
+                             </div>
+
+                             <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                <div>NDIS Services Provided:</div>
+                                <mat-radio-group formControlName="isNDISRegistered" class="example-radio-group">
+                                    <mat-radio-button class="example-radio-button" [value]="true">Yes
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" [value]="false">No
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                         </div>
+
+                         <div class="form-group row  pl-3">
+                            <!-- NDIS Services -->
+                            
+                         <!-- email -->
+                         <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                             <mat-form-field class="mat-form-field-fluid">
+                                 <input matInput placeholder="Enter Primary Contact Email Address" formControlName="email" />
+                                 <mat-error>Enter Primary Contact Email is <strong>required</strong></mat-error>
+                                 <mat-hint align="start">Please enter <strong>email</strong>
+                                 </mat-hint>
+                             </mat-form-field>
+                         </div>
+                         
+                           <!-- ndisServicesProvided -->
+                           <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Enter NDIS Services Provided" formControlName="ndisServicesProvided" />
+
+                            </mat-form-field>
+                        </div>
+
+                          <!-- Primary Contact Name -->
+                          <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Enter Primary Contact  First Name" formControlName="primaryContactFirstName" />
+                                <mat-error>Primary Contact Name is <strong>required</strong></mat-error>
+                                <mat-hint align="start">Please enter <strong>Primary Contact First Name</strong>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                     </div>
+
+
+                     <div class="form-group row  pl-3">
+                         
+                        
+
+                          <!-- Primary Contact Name -->
+                          <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Enter Primary Contact  Last Name" formControlName="primaryContactLastName" />
+                                <mat-error>Primary Contact Last Name is <strong>required</strong></mat-error>
+                                <mat-hint align="start">Please enter <strong>Primary Contact Last Name</strong>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                          <!-- Primary Contact Name -->
+                          <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Enter Primary Contact's Phone" formControlName="PrimaryContactNo" />
+                                <mat-error>Primary Contact's Phone is <strong>required</strong></mat-error>
+                                <mat-hint align="start">Please enter <strong>Primary Contact's Phone</strong>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                         
+                        <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Enter Primary Contact Position" formControlName="PrimaryContactPosition" />
+                                <mat-error>Primary Contact Position is <strong>required</strong></mat-error>
+                                <mat-hint align="start">Please enter <strong>Primary Contact Position</strong>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                 </div>
+
+                 <div class="form-group row  pl-3">
+                        
+                     <!-- Primary Contact Name -->
+                     
+                        <!-- Other Service -->
+                        <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput placeholder="Enter Other Service" formControlName="otherServices" />
+                                <mat-error>Other Services is <strong>required</strong></mat-error>
+                                <mat-hint align="start">Please enter <strong>Other Services</strong>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+    
+                         <!-- email -->
+                         <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                             <mat-form-field class="mat-form-field-fluid">
+                                 <input matInput placeholder="Enter Registration Number" formControlName="registrationNumber" />
+                                 <mat-error>Registration Number is <strong>required</strong></mat-error>
+                                 <mat-hint align="start">Please enter <strong>registration Number</strong>
+                                 </mat-hint>
+                             </mat-form-field>
+                         </div>
+
+                 </div>
+
+
+                            <div>
+                                <button class="btn btn-elevate kt-login__btn-primary next-button" mat-button (click)="onSubmit(false)"
+                                    matStepperNext>Save and Continue</button>
+                            </div>
+                            <!-- END ROW 1 -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

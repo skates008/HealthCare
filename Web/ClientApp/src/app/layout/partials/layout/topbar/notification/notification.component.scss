@@ -1,0 +1,17 @@
+:host {
+	::ng-deep {
+		ngb-tabset > .nav-tabs {
+			display: none;
+		}
+	}
+}
+
+.count-noti {
+	padding: 0px 8px;
+    background: #ff7893;
+    position: relative;
+    top: -10px;
+    color: white;
+    right: 0px;
+    border-radius: 23px;
+}

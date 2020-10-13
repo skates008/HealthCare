@@ -1,0 +1,197 @@
+<kt-portlet>
+    <kt-portlet-header title="{{time && time.name}}" [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTools>
+            <a *ngIf = "invoiceCreated" href="javascript:;" class="kt-margin-r-10" mat-raised-button
+            matTooltip="Download invoice" (click)="downloadInvoice(invoiceDetails.downloadPdfUrl)">
+            <i class="la la-download"></i>
+            <span class="kt-hidden-mobile">Download Invoice</span>
+        </a>
+        <a *ngIf = "invoiceCreated" href="javascript:;" class="kt-margin-r-10" color="primary" (click)="sendEmailToParticipant(invoiceDetails.id)"
+            mat-raised-button matTooltip="Send invoice">
+            <i class="la la-email"></i>
+            <span class="kt-hidden-mobile">Email Invoice to participant</span>
+        </a>
+            <!-- <a  href="javascript:;" class="kt-margin-r-10" color="primary" (click)="createInvoice(time)" *ngIf = "!invoiceCreated"
+            mat-raised-button matTooltip="create-onvoice">
+            <span class="kt-hidden-mobile">Create Invoice</span>
+        </a> -->
+            <a href="javascript:;" (click)="back()" class="kt-margin-r-10" mat-raised-button
+                matTooltip="">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+            <a  href="javascript:;" class="kt-margin-r-10" color="primary" (click)="edit(time.id)"  *ngIf = "!invoiceCreated"
+                mat-raised-button matTooltip="edit">
+                <i class="la la-edit"></i>
+                <span class="kt-hidden-mobile">Edit</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body *ngIf="time">
+        <div class="row">
+            <div class="col-md-12">
+                
+            </div>
+            <div class="col-md-6">
+                <!-- General Information Card -->
+                <mat-card class="kt-margin-bottom-20">
+                    <div class="row">
+                        <div class="col-md-12 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Patient
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{time && time.patientName }} 
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Care plan
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{time && time.carePlanName }} 
+                                    </div>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-md-12" style="margin-bottom: 30px;" *ngIf="billableItemsList">
+             <div class="table-responsive-sm">
+                <table class="table table-striped">
+                    <thead class="bg-light-blue">
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Start Time</th>
+                            <th scope="col">Item</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Units</th>
+                            <th scope="col">Rate</th>
+                            <th scope="col">GST</th>
+                            <th scope="col">Gross Amount</th>
+                            <th scope="col" *ngIf = "!invoiceCreated">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr *ngFor="let item of billableItemsList; index as i">
+                            <!-- <th scope="row"> {{ data.startTime | date:"mediumDate" }}</th>  -->
+                            <td>
+                                  {{ item.startTime | date:"mediumDate" }}
+                                 </td>
+                             <td>
+                                {{ item.startTime |  date: "shortTime" }}
+                            </td>
+                            <td>{{ item.billableItem.name }}</td>
+                            <td>{{ item.billableItem.description }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.billableItem.unit }}</td>
+                            <td>{{ item.billableItem.price }}</td>
+                            <td>{{ item.billableItem.gstCode }}</td>
+                            <td>{{ item.cost | currency}}</td> 
+                           <td *ngIf = "!invoiceCreated"><button mat-icon-button color="warn" matTooltip="Delete Time" type="button"
+                            (click)="deleteTime(time,item)">
+                        <mat-icon>delete</mat-icon>
+                    </button></td>  
+                      </tr>
+                    </tbody>
+                </table>
+             </div>
+           
+
+            <div class="row col-md-12">
+                <div class="col-md-10">
+                    <!-- offset -->
+                </div>
+                <div class="col-md-2">
+                <table class="table table-striped">
+                    <thead class="bg-light-blue">
+                        <tr>
+                            <th scope="col">Total Cost</th>
+                            <!-- <th scope="col">AUD</th>                                             -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <!-- <th scope="row"></th> -->
+                            <!-- <td></td> -->
+                            <td>{{time && time.totalCost | currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+        </div>
+
+            </div> 
+
+
+            
+       
+            <div class="col-md-6 offset-6">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <!-- offset -->
+                        </div>
+                        <!-- total Sticky -->
+                        <div class="col-md-7">
+                            <div class="total-section">
+                                <!-- <div class="row next-appointment-section">
+                                    <div class="col-md-7">
+                                        Travel Time
+                                    </div>
+                                    <div class="col-md-5 text-right">
+                                        {{ time.travelTime }}
+                                    </div>
+                                </div> -->
+    
+                                <!-- <div class="row next-appointment-section">
+                                    <div class="col-md-7">
+                                       Time Subtotal
+                                    </div>
+                                    <div class="col-md-5 text-right">
+                                        {{ time.timeSubTotal | currency }}
+                                    </div>
+                                </div>
+     -->
+                                <!-- <div class="row next-appointment-section">
+                                    <div class="col-md-7">
+                                        <b>Outstanding balance</b>
+                                    </div>
+                                    <div class="col-md-5 text-right">
+                                        <b>
+                                            {{(time.travelTime + time.timeSubTotal ) | currency }}
+                                        </b>
+                                    </div>
+                                </div>
+    
+                                <div class="row next-appointment-section">
+                                        <a href="javascript:;" class="kt-margin-r-10 btn-block" color="primary"
+                                         mat-raised-button matTooltip="Enter Payment">
+                                        <span class="kt-hidden-mobile">Enter Payment</span>
+                                    </a>
+                                </div> -->
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class = "row create-invoice" *ngIf = "!invoiceCreated">
+            <p class = "create-invoice-text">The invoice for this appoinment will be automatically sent to <strong>{{time && time.patientEmail}}</strong></p>
+             <p style= "font-size: 16px;">If you prefer, you can send it now</p>
+             <button mat-raised-button  (click)="createInvoice(time)" class = "ml-4">Create Invoice</button>
+         </div>
+
+         <div class = "row create-invoice" *ngIf = "invoiceCreated">
+             <p class = "create-invoice-text">The invoice for this appointment was manually generated on <strong>{{invoiceDetails && invoiceDetails.date  | date : "mediumDate"}}</strong> by <strong> {{invoiceDetails && invoiceDetails.triggeredByName}}</strong> </p>
+          </div>
+       
+    </kt-portlet-body>
+</kt-portlet>

@@ -1,0 +1,108 @@
+@import '../../../../assets/sass/config';
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+:host {
+  ::ng-deep {
+    ngb-tabset > .nav-tabs {
+      display: none;
+    }
+  }
+}
+
+.example-card {
+  max-width: 100%;
+  margin: 8px 0;
+  border: 2px solid kt-brand-color(inverse);
+}
+
+.example-card-image {
+  max-width: 150px;
+}
+
+.example-header-image {
+  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
+  background-size: cover;
+}
+
+$primaryColor: #e44868;
+
+.new-user {
+  height: 35px;
+  display: block;
+  margin: auto;
+  background-color: $primaryColor;
+  color: kt-brand-color(inverse);
+  
+}
+.new-user:hover{
+  background-color: darken($primaryColor, (20%));
+}
+
+.Invoice-buttons {
+  height: 35px;
+  display: inline;
+  // padding: 0 5px 0 5px;
+  margin: 0 5px 0 15px;
+  background-color: $primaryColor;
+  color: kt-brand-color(inverse);
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+.Invoice-buttons:hover {
+  background-color: darken($primaryColor, (20%));
+}
+
+.Invoice-checkbox{
+  width: 80px;
+}
+
+.Invoice-actions{
+  width: 100px;
+}

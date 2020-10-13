@@ -1,0 +1,86 @@
+.profile-info .mat-list {
+	font-weight: 400;
+	color: #48465b;
+	font-size: 14px;
+	.mat-list-item {
+		font-size: 14px;
+	}
+}
+
+.profile-info-detail .mat-list {
+	color: #48465b;
+	font-size: 14px;
+	.mat-list-item {
+		font-size: 14px;
+	}
+}
+
+.profile-header .mat-card-title {
+	margin: 0;
+	padding: 0;
+	font-size: 1.2rem;
+	font-weight: 500;
+	color: #48465b;
+	padding-bottom: 1rem;
+}
+
+.participant-buttons {
+	height: 35px;
+	display: inline;
+	margin: 0 5px 0 15px;
+	background-color: #e44868;
+	color: #ffffff;
+	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+		0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.sticky-section{
+	background-color: #f2f3f7;
+	margin-bottom: 20px;
+
+	button{
+		border: 1px solid;
+		margin: 11px 10px;
+		background-color: #ffffff;
+	}
+	h5{
+		font-size: 1rem;
+    padding: 10px;
+    border-bottom: 1px solid #d8dce6;
+	}
+
+	.next-appointment-section{
+		padding: 8px;
+    border-bottom: 1px solid #d8dce6;
+    margin: 0px;
+	}
+}
+
+.budget-widget{
+	padding: 15px;
+}
+
+.bg-light-blue {
+    background: #c7c7f7;
+}
+
+.total-section{
+	margin-bottom: 20px;
+
+	button{
+		border: 1px solid;
+		margin: 11px 10px;
+		background-color: #ffffff;
+	}
+	h5{
+		font-size: 1rem;
+    padding: 10px;
+    border-bottom: 1px solid #d8dce6;
+	}
+
+	.next-appointment-section{
+		padding: 8px;
+    border-bottom: 1px solid #d8dce6;
+    margin: 0px;
+	}
+}

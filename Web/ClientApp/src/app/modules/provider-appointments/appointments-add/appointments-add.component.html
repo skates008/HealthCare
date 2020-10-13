@@ -1,0 +1,424 @@
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">{{headerTitle}}</h3>
+            <mat-icon (click)="closeDialogBox()" class="close-icon">close</mat-icon>
+        </div>
+    </div>
+    <div>
+        <div class="kt-form">
+            <div class="kt-portlet__body">
+                <div>
+                    <div class="row">
+                        <label for="type" class="col-sm-4 col-form-label">Appointment type</label>
+                        <div class="col-sm-8 input-text">
+                            <mat-form-field class="mat-form-field-fluid select-input" appearance="outline">
+                                <mat-select placeholder="Choose your Address Appointment"
+                                    [(ngModel)]="appointment.appointmentType">
+                                    <mat-option *ngFor="let appointmentType of listAppointmentType"
+                                        [value]="appointmentType.id">{{appointmentType.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="pratitioner" class="col-sm-4 col-form-label">Filter By Teams</label>
+                        <div class="col-m-8">
+                            <mat-form-field class="mat-form-field-fluid select-input" appearance="outline">
+                                <input type="text" placeholder="Select/Search Teams" aria-label="Number" matInput
+                                    class="filter-input" (click)="teamInputClick()" [formControl]="selectedTeam"
+                                    [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="teamSelected($event)">
+                                    <mat-option *ngFor="let teamOption of filteredTeamOptions | async"
+                                        [value]="teamOption">
+                                        {{teamOption.name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <label for="pratitioner" class="col-sm-4 col-form-label">Practitioner</label>
+                        <div class="col-m-8 mat-form-field-wrapper ">
+                            <select2 [data]="practitionerList" [width]="450"
+                                [value]="appointment.practitioner && appointment.practitioner.id"
+                                (valueChanged)="therapistChanged($event)"></select2>
+                        </div>
+                    </div>
+
+
+                    <div class="row" *ngIf="showParticipant">
+                        <label for="type" class="col-sm-4 col-form-label">Clients</label>
+                        <div class="col-m-8 mat-form-field-wrapper">
+                            <select2 [data]="participantList" [width]="450" placeholder="Choose you participant"
+                                [value]="appointment.participant && appointment.participant.id"
+                                (valueChanged)="changed($event)"></select2>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row ">
+                    <label for=" type" class="col-sm-4 col-form-label">Select Date and Time</label>
+                    <div class="col-sm-8 row  select-input mat-form-field-wrapper">
+                        <div class="col-sm-5" class="time-picker">
+                            <input class="form-control" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1"
+                                [(ngModel)]="appointment.starttimeObj" placeholder="Select Start Time"
+                                (dateTimeChange)="onChangeTime($event)">
+                            <owl-date-time #dt1></owl-date-time>
+                        </div>
+                        <div class="col-sm-1 label-to">
+                            <label>To</label>
+                        </div>
+                        <div class="col-sm-5 time-picker">
+                            <input class="form-control" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2"
+                                placeholder="Select End Time" [(ngModel)]="endtime">
+                            <owl-date-time #dt2></owl-date-time>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="selecTimeErr">
+                    <label for="type" class="col-sm-4 col-form-label">
+                    </label>
+                    <label for="type" class="col-sm-8 col-form-label time-error">
+                        {{selecTimeErrText}}
+                    </label>
+                </div>
+
+                <div class="row">
+                    <label for="type" class="col-sm-4 col-form-label">Recurrence</label>
+                    <div class="col-sm-8 input-text">
+                        <mat-form-field class="mat-form-field-fluid select-input" appearance="outline">
+                            <mat-select (selectionChange)="selectRecurrenceType($event.value)"
+                                [(ngModel)]="recurrenceType" placeholder="Select recurrence">
+                                <mat-option *ngFor="let item of recurrence" [value]="item.value">
+                                    {{item.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- <div *ngIf = "showRecurrenceFields">
+                    <div class = "row">
+                    <div class = "row col-md-4">
+                    <label for="type" class="col-md-4 col-form-label">Repeat every</label>
+                    <input type="number"  class="col-md-2" (change)="changeInterval()" matInput [(ngModel)] = "interval"/>
+                    <mat-form-field class="mat-form-field-fluid col-md-6">
+                        <mat-select (selectionChange)="selectRecurrenceFrequency($event.value)" [(ngModel)] = "selectedFrequency" >
+                            <mat-option *ngFor="let item of frequency" [value]="item.value">
+                              {{item.viewValue}}
+                            </mat-option>
+                          </mat-select>
+                    </mat-form-field>
+                     </div>
+                     <div class = " row col-md-8 input-text">
+                        <label for="type" class="col-md-3 col-form-label">Repeat on</label>
+                        <mat-button-toggle-group *ngIf = "showWeekRepeat" class = "col-md-8">
+                            <mat-button-toggle value="bold">Sun</mat-button-toggle>
+                            <mat-button-toggle value="italic">Mon</mat-button-toggle>
+                            <mat-button-toggle value="underline">Tues</mat-button-toggle>
+                            <mat-button-toggle value="underline">Wed</mat-button-toggle>
+                            <mat-button-toggle value="underline">Thurs</mat-button-toggle>
+                            <mat-button-toggle value="underline">Fri</mat-button-toggle>
+                            <mat-button-toggle value="underline">Sat</mat-button-toggle>
+                          </mat-button-toggle-group>
+
+                        <mat-form-field class="mat-form-field-fluid col-md-9 select-input" *ngIf = "showMonthRepeat">
+                            <mat-select (selectionChange)="selectRecurrence($event.value)" >
+                                <mat-option *ngFor="let item of recurrenceDay" [value]="item.value">
+                                  {{item.viewValue}}
+                                </mat-option>
+                              </mat-select>
+                        </mat-form-field>
+                     </div>
+                    </div>
+                    <div class = "row">
+                        <div class = "row col-md-6">
+                            <label for="type" class="col-md-4 col-form-label">Ends</label>
+                            <mat-radio-group aria-label="Select an option" (change)="selectRecurenceEnd($event.value)" class = "col-md-8" [(ngModel)] = "endType">
+                                <mat-radio-button value="onDate" >On</mat-radio-button>
+                                <mat-radio-button value="after">After</mat-radio-button>
+                              </mat-radio-group>                           
+                             </div>
+                             <div class = "row col-md-6">
+                                <mat-form-field class="mat-form-field-fluid" *ngIf = "showDate">
+                                    <input matInput [matDatepicker]="picker" [(ngModel)] = "occurUntilDate" (click)="picker.open()" (dateChange)="endDateChnage()"
+                                        placeholder="Select date" 
+                                        required>
+                                    <mat-datepicker-toggle matSuffix [for]="picker">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>  
+                                <ng-container *ngIf = "showOccurences">                 
+                                <input type="number"  class="col-md-2" [(ngModel)] = "occurUntilCount"  (change)="changeCount()" matInput  />
+                                <label for="type" class="col-md-4 col-form-label">Occurences</label>
+                            </ng-container>       
+                            </div>
+                    </div>
+                </div> -->
+
+
+                <div *ngIf="showRecurrenceFields" class="recurence-content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!-- offSet -->
+                        </div>
+                        <div row class="row col-md-8 align-items-center">
+                            <label for="type" class="col-3 col-form-label">Repeat every</label>
+                            <mat-form-field class="mat-form-field-fluid col-2" *ngIf="freq != 0" appearance="outline">
+                                <input type="number" matInput [(ngModel)]="interval"  min="1"/>
+                            </mat-form-field>
+                            <mat-form-field class="mat-form-field-fluid col-4" appearance="outline">
+                                <mat-select (selectionChange)="selectRecurrenceFrequency($event.value)"
+                                    [(ngModel)]="freq">
+                                    <mat-option *ngFor="let item of frequency" [value]="item.value">
+                                        {{item.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!-- offSet -->
+                        </div>
+                        <div row class="row col-md-8">
+                            <ng-container *ngIf="freq == 2">
+                                <label for="type" class="col-md-3 col-form-label">Repeat on</label>
+                                <mat-button-toggle-group #group="matButtonToggleGroup" name="fontStyle" class="col-md-7"
+                                    [(ngModel)]="daysOfWeek" ngDefaultControl multiple=true
+                                    (change)="seletDaysOfWeek(group)">
+                                    <mat-button-toggle *ngFor="let item of listDaysOfWeek" [value]="item.value">
+                                        {{item.viewValue}}
+                                    </mat-button-toggle>
+                                </mat-button-toggle-group>
+                            </ng-container>
+                            <ng-container *ngIf="freq == 1">
+                                <div class="row align-items-center">
+                                    <mat-radio-group aria-label="Select an option"
+                                        (change)="selectRepeatMonthType($event.value)" class="col-2"
+                                        [(ngModel)]="repeatMonthType">
+                                        <mat-radio-button value="byMonthDay">on day</mat-radio-button>
+                                    </mat-radio-group>
+                                    <!-- <label for="type" class="col-md-2 col-form-label">on day</label> -->
+                                    <mat-form-field class="mat-form-field-fluid col-md-2 select-input"
+                                        appearance="outline">
+                                        <mat-select 
+                                            [(ngModel)]="monthDay">
+                                            <mat-option *ngFor="let item of arrayOne(30); let i = index;" [value]=i+1>
+                                                {{i+1}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="row align-items-center">
+                                    <mat-radio-group aria-label="Select an option"
+                                        (change)="selectRepeatMonthType($event.value)" class="col-2"
+                                        [(ngModel)]="repeatMonthType">
+                                        <mat-radio-button value="bySetPos">on the</mat-radio-button>
+                                    </mat-radio-group>
+                                    <!-- <label for="type" class="col-md-2 col-form-label">on day</label> -->
+                                    <mat-form-field class="mat-form-field-fluid col-md-4 select-input"
+                                        appearance="outline">
+                                        <mat-select  [(ngModel)]="setPos">
+                                            <mat-option *ngFor="let item of listOfSetPos" [value]=item.value>
+                                                {{item.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field class="mat-form-field-fluid col-md-4 select-input"
+                                        appearance="outline">
+                                        <mat-select
+                                            [(ngModel)]="daysOfMonth">
+                                            <mat-option *ngFor="let item of listDaysOfMonth" [value]=item.value>
+                                                {{item.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="freq == 0">
+                                <div class="row align-items-center">
+                                    <mat-radio-group aria-label="Select an option"
+                                        (change)="selectYearRepeatType($event.value)" class="col-2"
+                                        [(ngModel)]="repeatYearType">
+                                        <mat-radio-button value="yealyByMonth">on</mat-radio-button>
+                                    </mat-radio-group>
+                                    <!-- <label for="type" class="col-md-2 col-form-label">on day</label> -->
+                                    <mat-form-field class="mat-form-field-fluid col-2 select-input"
+                                        appearance="outline">
+                                        <mat-select [(ngModel)]="monthOfYear">
+                                            <mat-option *ngFor="let item of listMonthOfYear;" [value]=item.value>
+                                                {{item.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="mat-form-field-fluid col-2 select-input"
+                                        appearance="outline">
+                                        <mat-select (selectionChange)="selectMonthDayValue($event.value)"
+                                            [(ngModel)]="monthDayOfYear">
+                                            <mat-option *ngFor="let item of arrayOne(30); let i = index;" [value]=i+1>
+                                                {{i+1}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="row align-items-center">
+                                    <mat-radio-group aria-label="Select an option"
+                                        (change)="selectYearRepeatType($event.value)" class="col-2 pb-2"
+                                        [(ngModel)]="repeatYearType">
+                                        <mat-radio-button value="yearlyBySetPos">on the</mat-radio-button>
+                                    </mat-radio-group>
+                                    <!-- <label for="type" class="col-md-2 col-form-label">on day</label> -->
+                                    <!-- <label for="type" class="col-md-2 col-form-label">on day</label> -->
+                                    <mat-form-field class="mat-form-field-fluid col-3 select-input"
+                                        appearance="outline">
+                                        <mat-select [(ngModel)]="yearlySetPos">
+                                            <mat-option *ngFor="let item of listOfSetPos" [value]=item.value>
+                                                {{item.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field class="mat-form-field-fluid col-3 select-input"
+                                        appearance="outline">
+                                        <mat-select [(ngModel)]="yearlyDays">
+                                            <mat-option *ngFor="let item of listDaysOfMonth" [value]=item.value>
+                                                {{item.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <label for="type" class="col-form-label">of</label>
+                                    <mat-form-field class="mat-form-field-fluid col-md-2 select-input"
+                                        appearance="outline">
+                                        <mat-select [(ngModel)]="yearlyMonthSetPos">
+                                            <mat-option *ngFor="let item of listMonthOfYear;" [value]=item.value>
+                                                {{item.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </ng-container>
+
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <!-- offSet -->
+                        </div>
+                        <div row class="row col-md-8 align-items-center">
+                            <label for="type" class="col-2 col-form-label">Ends</label>
+                            <mat-radio-group aria-label="Select an option" (change)="selectRecurenceEnd($event.value)"
+                                class="col-md-4 mt-2" [(ngModel)]="endType">
+                                <mat-radio-button value="onDate">On</mat-radio-button>
+                                <mat-radio-button value="after">After</mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field class="mat-form-field-fluid col-4 " *ngIf="endType == 'onDate'">
+                                <input matInput [matDatepicker]="picker" [(ngModel)]="until" (click)="picker.open()"
+                                    placeholder="Select date" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <ng-container *ngIf="endType == 'after'">
+                                <mat-form-field class="mat-form-field-fluid col-2" appearance="outline">
+                                    <input type="number" [(ngModel)]="count"  min="1" matInput />
+                                </mat-form-field>
+                                <label for="type" class="col-md-4 col-form-label">Occurences</label>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div row class="row col-md-8">
+                            <div class="col-md-4">
+=                            </div>
+                            <mat-form-field class="mat-form-field-fluid col-md-4 " *ngIf="showDate">
+                                <input matInput [matDatepicker]="picker" [(ngModel)]="until" (click)="picker.open()"
+                                    (dateChange)="endDateChnage()" placeholder="Select date" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <ng-container *ngIf="showOccurences">
+                                <mat-form-field class="mat-form-field-fluid col-md-2" appearance="outline">
+                                    <input type="number" [(ngModel)]="count" (change)="changeCount()" matInput />
+                                </mat-form-field>
+
+                                <label for="type" class="col-md-4 col-form-label">Occurences</label>
+                            </ng-container>
+                        </div>
+                    </div> -->
+
+
+                </div>
+
+                <div class="row">
+                    <label for="type" class="col-sm-4 col-form-label">Choose your Address</label>
+                    <div class="col-sm-8 input-text">
+                        <mat-form-field class="mat-form-field-fluid select-input" appearance="outline">
+                            <mat-select (selectionChange)="selectAddress($event.value)" placeholder="Choose you Address"
+                                [(ngModel)]="appointment.addressType">
+                                <mat-option *ngFor="let addressOption of addressOptions"
+                                    [value]="addressOption.address.addressType">
+                                    {{addressOption.address.addressType}}</mat-option>
+                                <!-- <mat-option *ngIf = "hasSchoolAddress" value="school">School Address</mat-option>
+                            <mat-option value="other">Other</mat-option> -->
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="showAddress">
+                    <label for="type" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8 input-text">
+                        <mat-form-field class="mat-form-field-fluid select-input" appearance="outline">
+                            <input [disabled]="inputDisabled" matInput placeholder="Enter your address"
+                                ngx-google-places-autocomplete #placesRef="ngx-places" [options]="options"
+                                (onAddressChange)="handleAddressChange($event)" [(ngModel)]="appointment.location" />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <label for="type" class="col-sm-4 col-form-label">Note</label>
+                    <div class="col-sm-8 input-text">
+                        <textarea type="text" class="form-control select-input" placeholder="Enter your notes"
+                            [(ngModel)]="appointment.note"></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="row mt-3">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-8">
+                            <button (click)="submit()"
+                                class="btn btn-md kt-font-bold kt-font-transform-u new-appointment-save"
+                                data-ktwizard-type="action-submit">
+                                {{buttonText}}
+                            </button>
+                            &nbsp;
+                            <button type="button" mat-raised-button [mat-dialog-close]="" cdkFocusInitial
+                                matTooltip="Cancel changes">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

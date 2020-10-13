@@ -1,0 +1,15 @@
+﻿@model Caretaskr.Common.ViewModel.EmailConfirmationNotificationViewModel
+
+<h2 style="margin-top: 0;color: black;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">
+    Hello, @Model.FullName
+</h2>
+<p style="margin-top: 0;color: black;font-family: Georgia,serif;font-size: 15px;line-height: 25px;Margin-bottom: 25px">
+    Welcome to Caretaskr! Get started by confirming your email.
+</p>
+
+<a style="background-color:#e44868; padding:10px 15px; color:#fff; text-decoration:none;border-radius:4px; margin-bottom:10px;" 
+   href="@Model.CallBackUrl">Confirm Your Email</a>
+
+<p style="margin-top: 15px;color: black;font-family: Georgia,serif;font-size: 15px;line-height: 25px;Margin-bottom: 25px">
+    Thank You
+</p>

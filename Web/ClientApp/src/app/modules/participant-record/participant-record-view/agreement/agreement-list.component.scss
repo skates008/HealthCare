@@ -1,0 +1,57 @@
+@import '../../../../../assets/sass/config';
+$primaryColor: #e44868;
+
+.new-appointment-save {
+    height: 35px;
+    margin: auto auto auto -10px;
+    background-color: $primaryColor;
+    color: kt-brand-color(inverse);
+    
+  }
+  .new-appointment-save:hover{
+    background-color: darken($primaryColor, (20%));
+  }
+  // .select-input{
+  //   padding: 0.65rem 1rem;
+  // }
+
+  .time-error{
+    color: #e44868;
+  }
+
+  .input-text{
+    padding-left: 0px;
+  }
+  .time-picker-input{
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    width: 200px;
+    // padding: 0.65rem 1rem;
+  }
+
+  .label-to{
+    text-align: center;
+    padding-top: 10px;
+    width: 50px;
+  }
+
+  .select-input{
+    width: 450px !important;
+  }
+
+  .close-icon{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    border-radius: 14px;
+    cursor: pointer!important;    
+  }
+
+  // .gray-border{
+  //   border: 1px solid #aaa;
+  // }
+
+  
+  .mat-column-actions {
+    flex: 0 0 86px;
+  }

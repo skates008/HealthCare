@@ -1,0 +1,204 @@
+<kt-portlet>
+    <kt-portlet-header title="Invoice #{{ invoice?.reference }}" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTools>
+            <a href="javascript:;" class="kt-margin-r-10" mat-raised-button
+                matTooltip="Download invoice" (click)="downloadFile(invoice.file)">
+                <i class="la la-download"></i>
+                <span class="kt-hidden-mobile">Download Invoice</span>
+            </a>
+            <a  href="javascript:;" class="kt-margin-r-10" color="primary" (click)="sendEmailToParticipant(invoice.id)"
+                mat-raised-button matTooltip="Send invoice">
+                <i class="la la-email"></i>
+                <span class="kt-hidden-mobile">Email Invoice to participant</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- General Information Card -->
+                <mat-card class="kt-margin-bottom-20">
+                    <div class="row">
+                         <div class="col-md-12">
+                            <h5>Bill To</h5>
+                        </div>
+
+                        <div class="col-md-4 profile-info">
+                            <mat-list>
+                                <mat-list-item>Name</mat-list-item>
+                            </mat-list>
+                        </div>
+                        <div class="col-md-8 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    <p *ngIf="invoice?.billedTo"> {{ invoice?.billedTo }} </p>  
+                                    <p *ngIf="!invoice?.billedTo"> N/A </p>   
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-md-4">
+                <!-- On Behalf Of -->
+                <mat-card class="kt-margin-bottom-20">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>On behalf of</h5>
+                        </div>
+                       
+                        <div class="col-md-4 profile-info">
+                            <mat-list>
+                                <mat-list-item>Name</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Address</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Reference</mat-list-item>
+                            </mat-list>
+                        </div>
+                        <div class="col-md-8 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    {{ invoice?.customerName }} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ invoice?.customerAddress }} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ invoice?.customerNDISReference }} </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="sticky-section">
+                            <div class="row next-appointment-section">
+                                <div class="col-md-5">
+                                  <b>Type</b>
+                                </div>
+                                <div class="col-md-7">
+                                    {{ invoice?.type }}
+                                </div>
+                            </div>
+
+                            <div class="row next-appointment-section">
+                                <div class="col-md-5">
+                                    Start Date
+                                </div>
+                                <div class="col-md-7">
+                                    {{ invoice?.date | date: "mediumDate" }}
+                                </div>
+                            </div>
+
+                            <div class="row next-appointment-section">
+                                <div class="col-md-5">
+                                    Due Date
+                                </div>
+                                <div class="col-md-7">
+                                    {{ invoice?.dueDate | date: "mediumDate" }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead class="bg-light-blue">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Service Date</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Unit</th>
+                            <th scope="col">Unit Price</th>
+                            <th scope="col">Sub Total</th>
+                            <th scope="col">total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of invoice?.invoiceItems; index as i">
+                            <th scope="row">{{i+1}}</th>
+                            <td>
+                               {{ item.date | date:"mediumDate" }}
+                            </td>
+                            <td>{{ item.description }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.unit }}</td>
+                            <td>{{ item.unitPrice }}</td>
+                            <td>{{ item.subTotal }}</td>
+                            <td>{{ item.total }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-6 offset-6">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <!-- offset -->
+                        </div>
+                        <!-- total Sticky -->
+                        <div class="col-md-7">
+                            <div class="total-section">
+                                <div class="row next-appointment-section">
+                                    <div class="col-md-7">
+                                        Sub Total Cost
+                                    </div>
+                                    <div class="col-md-5 text-right">
+                                        {{ invoice?.subTotal }}
+                                    </div>
+                                </div>
+    
+                                <div class="row next-appointment-section">
+                                    <div class="col-md-7">
+                                       Sub total GST
+                                    </div>
+                                    <div class="col-md-5 text-right">
+                                        {{ invoice?.subTotalGST }}
+                                    </div>
+                                </div>
+    
+                                <div class="row next-appointment-section">
+                                    <div class="col-md-7">
+                                        Total Cost
+                                    </div>
+                                    <div class="col-md-5 text-right">
+                                        {{ invoice?.total }}
+                                    </div>
+                                </div>
+    
+                                <!-- <div class="row next-appointment-section">
+                                        <a href="javascript:;" class="kt-margin-r-10 btn-block" color="primary"
+                                         mat-raised-button matTooltip="Enter Payment">
+                                        <span class="kt-hidden-mobile">Enter Payment</span>
+                                    </a>
+                                </div> -->
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- <div class="col-md-12">
+                <div class="text" *ngFor="let item of invoice?.text?.paymentTerms;">
+                    <b>
+                        {{item.term}}
+                    </b> <br>
+                </div>
+            </div> -->
+        </div>
+    </kt-portlet-body>
+
+</kt-portlet>
+

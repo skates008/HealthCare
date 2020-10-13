@@ -1,0 +1,54 @@
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title" *ngIf="!showCancelAppointment">Edit Recurring Event</h3>
+            <h3 class="kt-portlet__head-title" *ngIf="showCancelAppointment">Cancel Recurring Event</h3>
+            <mat-icon (click)="closeDialogBox()" class="close-icon">close</mat-icon>
+        </div>
+        <!-- 
+        <ng-container ktPortletTools>
+          
+        </ng-container> -->
+
+    </div>
+
+    <kt-portlet-body>
+        <div>
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="isException">
+                <mat-radio-button [value]="true">This event</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div>
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="isException">
+                <mat-radio-button [value]="false">This and future events</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="kt-form__actions kt-form__actions--solid kt-margin-bottom-10">
+            <div class="text-right">
+                <div class="col-lg-12" *ngIf="!showCancelAppointment">
+                    <button type="button" mat-raised-button (click)="updateAppointment()" color="primary"
+                        cdkFocusInitial matTooltip="Update Appointment">
+                        Update Appointment
+                    </button>&nbsp;
+                    <button type="button" mat-raised-button (click)="closeDialogBox()" matTooltip="Cancel">
+                        Cancel
+                    </button>
+
+
+                </div>
+                <div class="col-lg-12" *ngIf="showCancelAppointment">
+                    <button type="button" mat-raised-button (click)="cancelAppointment()" color="primary"
+                        cdkFocusInitial matTooltip="cancel Appointment">
+                        Cancel Appointment
+                    </button> &nbsp;
+                    <button type="button" mat-raised-button (click)="closeDialogBox()" matTooltip="Cancel">
+                        Don't Cancel Appointment
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </kt-portlet-body>
+</div>

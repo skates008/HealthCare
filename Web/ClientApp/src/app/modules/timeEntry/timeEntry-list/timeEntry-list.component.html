@@ -1,0 +1,84 @@
+<kt-portlet [class]="'kt-portlet--tabs'">
+    <kt-portlet-header [title]="'Time Entries'" [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTools>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="kt-form">
+            <div class="kt-form__filtration">
+                <div class="row align-items-center">
+                    <div class="col-md2 kt-margin-bottom-10-mobile">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Search Time Entry" #searchInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="mat-table__wrapper">
+			<table mat-table class="mat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
+				   matSortActive="StartTime" matSortDirection="asc" matSortDisableClear multiTemplateDataRows>
+
+				<!-- ID -->
+				<ng-container matColumnDef="id">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header style="display:none;">S.no</th>
+					<td mat-cell *matCellDef="let Time;let i = dataIndex;" style="display:none;">{{i+1}}</td>
+				</ng-container>
+
+				<!-- Name -->
+				<ng-container matColumnDef="name">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+					<td mat-cell *matCellDef="let Time">{{Time.name }}</td>
+				</ng-container>
+
+				<!-- created By User -->
+				<ng-container matColumnDef="createdByUserName">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Created By</th>
+					<td mat-cell *matCellDef="let Time">{{Time.createdByUserName }}</td>
+				</ng-container>
+
+				<!-- Name -->
+				<ng-container matColumnDef="patientName">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Participant</th>
+					<td mat-cell *matCellDef="let Time">{{Time.patientName }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="carePlanName">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Care Plan</th>
+					<td mat-cell *matCellDef="let Time">{{Time.carePlanName }}</td>
+				</ng-container>
+				<!-- Action -->
+				<ng-container matColumnDef="actions">
+					<th mat-header-cell *matHeaderCellDef>Actions</th>
+					<td mat-cell *matCellDef="let Time" class="Time-actions">
+						<button (click)="viewTime(Time.id)" mat-icon-button color="primary"
+								matTooltip="View Time">
+							<mat-icon>visibility</mat-icon>
+						</button>&nbsp;
+						<button mat-icon-button color="warn" matTooltip="Delete Time" type="button"
+								(click)="deleteTime(Time)">
+							<mat-icon>delete</mat-icon>
+						</button>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+					[class.example-expanded-row]="expandedElement === row"
+					(click)="expandedElement = expandedElement === row ? null : row"></tr>
+			</table>
+			<div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found!</div>
+			<div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait..
+			</div>
+		</div>
+
+		<div class="mat-table__bottom">
+			<mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+			<mat-paginator [pageSize]="30" [pageSizeOptions]="[30, 60, 90]" [length]="dataSource.paginatorTotal$ | async"
+				[showFirstLastButtons]="true"></mat-paginator>
+		</div>
+
+    </kt-portlet-body>
+</kt-portlet>

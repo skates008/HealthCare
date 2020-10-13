@@ -1,0 +1,13 @@
+$primaryColor: #e44868;
+
+.save-setting{
+  height: 35px;
+  display: block;
+  margin: auto;
+  background-color: $primaryColor;
+  color: #ffffff;
+  
+}
+.save-setting:hover{
+  background-color: darken($primaryColor, (20%));
+}

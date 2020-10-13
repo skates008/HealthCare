@@ -1,0 +1,42 @@
+
+<div class="row">
+	<div class="col-xl-4">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'Upcoming appointments'">
+				<!-- <ng-container ktPortletTools>
+						<kt-context-menu2></kt-context-menu2>
+					</ng-container> -->
+			</kt-portlet-header>
+			<kt-portlet-body class="upcoming-appointments">
+				<kt-appointment-therapist></kt-appointment-therapist>
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+	<div class="col-xl-4">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'My Tasks'">
+				<ng-container ktPortletTools>
+					<a href="javascript:;" class="btn kt-margin-r-10" color="primary" (click)="onAddTask()"
+						mat-raised-button matTooltip="Add new task">
+						<span class="kt-hidden-mobile"><i class="la la-plus"></i> Add Task</span>
+					</a>
+				</ng-container>
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<kt-data-task></kt-data-task>
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+	<div class="col-xl-4">
+		<kt-portlet [class]="'kt-portlet--height-fluid'">
+			<kt-portlet-header [title]="'Users'">
+				<!-- <ng-container ktPortletTools>
+						<kt-context-menu2></kt-context-menu2>
+					</ng-container> -->
+			</kt-portlet-header>
+			<kt-portlet-body>
+				<kt-data-therapist></kt-data-therapist>
+			</kt-portlet-body>
+		</kt-portlet>
+	</div>
+</div>

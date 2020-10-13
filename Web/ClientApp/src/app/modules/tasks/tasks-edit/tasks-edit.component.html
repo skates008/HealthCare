@@ -1,0 +1,86 @@
+<kt-portlet>
+    <kt-portlet-header [title]="getComponentTitle()" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTools>
+            <a href="javascript:;" (click)="back()" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+            
+            <a href="javascript:;" class="btn kt-margin-r-10" color="primary" (click)="onSubmit(false)"
+                mat-raised-button matTooltip="Save & Continue">
+                <i class="la la-save"></i>
+                <span class="kt-hidden-mobile">Save</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+
+        <mat-tab-group [(selectedIndex)]="selectedTab">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="mat-tab-label-icon flaticon-user"></i>
+                    Task Details
+                </ng-template>
+                <ng-template matTabContent>
+                    <!-- Begin Form -->
+                    <div *ngIf="task">
+                        <form [formGroup]="taskForm" class="kt-form kt-form--group-separator-dashed">
+
+                            <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="3000" [showCloseButton]="true"
+                                (close)="onAlertClose($event)">
+                                Something went wrong, please make changes and try saving again.
+                            </kt-alert>
+
+
+                            <div class="kt-form__section kt-form__section--first">
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <mat-form-field class="mat-form-field-fluid">
+                                                <input [min]="minDate" (click)="picker.open()" matInput [matDatepicker]="picker" placeholder="Choose a date"
+                                                    formControlName="dueDate" required>
+                                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                                <mat-hint align="start">Please choose <strong> due date</strong>
+                                                </mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group kt-form__group row">
+                                    <!-- Title Name -->
+                                    <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput #message maxlength="25" placeholder="Enter title"
+                                                formControlName="title" />
+                                                
+                                            <mat-error>title is <strong>required</strong></mat-error>
+                                            <mat-hint align="start">Please enter <strong>title</strong>
+                                            </mat-hint>
+                                            
+                                            <mat-hint align="end">{{message.value.length}} / 25</mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Description -->
+                                    <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <textarea matInput placeholder="Enter Description" formControlName="description"></textarea>
+                                            <mat-error>Description is <strong>required</strong></mat-error>
+                                            <mat-hint align="start">Please enter <strong>description</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </kt-portlet-body>
+</kt-portlet>

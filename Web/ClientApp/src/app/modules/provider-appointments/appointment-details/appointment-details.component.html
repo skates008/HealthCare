@@ -1,0 +1,265 @@
+<kt-portlet  [class]="'kt-portlet--tabs'">
+        <div class="kt-portlet__head kt-portlet__head__custom appointment-header">
+            <div class= "row">
+                <p class = "appt-name-header">{{appointmentDetails && appointmentDetails.patientName}}</p>
+                <p class = "time-header">{{appointmentDetails && appointmentDetails.appointmentDate | date : "mediumDate"}}</p>
+                <p class = "time-header">{{appointmentDetails && appointmentDetails.startTime | date: "shortTime" }} to {{ appointmentDetails && appointmentDetails.endTime | date: "shortTime" }}</p>
+            </div>
+            <div class = "row">
+                <a *ngIf = "invoiceCreated" href="javascript:;" class="kt-margin-r-10" mat-raised-button
+                matTooltip="Download invoice" (click)="downloadFile(invoiceDetails.file)">
+                <i class="la la-download"></i>
+                <span class="kt-hidden-mobile">Download Invoice</span>
+            </a>
+            <a *ngIf = "invoiceCreated" href="javascript:;" class="kt-margin-r-10" color="primary" (click)="sendEmailToParticipant(invoiceDetails.id)"
+                mat-raised-button matTooltip="Send invoice">
+                <i class="la la-email"></i>
+                <span class="kt-hidden-mobile">Email Invoice to participant</span>
+            </a>
+                <a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" *ngIf = "!invoiceCreated"
+				(click)="addTimeEntry(appointmentDetails)" mat-raised-button matTooltip="">
+				<span class="kt-hidden-mobile"><i class="la la-plus"></i> Add Time Entry</span>
+			</a>
+    
+            </div>
+                </div>
+
+    <kt-portlet-body>
+        <mat-tab-group  lass="border-shadow">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="mat-tab-label-icon flaticon-folder-1"></i>
+                    Details
+                </ng-template>
+                <ng-template matTabContent>
+                    <!-- Begin Form -->
+                    <mat-card class="col-md-12">    
+                            <div class = "row">
+                                    <div class="col-md-4 profile-info">
+                                          <div class = "row">
+                                              <div class = "col-md-4">
+                                                <p class = "basic-details-header">Client:</p>
+                                              </div>
+                                              <div class = "col-md-6">
+                                                <p>{{appointmentDetails && appointmentDetails.patientName}}</p>
+                                              </div>
+                                            </div>
+
+                                            <div class = "row">
+                                                <div class = "col-md-4">
+                                                  <p class = "basic-details-header">Practitioner:</p>
+                                                </div>
+                                                <div class = "col-md-6">
+                                                  <p>{{appointmentDetails && appointmentDetails.practitionerName}}</p>
+                                                </div>
+                                              </div>
+                                              <div class = "row">
+                                                <div class = "col-md-4">
+                                                  <p class = "basic-details-header">Check In:</p>
+                                                </div>
+                                                <div class = "col-md-6">
+                                                    <p> {{appointmentDetails && appointmentDetails.checkInTime | date: "shortTime" }}</p>
+                                                </div>
+                                              </div>
+                                              <div class = "row">
+                                                <div class = "col-md-4">
+                                                  <p class = "basic-details-header">Check Out:</p>
+                                                </div>
+                                                <div class = "col-md-6">
+                                                    <p> {{appointmentDetails && appointmentDetails.checkOutTime | date: "shortTime" }}</p>
+                                                </div>
+                                              </div>
+                                              <div class = "row">
+                                                <div class = "col-md-4">
+                                                  <p class = "basic-details-header">Duration:</p>
+                                                </div>
+                                                <div class = "col-md-6">
+                                                    <p>{{appointmentInterval}}</p>
+                                                </div>
+                                              </div>
+                                         </div>
+
+                        
+                            <div class="col-md-3 notes">
+                                    <!-- <div>
+                                       <p class = "basic-details-header">  Notes:</p>
+                                        <p> External Notes:</p>
+                                        <p class = "word-break">{{appointmentDetails && appointmentDetails.externalNote}}</p>
+                                        <p> Internal Notes:</p> 
+                                        <p class = "word-break">{{appointmentDetails && appointmentDetails.internalNote}}</p>
+                                    </div> -->
+                                    <div>
+                                        <p class = "basic-details-header">  Location:</p>
+                                        <p>{{appointmentDetails && appointmentDetails.address.address}}</p>
+                                     </div>
+                            </div>
+                            <div class = "col-md-5">
+                                    <iframe width="100%" height="300" frameborder="0" style="border:0"[src]="locationSrc |  safe: 'resourceUrl'"></iframe>
+                            </div>
+                        </div>
+                    </mat-card>
+                    <!-- End Step 1 -->
+                </ng-template>
+            </mat-tab>
+
+            <!-- Participant Address -->
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="mat-tab-label-icon flaticon2-document"></i>
+                    Time Entries
+                </ng-template>
+                <ng-template matTabContent>
+                    <mat-card class="col-md-12">
+                    <div class=" row col-md-12">
+                        <table class="table table-striped">
+                            <thead class="bg-light-blue">
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Start Time</th>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Units</th>
+                                    <th scope="col">Rate</th>
+                                    <th scope="col">GST</th>
+                                    <th scope="col">Gross Amount</th>
+                                    <th scope="col" *ngIf = "!invoiceCreated">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let items of timeEntries; index as i">
+                                 <tr *ngFor="let item of items.billableItems; index as i">
+                                    <!-- <th scope="row"> {{ items.startTime | date:"mediumDate" }}</th>  -->
+                                    <td>  {{ item.startTime | date:"mediumDate" }} </td>
+                                     <td>
+                                        {{ item.startTime |  date: "shortTime" }}
+                                    </td>
+                                    <td>{{ item.billableItem.name }}</td>
+                                    <td>{{ item.billableItem.description }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.billableItem.unit }}</td>
+                                    <td>{{ item.billableItem.price }}/{{ item.billableItem.unit  | lowercase}}</td>
+                                    <td>{{ item.billableItem.gstCode }}</td>
+                                    <td>{{ item.cost | currency}}</td> 
+                                   <td *ngIf = "!invoiceCreated"><button mat-icon-button color="warn" matTooltip="Delete Time" type="button"
+                                    (click)="deleteTime(items,item)">
+                                <mat-icon>delete</mat-icon>
+                            </button></td>  
+                              </tr>
+                            </tbody>
+                        </table>
+                    </div>
+        
+                            <div class="row col-md-12">
+                                <div class="col-md-10">
+                                    <!-- offset -->
+                                </div>
+                                <div class="col-md-2">
+                                <table class="table table-striped">
+                                    <thead class="bg-light-blue">
+                                        <tr>
+                                            <th scope="col">Total Cost</th>
+                                            <!-- <th scope="col">AUD</th>                                             -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <!-- <th scope="row"></th> -->
+                                            <!-- <td></td> -->
+                                            <td>{{appointmentDetails && appointmentDetails.totalCost | currency}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                        </div>
+
+                        <div class = "row create-invoice" *ngIf = "!invoiceCreated">
+                           <p class = "create-invoice-text">The invoice for this appoinment will be automatically sent to <strong>{{appointmentDetails.patientEmail}}</strong></p>
+                            <p style= "font-size: 16px;">If you prefer, you can send it now</p>
+                            <button mat-raised-button (click)= "createInvoice(appointmentDetails)" class = "ml-4">Create Invoice</button>
+                        </div>
+
+                        <div class = "row create-invoice" *ngIf = "invoiceCreated">
+                            <p class = "create-invoice-text">The invoice for this appointment was manually generated on <strong>{{invoiceDetails && invoiceDetails.date  | date : "mediumDate"}}</strong> by <strong> {{invoiceDetails && invoiceDetails.triggeredByName}}</strong></p>
+                        </div>
+                    </mat-card>
+                </ng-template>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="mat-tab-label-icon flaticon2-document"></i>
+                    Notes
+                </ng-template>
+                <ng-template matTabContent>
+                    <div class = "row"> 
+                    <div class = "col-md-6">
+                        <mat-card class="example-card">
+                            <!-- <mat-card-header>
+                            </mat-card-header> -->
+                            <h6>External Notes</h6>
+                            <mat-card-content>
+                              <!-- <p>
+                                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+                                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+                                bred for hunting.
+                              </p> -->
+                              <p>{{appointmentDetails && appointmentDetails.externalNote != null ? appointmentDetails.externalNote : "No External Notes Found" }}</p>
+                            </mat-card-content>
+                       
+                          </mat-card>
+                    </div>
+                    <div class = "col-md-6">
+                        <mat-card class="example-card">
+                            <!-- <mat-card-header>
+                                <h6>Internal Notes</h6>
+                            </mat-card-header> -->
+                            <h6 class = "internal-notes">Internal Notes  <mat-icon (click)= "toggleNotes()" class = "visisbilty-icon">{{visibilityIcon}}</mat-icon></h6>
+                            <mat-card-content>
+                                <p *ngIf="showNotes">{{appointmentDetails && appointmentDetails.internalNote != null ? appointmentDetails.internalNote : "No Internal Notes Found" }}</p>
+                            </mat-card-content>
+                       
+                          </mat-card>
+
+                    </div>
+                </div>
+                <!-- <mat-card class = "col-md-6 text-center">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <mat-tab-group [(selectedIndex)]="selectedTab">
+
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        External Notes
+                                    </ng-template>
+                                    <ng-template matTabContent class="mb-2">
+                                        <div>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+                                        </div>
+                                        
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        Internal Notes
+                                    </ng-template>
+                                    <ng-template matTabContent class="mb-2">
+                                     <div>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                     </div>
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div> 
+                    </div>
+                </mat-card> -->
+            </ng-template>
+            </mat-tab>
+
+        </mat-tab-group>
+
+    </kt-portlet-body>
+
+</kt-portlet>

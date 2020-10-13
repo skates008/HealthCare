@@ -1,0 +1,228 @@
+<!-- {{ careplan | json  }} -->
+<kt-portlet>
+    <kt-portlet-header title="{{careplan.title}}" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTools>
+
+            <a href="javascript:;" (click)="back()" class="kt-margin-r-10" mat-raised-button
+                matTooltip="">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+            <a href="javascript:;" class="kt-margin-r-10" color="primary" (click)="edit(careplan)" mat-raised-button
+                matTooltip="">
+                <i class="la la-edit"></i>
+                <span class="kt-hidden-mobile">Edit</span>
+            </a>
+            <a href="javascript:;" (click)="downloadTss(careplan)" class="kt-margin-r-10" mat-raised-button>
+                <i class="kt-nav__link-icon flaticon2-graph-1"></i>
+                <span class="kt-hidden-mobile"> Therapy Service Summary</span>
+            </a>
+
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="row">
+            <div class="col-md-12">
+
+            </div>
+            <div class="col-md-6">
+                <!-- General Information Card -->
+                <mat-card class="kt-margin-bottom-20">
+                    <div class="row">
+                        <div class="col-md-12 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Start Date
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ careplan.startDate | date:'fullDate'}}
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Due Date
+                                    </div>
+                                    <div class="col-md-7">
+                                        <span *ngIf="!careplan.isDefault">{{careplan.dueDate | date: 'mediumDate'}}</span>
+                                        <span *ngIf="careplan.isDefault">N/A</span>
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Participant
+                                    </div>
+                                    <div class="col-md-7">
+                                        <a href="javacript:;" (click)="viewParticipant(careplan.patientId)">{{ careplan.patientName }}</a>
+                                    </div>
+                                   
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        NDIS
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ careplan.ndisNumber }}
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Main Practitioner
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ careplan.keyPractitionerName }}
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Practitioners
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p *ngFor="let item of careplan.practitioners; index as i">{{ item.name }}<span>,&nbsp;</span>
+                                        </p> 
+                                    </div>
+                                </mat-list-item>
+                                
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Status
+                                    </div>
+                                    <div class="col-md-7">
+                                        <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--success kt-badge--wide">{{ careplan.status }}</span>
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Billing Type
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ careplan.billingType }}
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Total budget
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ careplan.totalBudget | currency:'' }}
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Remaining fund
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ careplan.remainingFunds | currency:'' }}
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Service booking reference
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ careplan.serviceBookingReference }}
+                                    </div>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-md-6">
+                <kt-usernotes [careplanId]="careplan.id"></kt-usernotes>
+            </div>
+
+            <div class="col-md-12 mt-3" *ngIf="familyGoalsList">
+                <h4>Goals</h4>
+                <div class="border-box mt-1" *ngFor="let careplan of familyGoalsList; index as i">
+                    <div class="row mb-1" style="padding: 0px 10px">
+                        <div class="col-md-4 main-goal">
+                            <h6>Family goal title </h6>
+                            <p>{{ careplan.title }}</p>
+                        </div>
+
+                        <div class="col-md-4 main-goal">
+                            <h6>Strategy</h6> 
+                            <p>{{ careplan.strategy }}</p>
+                        </div>
+
+                        <div class="col-md-4 main-goal">
+                            <h6>Support</h6>
+                            <p>{{ careplan.support }}</p>
+                        </div>
+                    </div>
+                
+                    <mat-expansion-panel [expanded]="panelOpenState" class="kt-margin-bottom-20 mb-1 panel" *ngFor="let careplanItem of careplan.shortTermGoals; index as i">
+                        <mat-expansion-panel-header class="short-header">
+                            <mat-panel-title>
+                              {{ careplanItem.title }}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-lg-4 kt-margin-bottom-20-mobile mb-2">
+                                <h5 class="header-title">Goal description </h5>
+                                <p>{{ careplanItem.description }}</p>
+                            </div>
+                            <div class="col-lg-4 kt-margin-bottom-20-mobile mb-2">
+                                <h5 class="header-title">Goal outcome </h5>
+                                {{ careplanItem.outcome }}
+                            </div>
+                            <div class="col-lg-4 kt-margin-bottom-20-mobile mb-2">
+                                <h5 class="header-title">Goal outcome Detail </h5>
+                                {{ careplanItem.outcomeDetail }}
+                            </div>
+                            <div class="col-lg-4 kt-margin-bottom-20-mobile mb-2">
+                                <h5 class="header-title">Goal strategy </h5>
+                                {{ careplanItem.strategy }}
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </div>
+            </div>
+
+
+            <!-- <div class="col-md-12" style="margin-bottom: 30px;" *ngIf="familyGoalsList">
+                <div class="familgoal" *ngFor="let careplan of familyGoalsList; index as i">
+                    <h5>{{ careplan.title }}</h5>
+                    <table class="table table-striped">
+                        <thead class="bg-light-blue">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Goal title</th>
+                                <th scope="col">Goal description</th>
+                                <th scope="col">Goal outcome</th>
+                                <th scope="col">Goal outcome detail</th>
+                                <th scope="col">Goal strategy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let careplanItem of careplan.shortTermGoals; index as i" >
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{ careplanItem.title }} </td>
+                                <td>{{ careplanItem.description }} </td>
+                                <td>{{ careplanItem.outcome }}</td>
+                                <td>{{ careplanItem.outcomeDetail }}</td>
+                                <td>{{ careplanItem.strategy }} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+             
+            </div> -->
+
+
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

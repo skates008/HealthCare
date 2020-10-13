@@ -1,0 +1,342 @@
+<kt-portlet>
+    <kt-portlet-header [title]="getComponentTitle()" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTools>
+            <a [routerLink]="['../../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+            <a *ngIf="!resetButton" href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="reset()"
+                [disabled]="selectedTab !== 0" mat-raised-button matTooltip="Reset changes">
+                <i class="la la-cog"></i>
+                <span class="kt-hidden-mobile">Reset</span>
+            </a>
+            <a href="javascript:;" class="btn kt-margin-r-10" color="primary" (click)="onSubmit(false)"
+                mat-raised-button matTooltip="Save & Continue">
+                <span class="kt-hidden-mobile">Save</span>
+            </a>
+            <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item color="primary" (click)="onSubmit(true)">Save & Exit</button>
+                <button mat-menu-item color="primary" (click)="onSubmit(false)">Save & Continue</button>
+            </mat-menu>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+
+        <mat-tab-group [(selectedIndex)]="selectedTab">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="mat-tab-label-icon flaticon-user"></i>
+                    Therapy Service Details
+                </ng-template>
+                <ng-template matTabContent>
+                    <!-- Begin Form -->
+                    <div *ngIf="therapyService">
+                        <form [formGroup]="therapyServiceForm" class="kt-form kt-form--group-separator-dashed">
+
+                            <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="3000" [showCloseButton]="true"
+                                (close)="onAlertClose($event)">
+                                Something went wrong, please make changes and try saving again.
+                            </kt-alert>
+
+
+                            <div class="kt-form__section kt-form__section--first">
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <div class="form-group">
+                                            <mat-form-field class="mat-form-field-fluid">
+                                                <input matInput [matDatepicker]="picker" placeholder="Choose a date"
+                                                    formControlName="issueDate" required>
+                                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                                <mat-hint align="start">Please choose Issue Date <strong>date </strong>
+                                                </mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter title"
+                                                formControlName="title" />
+                                            <mat-error>title is <strong>required</strong></mat-error>
+                                            <mat-hint align="start">Please enter <strong>title</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+
+
+                                    <div class="col-xl-3">
+                                        <div class="form-group">
+                                            <mat-form-field class="mat-form-field-fluid">
+                                                <input matInput [matDatepicker]="picker1" placeholder="Choose Start date"
+                                                    formControlName="startDate" required>
+                                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                                <mat-hint align="start">Please choose Start Date <strong>date </strong>
+                                                </mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3">
+                                        <div class="form-group">
+                                            <mat-form-field class="mat-form-field-fluid">
+                                                <input matInput [matDatepicker]="picker2" placeholder="Choose End Date"
+                                                    formControlName="startDate" required>
+                                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker2></mat-datepicker>
+                                                <mat-hint align="start">Please choose End Date <strong>date </strong>
+                                                </mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group kt-form__group row">
+                                    <!-- Provider Name -->
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Provider's Name"
+                                                formControlName="providerName" />
+                                            <mat-error>Provider name is <strong>required</strong></mat-error>
+                                            <mat-hint align="start">Please enter <strong>Provider name</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Provider address -->
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Provider's address"
+                                                formControlName="providerAddress" />
+                                            <mat-error>Provider's address is <strong>required</strong></mat-error>
+                                            <mat-hint align="start">Please enter <strong>Provider's address</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Provider email -->
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Provider's email" formControlName="providerEmail" />
+                                            <mat-hint align="start">Please enter <strong>Provider's email</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                     <!-- Provider NDIS -->
+                                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Provider's NDIS" formControlName="providerNDIS" />
+                                            <mat-hint align="start">Please enter <strong>Provider's NDIS</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div class="form-group kt-form__group row">
+                                    <!-- Participant Name -->
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Participant's Name"
+                                                formControlName="participantName" />
+                                            <mat-error>Participant name is <strong>required</strong></mat-error>
+                                            <mat-hint align="start">Please enter <strong>Participant name</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Participant address -->
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Participant's address"
+                                                formControlName="participantAddress" />
+                                            <mat-error>Participant's address is <strong>required</strong></mat-error>
+                                            <mat-hint align="start">Please enter <strong>Participant's address</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- Participant email -->
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Participant's email" formControlName="participantEmail" />
+                                            <mat-hint align="start">Please enter <strong>Participant's email</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                     <!-- Participant NDIS -->
+                                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Participant's NDIS" formControlName="participantNDIS" />
+                                            <mat-hint align="start">Please enter <strong>Participant's NDIS</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div class="form-group kt-form__group row">
+
+                                     <!-- Plan family Goal -->
+                                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Family Goal" formControlName="familyGoal" />
+                                            <mat-hint align="start">Please enter <strong>Plan family Goal</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- Plan incharge Name -->
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Plan incharge Name" formControlName="planInchargeName" />
+                                            <mat-hint align="start">Please enter <strong>Plan incharge Name</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- Plan incharge Email -->
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Plan incharge Email" formControlName="planInchargeEmail" />
+                                            <mat-hint align="start">Please enter <strong>Plan incharge Email</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+
+                                     <!-- Plan incharge Phone -->
+                                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter Plan incharge Phone" formControlName="planInchargePhone" />
+                                            <mat-hint align="start">Please enter <strong>Plan incharge Phone</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <!-- therapyService items a-->
+                                <div class="row mb-3">
+                                    <div class="col-xl-12">
+                                        <kt-portlet>
+                                            <kt-portlet-header [title]="'Short Term Goals'"
+                                                [class]="'kt-portlet__head--lg'">
+                                            </kt-portlet-header>
+
+                                            <kt-portlet-body>
+                                                <div class="kt-wizard-v2__content">
+                                                    <div class="kt-form__section kt-form__section--first"
+                                                        *ngFor="let therapyServiceItemGroup of therapyServiceForm.controls.shortTermGoals.controls; let i=index">
+
+                                                        <div class="kt-wizard-v2__form" [formGroup]="therapyServiceItemGroup">
+                                                            <div class="col-xl-3">
+                                                                <div class="form-group">
+                                                                    <label>Family name</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="name" formControlName="name"
+                                                                        placeholder="Family name">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" *ngFor="let goalsItemGroup of therapyServiceItemGroup.controls.goals.controls; let i=index">
+                                                                <div class="col-xl-3">
+                                                                    <div class="form-group">
+                                                                        <label>Goal Description</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="goalDescription" formControlName="goalDescription"
+                                                                            placeholder="Goal Description">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xl-3">
+                                                                    <div class="form-group">
+                                                                        <label>Goal OutCome</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="goalOutCome" formControlName="goalOutCome"
+                                                                            placeholder="Goal OutCome">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xl-3">
+                                                                    <div class="form-group">
+                                                                        <label>Goal OutCome Detail</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="goalOutComeDetail" formControlName="goalOutComeDetail"
+                                                                            placeholder="Goal OutCome Detail">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xl-2">
+                                                                    <div class="form-group">
+                                                                        <label>Goal Strategy</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="goalStrategy" formControlName="goalStrategy"
+                                                                            placeholder="">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xl-1">
+                                                                    <div class="form-group">
+                                                                        <label>Action</label>
+                                                                        <div class="label">
+                                                                            <button mat-icon-button color="warn"
+                                                                                matTooltip="Delete Short term Goal Item"
+                                                                                type="button" (click)="deleteItems(i)">
+                                                                                <mat-icon>delete</mat-icon>
+                                                                            </button>
+
+                                                                            <button mat-icon-button color="warn"
+                                                                            matTooltip="Add Goal Item"
+                                                                            type="button" (click)="addgoalsItem(i)">
+                                                                            <mat-icon>add</mat-icon>
+                                                                        </button>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </kt-portlet-body>
+
+                                            <kt-portlet-footer>
+                                                <div class="kt-form__actions">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <button type="button" (click)="addTherapyServiceItem()"
+                                                                name="builder_submit" class="btn btn-secondary"
+                                                                mat-raised-button>
+                                                                <i class="la la-plus"></i>
+                                                                Add Short Term Goals
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </kt-portlet-footer>
+                                        </kt-portlet>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>Further Therapy Recommendation</label>
+                                            <textarea rows="6" class="form-control" name="furtherTherapy" formControlName='furtherTherapy'
+                                                value=""></textarea>
+                                            <span class="form-text text-muted">Please add recommendation</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </kt-portlet-body>
+</kt-portlet>

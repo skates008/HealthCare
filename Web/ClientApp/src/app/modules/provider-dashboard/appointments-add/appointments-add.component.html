@@ -1,0 +1,124 @@
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">{{headerTitle}}</h3>
+            <mat-icon (click)="closeDialogBox()" class="close-icon">close</mat-icon>
+        </div>
+    </div>
+    <div>
+        <div class="kt-form">
+            <div class="kt-portlet__body">
+                <div>
+                    <div class="form-group kt-form__group row">
+                        <label for="pratitioner" class="col-sm-4 col-form-label">Practitioner</label>
+                        <div class="col-m-8">
+                            <select2   [data]="practitionerList" [width] = "450" 
+                                [value]="appointment.practitioner && appointment.practitioner.id"
+                                (valueChanged)="therapistChanged($event)" [options]="options"></select2>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group kt-form__group row">
+                        <label for="type" class="col-sm-4 col-form-label">Type</label>
+                        <div class="col-sm-8 input-text">
+                            <select class="form-control select-input" [(ngModel)]="appointment.type">
+                                <option disabled value="" selected> Select Type of Appointment</option>
+                                <option>Standard Appointment</option>
+                                <option>General Appointment</option>
+                            </select>
+                        </div>
+                    </div> -->
+                    
+                    <div class="form-group kt-form__group row">
+                        <label for="type" class="col-sm-4 col-form-label">Clients</label>
+                        <div class="col-m-8">
+                            <select2 [data]="participantList" [width] = "450" placeholder = "Choose you participant"
+                                [value]="appointment.participant && appointment.participant.id"
+                                (valueChanged)="changed($event)" [options]="options"></select2>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group kt-form__group row ">
+                    <label for=" type" class="col-sm-4 col-form-label">Select Date and Time</label>
+                    <div class = "col-sm-8 row  select-input">
+                    <div class="col-sm-5" class="time-picker">
+                        <input class = "form-control"[owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" [(ngModel)]="appointment.starttimeObj"
+                            placeholder="Select Start Time"   (dateTimeChange)="onChangeTime($event)">
+                        <owl-date-time #dt1></owl-date-time>
+                    </div>
+                    <div class="col-sm-1 label-to">
+                        <label>To</label>
+                    </div>
+                    <div class="col-sm-5 time-picker">
+                        <input class = "form-control" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2"  placeholder="Select End Time"
+                            [(ngModel)]="endtime">
+                        <owl-date-time #dt2></owl-date-time>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-group kt-form__group row" *ngIf="selecTimeErr">
+                    <label for="type" class="col-sm-4 col-form-label">
+                    </label>
+                    <label for="type" class="col-sm-8 col-form-label time-error">
+                        {{selecTimeErrText}}
+                    </label>
+                </div>
+
+
+                <div class="form-group kt-form__group row">
+                    <label for="type" class="col-sm-4 col-form-label">Choose your Address</label>
+                    <div class="col-sm-8 input-text">
+                    <mat-form-field  class="mat-form-field-fluid select-input"  appearance="outline">
+                        <mat-select (selectionChange)="selectAddress($event.value)" placeholder = "Choose you Address" [(ngModel)]="appointment.addressType">
+                            <mat-option  *ngFor="let addressOption of addressOptions" [value]="addressOption">{{addressOption}}</mat-option>
+                            <!-- <mat-option *ngIf = "hasSchoolAddress" value="school">School Address</mat-option>
+                            <mat-option value="other">Other</mat-option> -->
+                        </mat-select>
+                    </mat-form-field>
+                    </div>
+                </div>
+
+                
+                <div class="form-group kt-form__group row" *ngIf = "showAddress" >
+                    <label for="type" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8 input-text">
+                        <mat-form-field class="mat-form-field-fluid select-input"  appearance="outline">
+                                <input [disabled] = "inputDisabled" matInput placeholder = "Enter your address" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" [(ngModel)]="appointment.location"/>
+                          </mat-form-field>                
+                     </div>
+                </div>
+
+               
+
+                <div class="form-group kt-form__group row">
+                    <label for="type" class="col-sm-4 col-form-label" >Note</label>
+                    <div class="col-sm-8 input-text">
+                         <textarea   type="text" class="form-control select-input" placeholder="Enter your notes" [(ngModel)]="appointment.note" ></textarea>
+                    </div>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-8">
+                            <button (click)="submit()" 
+                                class="btn btn-md kt-font-bold kt-font-transform-u new-appointment-save"
+                                data-ktwizard-type="action-submit">
+                                {{buttonText}}
+                            </button>
+                            &nbsp;
+                            <button type="button" mat-raised-button [mat-dialog-close]="" cdkFocusInitial
+                                matTooltip="Cancel changes">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

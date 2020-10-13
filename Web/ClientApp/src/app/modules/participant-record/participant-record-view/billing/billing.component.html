@@ -1,0 +1,62 @@
+<kt-portlet [class]="'kt-portlet--tabs'">
+    <kt-portlet-header title="History List" [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTools>
+            <!-- <button class="new-user ml-5" [routerLink]="['/participant-record/participants/add']" mat-raised-button
+				matTooltip="Create new User">New participant</button> -->
+            <!-- Buttons (Material Angular) | See off.documenations 'https://material.angular.io/components/button/overview' -->
+            <!-- mat-raised-button | Rectangular contained button w/ elevation  -->
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+
+
+        <div class="mat-table__wrapper">
+            <table mat-table class="mat-elevation-z8" #table matSort #sort1="matSort"
+                matSortActive="id" matSortDirection="asc" matSortDisableClear multiTemplateDataRows>
+
+                <!-- ID -->
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+                    <td mat-cell *matCellDef="let history">{{history && history.date | date}}</td>
+                </ng-container>
+                <!-- First Name -->
+                <ng-container matColumnDef="practitioner">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Practitioner</th>
+                    <td mat-cell *matCellDef="let history">{{history &&  history.practitioner}}</td>
+                </ng-container>
+                <!-- Last Name -->
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+                    <td mat-cell *matCellDef="let history">{{history && history.type}}</td>
+                </ng-container>
+                <!-- Last Name -->
+
+                <ng-container matColumnDef="time">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Appointment Time</th>
+                    <td mat-cell *matCellDef="let history">{{history && history.starttime}} to
+                        {{history && history.endtime}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="note">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Note</th>
+                    <td mat-cell *matCellDef="let history">{{history && history.note}}</td>
+                </ng-container>
+                <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+                    [class.example-expanded-row]="expandedElement === row"
+                    (click)="expandedElement = expandedElement === row ? null : row"></tr> -->
+            </table>
+            <!-- <div class="mat-table__message" *ngIf="!historyAppointments.hasItems">No records found!</div> -->
+            <!-- <div class="mat-table__message" *ngIf="historyAppointments.isPreloadTextViewed$ | async">Please wait..
+            </div> -->
+            <!-- <div class="mat-table__bottom">
+                <mat-spinner [diameter]="20" *ngIf="historyAppointments.loading$ | async"></mat-spinner>
+                <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]"
+                    [length]="historyAppointments.paginatorTotal$ | async" [showFirstLastButtons]="true">
+                </mat-paginator>
+            </div> -->
+        </div>
+    </kt-portlet-body>
+
+</kt-portlet>

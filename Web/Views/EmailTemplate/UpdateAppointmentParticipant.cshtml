@@ -1,0 +1,91 @@
+﻿@model Caretaskr.Common.ViewModel.AppointmentUpdateNotificationViewModel
+
+<table style="border-collapse:collapse;table-layout:fixed;min-width:550px;width:100%;background-color:#f0f0f0" cellpadding="0" cellspacing="0" role="presentation">
+    <tbody>
+        <tr>
+            <td>
+                <div role="banner" sstyle="border-bottom: 1px solid #eee">
+                    <div style="margin:0 auto;max-width:560px;min-width:280px;width:280px;width:calc(28000% - 167440px)">
+                        <div style="border-collapse:collapse;display:table;width:100%">
+
+                            <div style="display:table-cell;Float:left;font-size:12px;line-height:19px;max-width:280px;min-width:140px;width:140px;width:calc(14000% - 78120px);padding:10px 0 5px 0;color:#969da3;font-family:Avenir,sans-serif">
+
+                            </div>
+
+                            <div style="display:table-cell;Float:left;font-size:12px;line-height:19px;max-width:280px;min-width:139px;width:139px;width:calc(14100% - 78680px);padding:10px 0 5px 0;text-align:right;color:#969da3;font-family:Avenir,sans-serif">
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <div style="margin:0 auto;max-width:600px;min-width:550px;width:550px;width:calc(28000% - 167400px);word-wrap:break-word;word-break:break-word">
+                        <div style="border-collapse:collapse;display:table;width:100%;background-color:#ffffff">
+
+                            <div style="text-align:left;color:#5d5d5d;font-size:14px;line-height:21px;font-family:Roboto,Tahoma,sans-serif">
+
+                                <div style="margin-left:20px;margin-right:20px;margin-top:24px">
+                                    <div style="line-height:5px;font-size:1px">&nbsp;</div>
+                                </div>
+
+                                <div style="margin-left:20px;margin-right:20px;margin-bottom:24px">
+                                    <div style="vertical-align:middle">
+                                        <h3 style="margin-top:0;margin-bottom:0;font-style:normal;font-weight:bold;font-size:16px;line-height:24px;text-align:left">
+                                            APPOINTMENT RESCHEDULED
+                                        </h3><p class="m_-6274391356153522653size-16" style="margin-top:12px;margin-bottom:0;font-size:16px;line-height:24px" lang="x-size-16">
+                                            Hi @Model.ParticipantName,
+                                        </p><p class="m_-6274391356153522653size-16" style="margin-top:20px;margin-bottom:0;font-size:16px;line-height:24px" lang="x-size-16">
+                                            Your appointment has been rescheduled From  @Model.PrevAppointmentDate
+                                            to  @Model.AppointmentDate .
+                                        </p><p style="margin-top:20px;margin-bottom:30px;font-size:16px;line-height:24px" lang="x-size-16">
+                                            If you have any questions or special requests please feel free to contact us.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div style="margin:0 auto;max-width:600px;min-width:550px;width:550px;width:calc(28000% - 167400px);word-wrap:break-word;word-break:break-word">
+                        <div style="border-collapse:collapse;display:table;width:100%;background-color:#ffffff">
+
+                            <div style="text-align:left;color:#5d5d5d;font-size:14px;line-height:21px;font-family:Roboto,Tahoma,sans-serif;max-width:320px;min-width:300px;width:320px;width:calc(12300px - 2000%);Float:left">
+
+
+
+                                <div style="margin-left:20px;margin-right:20px;margin-bottom:24px">
+                                    <div style="vertical-align:middle">
+                                        <h3 style="margin-top:0;margin-bottom:0;font-style:normal;font-weight:bold;font-size:16px;line-height:24px">
+                                            INFO
+                                        </h3><p style="margin-top:12px;margin-bottom:0">
+                                            <strong>Start Time: </strong>@Model.StartTime<br>
+                                            <strong>End Time: </strong>@Model.EndTime<br>
+                                            <strong>Practitoner: </strong>@Model.PractitionerName<br>
+                                            <strong>Address: </strong>@Model.Address.Address
+                                        </p>
+                                        <p style="margin-top: 12px;font-size: 15px;line-height: 25px;margin-bottom: 25px;font-family:Roboto,Tahoma,sans-serif;">
+                                            Thank You
+
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div style="text-align:left;color:#5d5d5d;font-size:14px;line-height:21px;font-family:Roboto,Tahoma,sans-serif;max-width:320px;min-width:300px;width:320px;width:calc(12300px - 2000%);Float:left">
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

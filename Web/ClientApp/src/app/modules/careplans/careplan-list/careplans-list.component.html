@@ -1,0 +1,118 @@
+<kt-portlet [class]="'kt-portlet--tabs'">
+	<kt-portlet-header [title]="'Care Plans'" [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+		<ng-container ktPortletTools>
+		</ng-container>
+	</kt-portlet-header>
+
+	<kt-portlet-body>
+		<div class="kt-form">
+			<div class="kt-form__filtration">
+				<div class="row align-items-center">
+					<div class="col-md2 kt-margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Search Care Plans" #searchInput>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="mat-table__wrapper">
+			<table mat-table class="mat-elevation-z8" #table [dataSource]="careplansResult" matSort #sort1="matSort"
+				   matSortActive="status" matSortDirection="asc" matSortDisableClear multiTemplateDataRows>
+
+				<!-- ID -->
+				<ng-container matColumnDef="id">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header style="display:none;">S.no</th>
+					<td mat-cell *matCellDef="let Careplan; let i = dataIndex;" style="display:none;">{{i+1}}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="status">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+					<td mat-cell *matCellDef="let Careplan">
+						<span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--success kt-badge--wide">{{ Careplan.status }}</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="ndisNumber">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Ndis Number</th>
+					<td mat-cell *matCellDef="let Careplan">{{Careplan.ndisNumber }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="Participant">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Participant</th>
+					<td mat-cell *matCellDef="let Careplan">{{Careplan.patientName }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="availableBudget">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Available Budget</th>
+					<td mat-cell *matCellDef="let Careplan">
+						<span *ngIf="Careplan.availableBudget">{{Careplan.availableBudget | currency:'' }}</span>	
+						<span *ngIf="!Careplan.availableBudget">N/A</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="title">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+					<td mat-cell *matCellDef="let Careplan">{{ Careplan.title }}</td>
+				</ng-container>
+
+				<!-- Start Date -->
+				<ng-container matColumnDef="start">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+					<td mat-cell *matCellDef="let Careplan">{{Careplan.startDate | date: 'mediumDate'}}</td>
+				</ng-container>
+
+
+				<!-- end Date -->
+				<ng-container matColumnDef="end">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+					<td mat-cell *matCellDef="let Careplan">{{Careplan.dueDate | date: 'mediumDate'}}</td>
+				</ng-container>
+				
+				<!-- Review Date -->
+				<ng-container matColumnDef="reviewDate">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Review Date</th>
+					<td mat-cell *matCellDef="let Careplan">
+						<span *ngIf="!Careplan.isDefault">{{Careplan.reviewDate | date: 'mediumDate'}}</span>
+						<span *ngIf="Careplan.isDefault">N/A</span>
+					</td>
+				</ng-container>
+				
+				<!-- Action -->
+				<ng-container matColumnDef="actions">
+					<th mat-header-cell *matHeaderCellDef>Actions</th>
+					<td mat-cell *matCellDef="let Careplan" class="Careplan-actions">
+						<button (click)="viewCareplan(Careplan)" mat-icon-button color="primary"
+								matTooltip="View Careplan">
+							<mat-icon>visibility</mat-icon>
+						</button>&nbsp;
+						<button mat-icon-button color="warn" matTooltip="Delete Careplan" type="button"
+								(click)="deleteCareplan(Careplan)">
+							<mat-icon>delete</mat-icon>
+						</button>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+					[class.example-expanded-row]="expandedElement === row"
+					(click)="expandedElement = expandedElement === row ? null : row"></tr>
+			</table>
+
+			<div class="mat-table__message" *ngIf="!careplanshasItems">
+				"It appears that you currently don't have any care plans. Please schedule an appointment with your
+				preferred practitioner to organise a new care plan"
+			</div>
+			
+		</div>
+
+
+		<div class="mat-table__bottom">
+			<mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+			<mat-paginator (page)="pageEvent = $event" [pageSize]="30" [pageSizeOptions]="[30, 60, 90]" [length]="dataSource.paginatorTotal$ | async"
+				[showFirstLastButtons]="true"></mat-paginator>
+		</div>
+
+	</kt-portlet-body>
+</kt-portlet>

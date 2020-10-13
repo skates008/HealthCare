@@ -1,0 +1,139 @@
+
+@import '../../../../assets/sass/config';
+
+
+h3 {
+    margin: 0 0 10px;
+  }
+  
+  pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+  }
+  $primaryColor: #e44868;
+
+
+.new-appointment {
+  height: 35px;
+  display: block;
+  background-color: $primaryColor;
+  color: kt-brand-color(inverse);
+  
+}
+.new-appointment:hover{
+  background-color: darken($primaryColor, (20%));
+}
+
+.app-top {
+    margin: 0 0 3em;
+  }
+  
+  .app-calendar {
+    margin: 0 auto;
+    max-width: 900px;
+  }
+
+  .appointment-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+ 
+  .filter-input{
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 15px 0px;
+    border-radius: 5px;
+    color: black;
+  }
+
+  .close-icon{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    border-radius: 14px;
+    cursor: pointer!important;
+  }
+
+  .appointment-time{
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .basic-details-header {
+    font-weight: 500;
+    font-size:16px;
+  }
+  .profile-info p {
+    font-size: 16px;
+    margin-left : 8px;
+  }
+
+  .notes p {
+    font-size: 16px;
+    margin-left : 8px;
+  }
+
+  .bg-light-blue {
+    background: #c7c7f7;
+}
+
+.create-invoice{
+    border: 1px solid #d3d3d3;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.create-invoice-text{
+  width: 100%;
+  font-size: 16px;
+}
+
+.highlighted-text{
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.appointment-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.appt-name-header{
+  font-size: 20px;
+  font-weight: 500;
+  color: #000000;
+
+}
+
+.time-header{
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: 14px;
+  color: #000000;
+  margin-top: 4px;
+}
+
+.word-break{
+  word-wrap: break-word;
+}
+
+// .example-card {
+//   max-width: 400px;
+// }
+
+// .profile-info div{
+//   display: flex;
+// }
+
+.visisbilty-icon{
+  position: absolute;
+  padding-left: 10px;
+  cursor: pointer!important;
+}
+
+.internal-notes{
+  position: relative;
+}
+

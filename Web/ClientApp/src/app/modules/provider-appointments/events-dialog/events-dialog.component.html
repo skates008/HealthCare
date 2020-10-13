@@ -1,0 +1,63 @@
+<div class = "container appt-details-dialog">
+    <mat-icon (click)="closeDialogBox()" class="close-icon">close</mat-icon>
+    <div class = "row">
+        <div class = "col-md-8 appointment-time">
+            <p>{{eventDetails && eventDetails.appointmentDate | date : "mediumDate"}}</p>
+            <p>{{eventDetails && eventDetails.startTime | date: "shortTime" }} to
+                {{eventDetails && eventDetails.endTime | date: "shortTime" }}</p>
+        </div>
+        <div class = "col-md-4 text-right">
+            <button mat-raised-button color = "primary" (click) = "goToAppointmentDetails(eventDetails);">Details</button>
+        </div>
+    </div>
+    <div class = "row">
+        <div class = "col-md-6 basic-details">
+            <div>
+            <p class = "basic-details-header">Client</p>
+            <p>{{eventDetails && eventDetails.patientName}}</p>
+        </div>
+
+        <div>
+            <p class = "basic-details-header">Practitioner</p>
+            <p>{{eventDetails && eventDetails.practitionerName}}</p>
+        </div>
+        <div>
+            <p class = "basic-details-header">Location</p>
+            <!-- <p>{{eventDetails && eventDetails.addressType}}</p> -->
+            <p>{{eventDetails && eventDetails.address.address}}</p>
+        </div>
+        <!-- <div>
+            <p class = "basic-details-header">External Notes</p>
+            <p class = "break-word">{{eventDetails && eventDetails.internalNote}}</p>
+        </div> -->
+        </div>
+        <div class = "col-md-6">
+            <div>
+                <iframe width="100%" height="200" frameborder="0" style="border:0"[src]="locationSrc |  safe: 'resourceUrl'"></iframe>
+            </div>
+            <!-- <div class = "notes mt-4">
+                <p class = "basic-details-header">Internal Notes</p>
+                <p class = "break-word">{{eventDetails && eventDetails.internalNote}}</p>
+            </div> -->
+           
+        </div>
+
+    </div>
+    <div class = "row mt-4">
+        <div class = "col-md-6">
+            <p class = "basic-details-header">External Notes</p>
+            <p class = "break-word">{{eventDetails && eventDetails.externalNote != null ? eventDetails.externalNote : "No  External Notes Found" }}</p>
+            <!-- <p  class = "break-word"> The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+                bred for hunting.</p> -->
+        </div> 
+        <div class = "col-md-6">
+            <p class = "basic-details-header internal-notes">Internal Notes  <mat-icon (click)= "toggleNotes()" class = "visisbilty-icon">{{visibilityIcon}}</mat-icon></p>
+            <p class = "break-word"  *ngIf="showNotes">{{eventDetails && eventDetails.internalNote != null ? eventDetails.internalNote : "No Internal Notes Found" }}</p>
+
+            <!-- <p  class = "break-word"> The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+                bred for hunting.</p> -->
+        </div> 
+    </div>
+</div>

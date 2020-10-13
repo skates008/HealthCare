@@ -1,0 +1,100 @@
+.check-in-btn{
+   background-color: #51dd3b;
+   color: #ffffff;
+   float: left;
+}
+.appt-actions{
+    border-bottom: 1px solid #ebedf2;
+    margin-bottom: 10px;
+}
+
+.edit-btn{
+    background-color: #5867dd;
+    color: #ffffff;
+}
+
+.cancel-btn{
+    background-color: #f74242;
+    color: #ffffff;
+}
+
+.client-details{
+    // padding-top: 12px;
+}
+
+.appt-detail span {
+    font-weight: 500;
+}
+
+.client-details span {
+    font-weight: 500;
+    margin-left: 15px;
+}
+
+.close-icon{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    border-radius: 14px;
+    cursor: pointer!important;
+  }
+
+  .btn-icon{
+      padding-top: 2px;
+  }
+
+  .checkout-form-header{
+    border-bottom: 1px solid #ebedf2;
+    font-weight: 600;
+  }
+
+  .checkout-form-details{
+    margin-top: 12px;
+  }
+
+ .billable-header{
+    margin-bottom: 20px;
+}   
+
+.checkedin-time{
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.cancel-appointment-header{
+    padding: 20px 0px;
+    border-top: 1px solid #d3d3d3;
+}
+
+.reason-header{
+    font-size: 16px;
+    margin-bottom: 18px;
+}
+
+.header-title{
+    border-bottom: 1px solid #d3d3d3;
+    padding-bottom: 10px;
+}
+
+.navigate-btn{
+    background-color: #5867dd;
+    color: #ffffff;
+    // margin-right: 8px;
+    float: right;
+
+}
+
+.kt-portlet .kt-portlet__body {
+    display: flex;
+    flex-direction: column;
+    /* padding: 0px 25px 0px 25px; */
+    padding: 10px 25px !important;
+    border-radius: 4px;
+}
+
+.actions-btns{
+    margin-top: 10px;
+}
+

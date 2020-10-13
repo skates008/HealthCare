@@ -1,0 +1,73 @@
+<div class="kt-portlet" [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">{{ getTitle() }}</h3>
+        </div>
+    </div>
+    <div>
+        <div class="kt-form" *ngIf="note">
+                <div class="form-group kt-form__group row">
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-md-12 profile-info-detail">
+										<mat-list>
+											<mat-list-item>
+												<div class="col-md-4 profile-info">
+													Type
+												</div>
+												<div class="col-md-8">
+													{{note.type}} 
+												</div>
+											</mat-list-item>
+											<mat-divider></mat-divider>
+										</mat-list>
+									</div>
+								</div>
+                            </div>
+
+                            <div class="col-md-6">
+								<div class="row">
+									<div class="col-md-12 profile-info-detail">
+										<mat-list>
+											<mat-list-item>
+												<div class="col-md-4 profile-info">
+													Created by
+												</div>
+												<div class="col-md-8">
+													{{note.createdByUserName}}
+												</div>
+											</mat-list-item>
+											<mat-divider></mat-divider>
+										</mat-list>
+									</div>
+                                </div>
+							</div>
+
+							<div class="col-md-12 profile-info-detail">
+								<mat-list>
+									<mat-list-item style="height: auto;">
+										<div class="col-md-12" style="max-height: 60vh; overflow-y: auto;">
+											<p>Description:</p>
+											{{note.text}} 
+										</div>
+									</mat-list-item>
+								</mat-list>
+                            </div>
+                </div>
+            <div class="kt-portlet__foot kt-portlet__foot--fit kt-portlet__no-border">
+                <div class="kt-form__actions kt-form__actions--solid">
+                    <div class="row text-right">
+                        <div class="col-lg-12">
+                            <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial matTooltip="Cancel">
+                                Cancel
+                            </button>&nbsp;
+                            <!-- <button type="button" mat-raised-button color="primary" (click)="editNote(note.id)" matTooltip="Edit">
+                                Edit
+                            </button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

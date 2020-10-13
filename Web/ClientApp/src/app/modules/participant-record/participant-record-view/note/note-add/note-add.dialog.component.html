@@ -1,0 +1,131 @@
+<div class="kt-portlet" [ngClass]="{ 'kt-portlet--body-progress kt-portlet--body-progress-overlay' : viewLoading }">
+	<div class="kt-portlet__head kt-portlet__head__custom">
+		<div class="kt-portlet__head-label">
+			<h3 class="kt-portlet__head-title">{{getTitle()}}</h3>
+		</div>
+	</div>
+	<form class="kt-form" [formGroup]="noteForm">
+		<div class="kt-portlet__body">
+
+			<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+				(close)="onAlertClose($event)">
+				Oh snap! Change a few things up and try submitting again.
+			</kt-alert>
+
+			<div class="row">
+				<!-- Type of Note -->
+				<div class="col-lg-6 kt-margin-bottom-20-mobile">
+				  <mat-form-field class="mat-form-field-fluid">
+					  <mat-label>Select type</mat-label>
+					  <mat-select formControlName="type" required>
+						  <mat-option value="internal">Internal</mat-option>
+						  <mat-option value="external">External</mat-option>
+					  </mat-select>
+					  <mat-error>Type is <strong>required</strong></mat-error>
+					  <mat-hint align="start">Please enter <strong>type</strong></mat-hint>
+				  </mat-form-field>
+			  </div>
+		  </div>
+		  
+		  <div class="kt-separator kt-separator--dashed"></div>
+
+			<div class="row">
+				<div class="col-lg-6 kt-margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput placeholder="Enter Title" formControlName="title" />
+						<mat-error>Title is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>Title</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+						
+				<div class="col-lg-6 kt-margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<textarea matInput placeholder="Enter Description" formControlName="text"></textarea>
+						<mat-error>Description is
+							<strong>required</strong>
+						</mat-error>
+						<mat-hint align="start">Please enter
+							<strong>Description</strong>
+						</mat-hint>
+					</mat-form-field>
+				</div>
+
+			</div>
+
+			<div class="kt-separator kt-separator--dashed"></div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<h3>Upload files</h3>
+					<!-- Multiple -->
+					<input type="file" ng2FileSelect [uploader]="uploader" multiple multiple class="form-control">
+				</div>
+				
+				<div class="col-md-12">
+					<table class="table mt-2">
+						<thead class="thead-light">
+						<tr>
+							<th width="50%">Name</th>
+							<th>Size</th>
+							<th>Status</th>
+							<th>Actions</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let item of uploader.queue">
+							<td><strong>{{ item?.file?.name }}</strong></td>
+							<td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+							<td>
+								local
+							</td>
+							<td nowrap>
+
+								<button mat-icon-button color="primary" matTooltip="Cancel file" (click)="item.cancel()" [disabled]="!item.isUploading">
+									<mat-icon>cancel</mat-icon>
+								</button>&nbsp;
+
+								<button mat-icon-button color="primary" matTooltip="Delete file" (click)="item.remove()">
+									<mat-icon>delete</mat-icon>
+								</button>
+
+							</td>
+						</tr>
+						</tbody>
+					</table>
+		 
+					<div>
+						<button class="btn btn-primary kt-margin-r-10" color="primary" mat-raised-button matTooltip="" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+							<span class="kt-hidden-mobile"><i class="la la-cancel"></i> Cancel all</span>
+						</button>
+			
+						<button class="btn btn-secondry kt-margin-r-10" color="primary" mat-raised-button matTooltip="" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+							<i class="la la-trash"></i><span class="kt-hidden-mobile">Remove all</span>
+						</button> 
+					</div>
+		 
+				</div>
+			</div>
+		</div>
+
+		<div class="kt-portlet__foot kt-portlet__no-border kt-portlet__foot--fit">
+			<div class="kt-form__actions kt-form__actions--solid">
+				<div class="row text-right">
+					<div class="col-lg-12">
+						<button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
+							matTooltip="Cancel changes">
+							Cancel
+						</button>&nbsp;
+						<button type="button" mat-raised-button color="primary" (click)="onSubmit()"
+							[disabled]="noteForm.invalid" matTooltip="Save changes">
+							Save
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

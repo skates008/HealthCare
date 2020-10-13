@@ -1,0 +1,104 @@
+<kt-portlet>
+	<!-- PORTLET LOADING | Binded to TABLE Datasource -->
+	<!-- See prop => '~/core/_crud/models/data-sources/_base.datasource.ts' (loading$) -->
+	<kt-portlet-header [title]="'Users'" [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+		<ng-container ktPortletTools>
+			<button [routerLink]="['../users/add']" mat-raised-button color="primary" matTooltip="Create New User"><i class="la la-plus"></i>Add
+				User</button>
+			<!-- Buttons (Material Angular) | See off.documenations 'https://material.angular.io/components/button/overview' -->
+			<!-- mat-raised-button | Rectangular contained button w/ elevation  -->
+		</ng-container>
+	</kt-portlet-header>
+	<!-- end::Header -->
+
+	<!-- start::Body (attribute: ktPortletBody) -->
+	<kt-portlet-body>
+		<!-- start::FILTERS & GROUP ACTIONS -->
+		<div class="kt-form kt-margin-b-30">
+			<!-- start::FILTERS -->
+			<div class="kt-form__filtration">
+				<div class="row align-items-center">
+					<div class="col-md-2 kt-margin-bottom-10-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Search user" #searchInput placeholder="Search">
+							<mat-hint align="start">
+								<strong>Search</strong> in all fields
+							</mat-hint>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end::FILTERS & GROUP ACTIONS -->
+
+		<!-- MATERIAL TABLE | Binded to datasources -->
+		<!-- See off.documentations 'https://material.angular.io/components/table/overview' -->
+		<div class="mat-table__wrapper">
+			<mat-table class="mat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
+				matSortActive="id" matSortDirection="asc" matSortDisableClear>
+			
+				<ng-container matColumnDef="firstname">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
+					<mat-cell *matCellDef="let user">{{user.firstName}}</mat-cell>
+				</ng-container>
+
+				<ng-container matColumnDef="lastname">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
+					<mat-cell *matCellDef="let user">{{user.lastName}}</mat-cell>
+				</ng-container>
+
+				<ng-container matColumnDef="email">
+					<mat-header-cell *matHeaderCellDef mat-sort-header class="email-cell">Email</mat-header-cell>
+					<mat-cell *matCellDef="let user" class="email-cell">
+						{{user.email}}
+					</mat-cell>
+				</ng-container>
+
+				<ng-container matColumnDef="roles">
+					<mat-header-cell *matHeaderCellDef>Roles</mat-header-cell>
+					<mat-cell *matCellDef="let user">
+						<span>{{user.role}}</span>
+					</mat-cell>
+				</ng-container>
+
+				<ng-container matColumnDef="actions">
+					<mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+					<mat-cell *matCellDef="let user">
+						<button *ngIf="currentUserId === user.id" (click)="goToProfile()" mat-icon-button color="primary" matTooltip="View user">
+							<mat-icon>visibility</mat-icon>
+						</button>
+						<button *ngIf="currentUserId != user.id" (click)="viewUser(user)" mat-icon-button color="primary" matTooltip="Edit user">
+							<mat-icon>visibility</mat-icon>
+						</button>&nbsp;
+						<button *ngIf="currentUserId != user.id" (click)="editUser(user.id)" mat-icon-button color="primary" matTooltip="Edit user">
+							<mat-icon>create</mat-icon>
+						</button>&nbsp;
+						<button *ngIf="currentUserId != user.id" mat-icon-button color="warn" matTooltip="Delete user" type="button"
+							(click)="deleteUser(user)">
+							<mat-icon>delete</mat-icon>
+						</button>
+					</mat-cell>
+				</ng-container>
+
+				<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+				<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+			</mat-table>
+			<div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+			<!-- Message for empty data  -->
+			<div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+		</div>
+
+		<!-- start: BOTTOM -->
+		<div class="mat-table__bottom">
+			<!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+			<mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+			<!-- MATERIAL PAGINATOR | Binded to dasources -->
+			<!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+			<mat-paginator [pageSize]="30" [pageSizeOptions]="[30, 60, 90]" [length]="dataSource.paginatorTotal$ | async"
+				[showFirstLastButtons]="true"></mat-paginator>
+		</div>
+		<!-- end: BOTTOM -->
+	</kt-portlet-body>
+	<!-- end::Body -->
+</kt-portlet>

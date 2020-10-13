@@ -1,0 +1,170 @@
+<kt-portlet>
+    <kt-portlet-header title="Time #{{time.id}}" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTools>
+            <a [routerLink]="['../../']" class="kt-margin-r-10" mat-raised-button
+                matTooltip="">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+            <!-- <a  href="javascript:;" class="kt-margin-r-10" color="primary" (click)="edit(time.id)"
+                mat-raised-button matTooltip="edit">
+                <span class="kt-hidden-mobile">Edit</span>
+            </a> -->
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="row">
+            <div class="col-md-12">
+                
+            </div>
+            <div class="col-md-6">
+                <!-- General Information Card -->
+                <mat-card class="kt-margin-bottom-20">
+                    <div class="row">
+                        <div class="col-md-4 profile-info">
+                            <mat-list>
+                                <mat-list-item>Statement Name</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Careplan</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Date</mat-list-item>
+                            </mat-list>
+                        </div>
+                        <div class="col-md-8 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    {{ time.timeEntryName}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item> {{ time.carePlanName}} </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item> {{ time.timeEntryDate}} </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-5">
+                        <!-- offset -->
+                    </div>
+                    <!-- Appointment Sticky -->
+                    <div class="col-md-7">
+                        <div class="sticky-section">
+
+                            <div class="row next-appointment-section">
+                                <div class="col-md-5">
+                                    Total
+                                </div>
+                                <div class="col-md-7">
+                                    {{ time.totalCost}}
+                                </div>
+                            </div>
+
+                            <div class="row next-appointment-section">
+                                <div class="col-md-5">
+                                    Travel Time 
+                                </div>
+                                <div class="col-md-7">
+                                        {{ time.travelTimeInMinutes}} minutes
+                                </div>
+                            </div>
+
+                            <div class="row next-appointment-section">
+                                <div class="col-md-5">
+                                    Unit
+                                </div>
+                                <div class="col-md-7">
+                                    {{ time.fullDay}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+            <div class="col-md-12" style="margin-bottom: 30px;" *ngIf="billableItemsList">
+                <div class="familgoal" *ngFor="let time of billableItemsList; index as i">
+                    <h5>Total Cost : {{ time.cost }} AUD, Total Quantity: {{time.quantity}}</h5>
+                    <table class="table table-striped">
+                        <thead class="bg-light-blue">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">NDISnumber</th>
+                                <th scope="col">UnitType</th>
+                                <th scope="col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let timeItem of billableItemsList; index as i" >
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{ timeItem.billableItem.name }} </td>
+                                <td>{{ timeItem.billableItem.price }} </td>
+                                <td>{{ timeItem.billableItem.ndisNumber }}</td>
+                                <td>{{ timeItem.billableItem.unit }}</td>
+                                <td>{{ timeItem.billableItem.description }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                </div>
+             
+            </div>
+
+            <div class="col-md-6 offset-6">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <!-- offset -->
+                        </div>
+                        <!-- total Sticky -->
+                        <div class="col-md-7">
+                            <div class="total-section">
+                                <!-- <div class="row next-appointment-section">
+                                    <div class="col-md-7">
+                                        Travel Time
+                                    </div>
+                                    <div class="col-md-5 text-right">
+                                        {{ time.travelTime }}
+                                    </div>
+                                </div> -->
+    
+                                <div class="row next-appointment-section">
+                                    <div class="col-md-7">
+                                       Time Subtotal
+                                    </div>
+                                    <div class="col-md-5 text-right">
+                                        {{ time.timeSubTotal | currency }}
+                                    </div>
+                                </div>
+    
+                                <!-- <div class="row next-appointment-section">
+                                    <div class="col-md-7">
+                                        <b>Outstanding balance</b>
+                                    </div>
+                                    <div class="col-md-5 text-right">
+                                        <b>
+                                            {{(time.travelTime + time.timeSubTotal ) | currency }}
+                                        </b>
+                                    </div>
+                                </div>
+    
+                                <div class="row next-appointment-section">
+                                        <a href="javascript:;" class="kt-margin-r-10 btn-block" color="primary"
+                                         mat-raised-button matTooltip="Enter Payment">
+                                        <span class="kt-hidden-mobile">Enter Payment</span>
+                                    </a>
+                                </div> -->
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

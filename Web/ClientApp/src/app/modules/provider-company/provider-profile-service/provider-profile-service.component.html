@@ -1,0 +1,61 @@
+<!-- {{ profileForm.value | json }} -->
+<div class="kt-portlet kt-portlet--height-fluid">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">Services</h3>
+        </div>
+    </div>
+
+    <div *ngIf="profile">
+        <form [formGroup]="profileForm" class="kt-form">
+            <div class="kt-portlet__body">
+                <div class="kt-section kt-section--first">
+                    <div class="kt-section__body">
+
+                        <div class="form-group row">
+                           	<!-- Services Provided -->
+									    <div class="col-lg-6">
+											<mat-form-field class="mat-form-field-fluid">
+												<input matInput placeholder="Enter Service" formControlName="services" />
+												<mat-error>Services is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Services</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+					
+										 <!-- Registration Number -->
+										 <div class="col-lg-6">
+											 <mat-form-field class="mat-form-field-fluid">
+												 <input matInput placeholder="Enter Registration Number" formControlName="registrationNumber" />
+												 <mat-error>Registration Number is <strong>required</strong></mat-error>
+												 <mat-hint align="start">Please enter <strong>registration Number</strong>
+												 </mat-hint>
+											 </mat-form-field>
+										 </div>
+                        </div>
+
+                        <div class="form-group row">
+                             <!-- Medicare Registration Number -->
+										  <div class="col-lg-6">
+											<mat-form-field class="mat-form-field-fluid">
+												<input matInput placeholder="Enter Medicare Registration Number" formControlName="medicareRegistrationNumber" />
+												<mat-error>Medicare Registration Number is <strong>required</strong></mat-error>
+												<mat-hint align="start">Please enter <strong>Medicare registration Number</strong>
+												</mat-hint>
+											</mat-form-field>
+										</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__foot">
+                <div class="kt-form__actions">
+                    <div class="row">
+                        <div class="col-lg-12 col-xl-12">
+                            <button [disabled]="profileForm.invalid" (click)="onSubmit(false)" class="btn btn-brand btn-bold">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>

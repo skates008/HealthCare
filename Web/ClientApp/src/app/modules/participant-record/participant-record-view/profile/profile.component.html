@@ -1,0 +1,1035 @@
+
+<kt-portlet>
+	<kt-portlet-header title="{{participant?.fullName}} &nbsp; &nbsp; &nbsp; NDIS: {{participant?.ndisNumber}}" [class]="'kt-portlet__head--lg'">
+		<ng-container></ng-container>
+		<ng-container ktPortletTools>
+			<a [routerLink]="['../../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button matTooltip="">
+				<i class="la la-arrow-left"></i>
+				<span class="kt-hidden-mobile">Back</span>
+			</a>
+			<!-- <a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
+				(click)="addCarePlan(participant)" mat-raised-button matTooltip="">
+				<span class="kt-hidden-mobile"><i class="la la-plus"></i> Add Care Plan</span>
+			</a> -->
+
+			<a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
+				(click)="edit(participant.id)" mat-raised-button matTooltip="">
+				<i class="la la-edit"></i>
+					<span class="kt-hidden-mobile">Edit</span>
+			</a> 
+
+			<!-- <a href="javascript:;" class="btn btn-warning kt-margin-r-10" color="warning"
+				(click)="goToBilling(participant.id)" mat-raised-button matTooltip="">
+				<span class="kt-hidden-mobile">
+					<i class="flaticon-file-2"></i>
+					Billing
+				</span>
+			</a> -->
+
+			<!-- <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+				<mat-icon>more_vert</mat-icon>
+			</button>
+			<mat-menu #menu="matMenu">
+				<button mat-menu-item color="primary" (click)="getHistory(participant.id)">History</button>
+			</mat-menu> -->
+		</ng-container>
+	</kt-portlet-header>
+
+	<kt-alert *ngIf="!careplanhasItems" [duration]="3000" type="warn" [showCloseButton]="true"
+		(close)="onAlertCloseCareplan($event)">
+		{{ participant?.warnings[0]?.text }}
+	</kt-alert>
+
+	<kt-alert *ngIf="hasAgreement" [duration]="4000" type="warn" [showCloseButton]="true"
+		(close)="onAlertCloseAgreement($event)">
+		{{ participant?.warnings[1]?.text }}
+	</kt-alert>
+
+	<kt-alert *ngIf="hasAssessment" [duration]="5000" type="warn" [showCloseButton]="true"
+		(close)="onAlertCloseAssessment($event)">
+		{{ participant?.warnings[2]?.text }}
+	</kt-alert>
+
+	<kt-portlet-body>
+		<div class="row">
+			<div class="col-md-12">
+				<mat-tab-group class="border-shadow" [(selectedIndex)]="selectedTabParticipant">
+					<mat-tab>
+						<ng-template mat-tab-label>
+							<i class="mat-tab-label-icon flaticon-home"></i>
+							Dashboard
+						</ng-template>
+						<ng-template matTabContent>
+							<div class="row">
+								<!-- General Details -->
+								<mat-card class="col-md-6">
+											<div class="row">
+												<div class="col-md-4">
+													    <!--begin::Widget -->
+														<div class="kt-widget kt-widget--user-profile-1 mt-3">
+															<div class="kt-widget__head">
+																<div class="kt-widget__media">
+																	<img *ngIf="participant?.avatarUrl" [src]="participant?.profileImage"
+																		alt="image">
+																	<img *ngIf="!participant?.avatarUrl" src="../../../../../../assets/media/users/default.jpg"
+																		alt="image">
+																		<!-- use the below code if profile image can be changed -->
+																		<!-- <mat-icon (click)="openUploadDialog()" class="upload-icon">edit</mat-icon> -->
+																</div>
+															</div>
+
+															<div class="text-center">
+																<div class="mt-4">
+																	<a href="javascript:;" class="username">
+																		{{participant?.fullName}}
+																	</a>
+																	<div class="kt-widget__subtitle">
+																		{{participant?.gender}}
+																	</div>
+																</div>
+															</div>
+														</div>
+												</div>
+												
+												<div class="col-md-8 profile-info">
+													<div class="row">
+														<div class="col-md-6 d-none d-sm-block">
+															<mat-list>
+																<mat-list-item>Preferred name</mat-list-item>
+																<mat-divider></mat-divider>
+																<mat-list-item>Email</mat-list-item>
+																<mat-divider></mat-divider>
+																<mat-list-item>Remaining Amount</mat-list-item>
+																<mat-divider></mat-divider>
+																<mat-list-item>Language</mat-list-item>
+																<mat-divider></mat-divider>
+																<mat-list-item>Date Of Birth</mat-list-item>
+																<mat-divider></mat-divider>
+																<mat-list-item>Primary Custodian</mat-list-item>
+																<mat-divider></mat-divider>
+															</mat-list>
+														</div>
+															<div class="col-md-6">
+																<mat-list>
+																	<mat-list-item>
+																		{{participant &&  participant.preferredName }}
+																	</mat-list-item>
+																	<mat-divider></mat-divider>
+																	<mat-list-item>
+																		{{participant &&  participant.email }}</mat-list-item>
+																	<mat-divider></mat-divider>
+																	<mat-list-item>
+																		{{participant &&  participant?.remainingFunds | currency: '' }} </mat-list-item>
+																	<mat-divider></mat-divider>
+																	<mat-list-item>
+																		{{participant &&  participant.language }}</mat-list-item>
+																	<mat-divider></mat-divider>
+																	<mat-list-item>
+																		{{participant &&  participant.dateOfBirth | date: "dd/MM/y"}}
+																	</mat-list-item>
+																	<mat-divider></mat-divider>
+																	<mat-list-item>
+																		{{participant &&  participant?.custodians?.primary?.firstName }} {{participant &&  participant?.custodians?.primary?.lastName }}</mat-list-item>
+																	<mat-divider></mat-divider>
+																</mat-list>
+														</div>
+													</div>
+													
+													<div class="row">
+														<div class="col-md-3 profile-info">
+															<mat-list>
+																<mat-list-item>Address</mat-list-item>
+															</mat-list>
+														</div>
+														<div class="col-md-9 profile-info-detail">
+															<mat-list>
+																<mat-list-item>
+																	{{participant &&  participant.address?.address}}
+																</mat-list-item>
+															</mat-list>
+														</div>
+													</div>
+												</div>
+											</div>
+								</mat-card>
+
+								<!-- Appointments -->
+								<div class="col-md-6">
+									<kt-appointment [participantId]="participantId"></kt-appointment>
+								</div>
+
+								<!-- Notes -->
+								<div class="col-md-6 mt-3">
+									<kt-usernote-list [participantId]="participantId"></kt-usernote-list>
+								</div>
+
+									<!-- Agreement -->
+								<div class="col-md-6 mt-3">
+									<kt-agreement-list [participantId]="participantId"></kt-agreement-list>
+								</div>
+
+							</div>
+
+						</ng-template>
+					</mat-tab>
+
+					<!-- custodians -->
+					<mat-tab>
+						<ng-template mat-tab-label>
+							<i class="mat-tab-label-icon flaticon-users"></i>
+							Client Details
+						</ng-template>
+						<ng-template matTabContent>
+							<div class="row">
+
+								<!-- Custodians Information Card -->
+								<div class="col-md-6">
+									<kt-portlet [class]="'kt-portlet--height-fluid'">
+										<kt-portlet-header [title]="'Primary Custodian'"
+											[class]="'kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm'">
+										</kt-portlet-header>
+										<kt-portlet-body [class]="'kt-portlet__body--fit'">
+											<p *ngIf="!custodiansDataSource.primary?.firstName && !custodiansDataSource.primary?.email">
+												<ngb-alert [dismissible]="false" [type]="'default'">
+												  <strong> Sorry!</strong> &nbsp; There is no primary custodian.&nbsp;
+												  <a (click)="edit(participant.id)" href="javascript:;"> <b> Add primary custodian </b></a>
+												</ngb-alert>
+											  </p>
+											<div class="col-md-12" *ngIf="custodiansDataSource.primary?.firstName && custodiansDataSource.primary?.email">
+												<div class="row">
+													<div class="col-md-6 profile-info">
+														<mat-list>
+															<mat-list-item>Custodian  name</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Custodian Email</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Custodian Contact</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Custodian Relation</mat-list-item>
+														</mat-list>
+													</div>
+		
+													<div class="col-md-6 profile-info-detail">
+														<mat-list *ngIf="custodianshasItems">
+															<mat-list-item>
+																<span *ngIf="custodiansDataSource.primary?.firstName">
+																	{{ custodiansDataSource.primary?.firstName }}
+																	{{ custodiansDataSource.primary?.lastName }}
+																</span>
+																<span *ngIf="!custodiansDataSource.primary?.firstName">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="custodiansDataSource.primary?.email">
+																	{{ custodiansDataSource.primary?.email }}
+																</span>
+															
+																<span *ngIf="!custodiansDataSource.primary?.email">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="custodiansDataSource.primary?.contact">
+																	{{ custodiansDataSource.primary?.contact }}
+																</span>
+																
+																<span *ngIf="!custodiansDataSource.primary?.contact">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="custodiansDataSource.primary?.relation">
+																	{{ custodiansDataSource.primary?.relation }}
+																</span>
+																<span *ngIf="!custodiansDataSource.primary?.relation">
+																	N/A
+																</span>
+															</mat-list-item>
+														</mat-list>
+													</div>
+												</div>
+											</div>
+										</kt-portlet-body>
+									</kt-portlet>
+								</div>
+
+								<div class="col-md-6">
+									<kt-portlet [class]="'kt-portlet--height-fluid'">
+										<kt-portlet-header [title]="'Secondary Custodian'"
+											[class]="'kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm'">
+										</kt-portlet-header>
+										<kt-portlet-body [class]="'kt-portlet__body--fit'">
+											<p *ngIf="!custodiansDataSource.secondary[0]?.firstName && !custodiansDataSource.secondary[0]?.email">
+												<ngb-alert [dismissible]="false" [type]="'default'">
+												  <strong> Sorry!</strong> &nbsp; There is no secondary custodian.&nbsp;
+												  <a (click)="edit(participant.id)" href="javascript:;"> <b>Add secondary custodian</b> </a>
+												</ngb-alert>
+											  </p>
+											<div class="col-md-12" *ngIf="custodiansDataSource.secondary[0]?.firstName && custodiansDataSource.secondary[0]?.email">
+												<div class="row">
+													<div class="col-md-6 profile-info">
+														<mat-list>
+															<mat-list-item>Custodian name</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Custodian Email</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Custodian Contact</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Custodian Relation</mat-list-item>
+														</mat-list>
+													</div>
+
+													<div class="col-md-6 profile-info-detail">
+														<mat-list *ngIf="custodianshasItems">
+															<mat-list-item>
+																<span *ngIf="custodiansDataSource.secondary[0]?.firstName">
+																	{{ custodiansDataSource.secondary[0]?.firstName }}
+																	{{ custodiansDataSource.secondary[0]?.lastName }}
+																</span>
+																<span *ngIf="!custodiansDataSource.secondary[0]?.firstName">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="custodiansDataSource.secondary[0]?.email">
+																	{{ custodiansDataSource.secondary[0]?.email }}
+																</span>
+																<span *ngIf="!custodiansDataSource.secondary[0]?.email">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="custodiansDataSource.secondary[0]?.contact">
+																	{{ custodiansDataSource.secondary[0]?.contact }}
+																</span>
+																<span *ngIf="!custodiansDataSource.secondary[0]?.contact">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="custodiansDataSource.secondary[0]?.relation">
+																	{{ custodiansDataSource.secondary[0]?.relation }}
+																</span>
+																<span *ngIf="!custodiansDataSource.secondary[0]?.relation">
+																	N/A
+																</span>
+															</mat-list-item>
+														</mat-list>
+													</div>
+												</div>
+											</div>
+										</kt-portlet-body>
+									</kt-portlet>
+								</div>
+
+								<div class="col-md-6 mt-2">
+									<kt-portlet [class]="'kt-portlet--height-fluid'">
+										<kt-portlet-header [title]="'School Details'"
+											[class]="'kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm'">
+										</kt-portlet-header>
+										<kt-portlet-body [class]="'kt-portlet__body--fit'">
+
+											<p *ngIf="!participant.schoolName && !participant.schoolEmail">
+												<ngb-alert [dismissible]="false" [type]="'default'">
+												  <strong> Sorry!</strong> &nbsp; There is no school address. &nbsp;
+												  <a (click)="edit(participant.id)" href="javascript:;"><b> Add address</b></a>
+												</ngb-alert>
+											  </p>
+
+											<div class="col-md-12" *ngIf="participant.schoolName && participant.schoolEmail">
+												<div class="row">
+													<div class="col-md-6 profile-info">
+														<mat-list>
+															<mat-list-item>Name</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Address</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Email</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Primary Contact</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>School Contact Number</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Teacher Name</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>Teacher Email</mat-list-item>
+														</mat-list>
+													</div>
+				
+													<div class="col-md-6 profile-info-detail">
+														<mat-list>
+															<mat-list-item>
+																<span *ngIf="participant.schoolName">
+																	{{participant &&  participant.schoolName }}
+																</span>
+																<span *ngIf="!participant.schoolName">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="participant.schoolAddress?.address">
+																	{{participant &&  participant.schoolAddress?.address}}
+																</span>
+																<span *ngIf="!participant.schoolAddress?.address">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="participant.schoolEmail">
+																	{{participant &&  participant.schoolEmail }}
+																</span>
+																<span *ngIf="!participant.schoolEmail">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="participant.schoolPrimaryContact">
+																	{{participant &&  participant.schoolPrimaryContact}}
+																</span>
+																<span *ngIf="!participant.schoolPrimaryContact">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="participant.schoolContactNumber">
+																	{{participant &&  participant.schoolContactNumber }}
+																</span>
+																<span *ngIf="!participant.schoolContactNumber">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="participant.schoolTeacherName">
+																	{{participant &&  participant.schoolTeacherName }}
+																</span>
+																<span *ngIf="!participant.schoolTeacherName">
+																	N/A
+																</span>
+															</mat-list-item>
+															<mat-divider></mat-divider>
+															<mat-list-item>
+																<span *ngIf="participant.schoolTeacherEmail">
+																	{{participant &&  participant.schoolTeacherEmail }}
+																</span>
+																<span *ngIf="!participant.schoolTeacherEmail">
+																	N/A
+																</span>
+															</mat-list-item>
+															
+														</mat-list>
+													</div>
+												</div>
+											</div>
+										</kt-portlet-body>
+									</kt-portlet>
+								</div>
+
+									<!-- Billing Details -->
+									<div class="col-md-6 mt-2">
+										<kt-portlet [class]="'kt-portlet--height-fluid'">
+											<kt-portlet-header [title]="'Billing Details'"
+												[class]="'kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm'">
+											</kt-portlet-header>
+											<kt-portlet-body [class]="'kt-portlet__body--fit'">
+												<!-- Care plan -->
+												<div class="col-md-12">
+													<div class="row">
+														<div class="col-md-6 profile-info">
+															<mat-list>
+																<mat-list-item>Account</mat-list-item>
+																<mat-divider></mat-divider>
+																<mat-list-item>Email</mat-list-item>
+																<mat-divider></mat-divider>
+																<mat-list-item>Billing Address</mat-list-item>
+															</mat-list>
+														</div>
+					
+														<div class="col-md-6 profile-info-detail">
+															<mat-list>
+																<mat-list-item>
+																	<span *ngIf="participant.billingDetails?.accountNumber">
+																		{{participant &&  participant.billingDetails?.accountNumber }}
+																	</span>
+																	<span *ngIf="!participant.billingDetails?.accountNumber">
+																		N/A
+																	</span>
+																</mat-list-item>
+																<mat-divider></mat-divider>
+																<mat-list-item>
+																	<span *ngIf="participant.billingDetails?.email">
+																		{{participant &&  participant.billingDetails?.email }}
+																	</span>
+																	<span *ngIf="!participant.billingDetails?.email">
+																		N/A
+																	</span>
+																</mat-list-item>
+																<mat-divider></mat-divider>
+																<mat-list-item>
+																	<span *ngIf="participant.billingDetails?.address">
+																		{{participant &&  participant.billingDetails?.address?.observations }}
+																	</span>
+																	<span *ngIf="!participant.billingDetails?.address">
+																		N/A
+																	</span>
+																</mat-list-item>
+															</mat-list>
+														</div>
+													</div>
+												</div>
+											</kt-portlet-body>
+										</kt-portlet>
+									</div>
+
+							</div>
+						</ng-template>
+					</mat-tab>
+
+						<!-- Assessment -->
+						<mat-tab>
+							<ng-template mat-tab-label>
+								<i class="mat-tab-label-icon flaticon2-document"></i>
+								Assessment
+							</ng-template>
+							<ng-template matTabContent>
+								<kt-assessment-list [participantId]="participantId"></kt-assessment-list>
+							</ng-template>
+						</mat-tab>
+
+					<!-- Care plan -->
+					<mat-tab>
+						<ng-template mat-tab-label>
+							<i class="mat-tab-label-icon flaticon-folder-1"></i>
+							Care plans
+						</ng-template>
+						<ng-template matTabContent>
+							<kt-portlet [class]="'kt-portlet--height-fluid'">
+								<kt-portlet-header [title]="'Care plan'"
+									[class]="'kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm'">
+									<ng-container ktPortletTools>
+										<button class="btn btn-sm btn-primary kt-margin-r-10" color="primary"
+											(click)="addCarePlan(participant)" mat-raised-button matTooltip="">
+											Add Care plan
+										</button>
+									</ng-container>
+								</kt-portlet-header>
+								<kt-portlet-body [class]="'kt-portlet__body--fit'">
+									<!-- Care plan -->
+									<div class="col-md-12">
+										<div perfectScrollbar [ngStyle]="{'max-height': '50vh', 'position': 'relative'}"
+										class="mat-table__wrapper mat-table__wrapper--dashboard ">
+										<!-- Careplan list -->
+										<table mat-table class="lmat-elevation-z8" #table [dataSource]="careplanDataSource"
+											matSort #sort1="matSort" matSortActive="id" matSortDirection="asc"
+											matSortDisableClear multiTemplateDataRows>
+
+											<!-- status -->
+											<ng-container matColumnDef="status">
+												<th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+												<td mat-cell *matCellDef="let carePlans">
+													<span
+														class="kt-badge kt-badge--inline kt-badge--pill kt-badge--success kt-badge--wide">{{ carePlans.status }}</span>
+												</td>
+											</ng-container>
+
+											<!-- title Name -->
+											<ng-container matColumnDef="title">
+												<th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+												<td mat-cell *matCellDef="let carePlans">{{ carePlans.title }}</td>
+											</ng-container>
+
+											<!-- Total Budget -->
+											<ng-container matColumnDef="totalBudget">
+												<th mat-header-cell *matHeaderCellDef mat-sort-header>Total Budget</th>
+												<td mat-cell *matCellDef="let carePlans">{{ carePlans.totalBudget | currency: '' }}</td>
+											</ng-container>
+
+											<!-- Remaining -->
+											<ng-container matColumnDef="remainingFunds">
+												<th mat-header-cell *matHeaderCellDef mat-sort-header>Remaining Budget</th>
+												<td mat-cell *matCellDef="let carePlans">{{ carePlans.remainingFunds | currency: '' }}</td>
+											</ng-container>
+																					
+											<!-- Issue Date -->
+											<ng-container matColumnDef="createdDate">
+												<th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+												<td mat-cell *matCellDef="let carePlans">
+													{{carePlans.createdDate | date: 'mediumDate'}}</td>
+											</ng-container>
+											<!-- Start Date -->
+											<ng-container matColumnDef="startDate">
+												<th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+												<td mat-cell *matCellDef="let carePlans">
+													{{carePlans.startDate | date: 'mediumDate'}}</td>
+											</ng-container>
+											<!-- Due Date -->
+											<ng-container matColumnDef="dueDate">
+												<th mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</th>
+												<td mat-cell *matCellDef="let carePlans">
+													{{carePlans.dueDate | date: 'mediumDate'}}</td>
+											</ng-container>
+												<!-- Review Date -->
+												<ng-container matColumnDef="reviewDate">
+													<th mat-header-cell *matHeaderCellDef mat-sort-header>Review Date</th>
+													<td mat-cell *matCellDef="let carePlans">
+														{{carePlans.reviewDate | date: 'mediumDate'}}</td>
+												</ng-container>
+											
+											<!-- Action -->
+											<ng-container matColumnDef="actions">
+												<th mat-header-cell *matHeaderCellDef>Actions</th>
+												<td mat-cell *matCellDef="let carePlans" class="Careplan-actions">
+													<button (click)="viewCareplan(carePlans)" mat-icon-button
+														color="primary" matTooltip="View Careplan">
+														<mat-icon>visibility</mat-icon>
+													</button>&nbsp;
+													<button mat-icon-button color="warn" matTooltip="Delete Careplan" type="button"
+															(click)="deleteCareplan(carePlans)">
+														<mat-icon>delete</mat-icon>
+													</button>
+												</td>
+											</ng-container>
+	
+											<tr mat-header-row *matHeaderRowDef="displayedColumnsCareplan"></tr>
+											<tr mat-row *matRowDef="let row; columns: displayedColumnsCareplan;"
+												class="example-element-row"
+												[class.example-expanded-row]="expandedElement === row"
+												(click)="expandedElement = expandedElement === row ? null : row"></tr>
+										</table>
+	
+										<div class="mat-table__message" *ngIf="!careplanhasItems">No records found!</div>
+									</div>
+									</div>
+								</kt-portlet-body>
+							</kt-portlet>
+
+						</ng-template>
+					</mat-tab>
+
+						<!-- Appointment -->
+						<mat-tab>
+							<ng-template mat-tab-label>
+								<i class="mat-tab-label-icon flaticon-calendar-1"></i>
+								Appointment
+							</ng-template>
+							<ng-template matTabContent>
+								<kt-appointmentlist [participantId]="participantId"></kt-appointmentlist>
+							</ng-template>
+						</mat-tab>
+
+					<!-- Time Entries -->
+					<mat-tab>
+						<ng-template mat-tab-label>
+							<i class="mat-tab-label-icon flaticon-stopwatch"></i>
+							Time Entries
+						</ng-template>
+						<ng-template matTabContent>
+							<kt-participant-time [ndisNumber]="participant.ndisNumber"></kt-participant-time>
+						</ng-template>
+					</mat-tab>
+
+					<!-- Invoice -->
+					<mat-tab>
+						<ng-template mat-tab-label>
+							<i class="mat-tab-label-icon flaticon-list-1"></i>
+							Invoices
+						</ng-template>
+						<ng-template matTabContent>
+							<kt-participant-invoice [ndisNumber]="participant.ndisNumber"></kt-participant-invoice>
+						</ng-template>
+					</mat-tab>
+
+						<!-- Notes -->
+						<mat-tab>
+							<ng-template mat-tab-label>
+								<i class="mat-tab-label-icon flaticon2-document"></i>
+								Notes
+							</ng-template>
+							<ng-template matTabContent>
+								<kt-usernote-list [participantId]="participantId"></kt-usernote-list>
+							</ng-template>
+						</mat-tab>
+
+						<!-- Documents -->
+						<mat-tab>
+							<ng-template mat-tab-label>
+								<i class="mat-tab-label-icon flaticon2-document"></i>
+								Documents
+							</ng-template>
+							<ng-template matTabContent>
+								<kt-file-list [participantId]="participantId"></kt-file-list>
+							</ng-template>
+						</mat-tab>
+
+				</mat-tab-group>
+			</div>
+			<!-- <div class="col-md-5">
+				<mat-card class="kt-margin-bottom-20">
+					<mat-card-header class="profile-header">
+						<mat-card-title>Budget Consumption</mat-card-title>
+					</mat-card-header>
+					<mat-divider></mat-divider>
+					<div class="budget-widget">
+						<kt-widget12></kt-widget12>
+					</div>
+				</mat-card>
+			</div> -->
+
+			<!-- <div class="col-md-4 participant-appt-section">
+				<div class="sticky-section">
+					<div class="next-appt-header">
+						<div class="header">Next Appointment</div>
+						<div class="next-appt-btn"><button mat-button (click)="bookAppointment()">
+								Book a New Appointment
+							</button></div>
+					</div>
+					<div *ngIf="hasNextAppointment" class="row next-appointment-section"
+						(click)="openAppointment(nextAppointment)">
+						<div class="col-md-5">
+							<p>{{nextAppointment && nextAppointment.appointmentDate | date: "dd/MM/y"}} </p>
+							<p>{{ nextAppointmentStartTime}} to {{nextAppointmentEndTime}} </p>
+						</div>
+						<div class="col-md-7">
+							<p> {{nextAppointment && nextAppointment.practitionerName}}</p>
+							<p>{{nextAppointment && nextAppointment.location}} </p>
+						</div>
+					</div>
+					<div *ngIf="!hasNextAppointment" class="row next-appointment-section">
+						Looks like nothing has been booked, please press the button below to book an appointment
+					</div>
+				</div>
+				<div class="upcoming-appointments-list" *ngIf="nextAppointmentList && nextAppointmentList.length > 0">
+					<div *ngFor="let item of nextAppointmentList" (click)="openAppointment(item)"
+						class="row upcoming-appointments">
+
+						<div class="col-md-5">
+							<p>{{ item.appointmentDate | date: "dd/MM/y"}} </p>
+							<p>{{item.startTime | date: "shortTime"}} to {{item.endTime | date: "shortTime"}} </p>
+						</div>
+						<div class="col-md-7">
+							<p> {{ item.practitionerName}}</p>
+							<p>{{ item.location}} </p>
+						</div>
+					</div>
+				</div>
+			</div> -->
+		</div>
+
+		<!-- <div class="row mt-2">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-12">
+						<mat-expansion-panel class="kt-margin-bottom-20">
+							<mat-expansion-panel-header class="medication-header">
+								<mat-panel-title>
+									Notes
+								</mat-panel-title>
+							</mat-expansion-panel-header>
+							<mat-divider></mat-divider>
+							<div class="row">
+								<div class="col-md-12">
+									<button class="btn btn-sm btn-primary kt-margin-r-10" color="primary"
+										(click)="addNote()" mat-raised-button matTooltip="">
+										Add Note
+									</button>
+								</div>
+
+								<table mat-table [dataSource]="medicationDataSource">
+
+								
+									<ng-container matColumnDef="No.">
+										<th mat-header-cell *matHeaderCellDef>No.</th>
+										<td mat-cell *matCellDef="let element;let i = index;">{{i+1}}</td>
+									</ng-container>
+									<ng-container matColumnDef="Manufacturer">
+										<th mat-header-cell *matHeaderCellDef>Manufacturer</th>
+										<td mat-cell *matCellDef="let element">{{element.manufacturer}}</td>
+									</ng-container>
+									<ng-container matColumnDef="Medicine Name">
+										<th mat-header-cell *matHeaderCellDef>Medicine</th>
+										<td mat-cell *matCellDef="let element">{{element.medicine}}</td>
+									</ng-container>
+									<ng-container matColumnDef="formOfMedicine">
+										<th mat-header-cell *matHeaderCellDef>Form</th>
+										<td mat-cell *matCellDef="let element">{{element.formOfMedicine}}</td>
+									</ng-container>
+									<ng-container matColumnDef="Amount">
+										<th mat-header-cell *matHeaderCellDef>Amount</th>
+										<td mat-cell *matCellDef="let element">{{element.amount}}</td>
+									</ng-container>
+									<ng-container matColumnDef="Expiration Date">
+										<th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+										<td mat-cell *matCellDef="let element">{{element.expirationDate | date}}</td>
+									</ng-container>
+									<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+									<tr mat-row *matRowDef="let row; columns: displayedColumns;"
+										class="example-element-row"
+										[class.example-expanded-row]="expandedElement === row"
+										(click)="expandedElement = expandedElement === row ? null : row"></tr>
+								</table>
+
+
+								<div class="mat-table__message" *ngIf="!medicationhasItems">No records found!</div>
+							</div>
+						</mat-expansion-panel>
+					</div>
+
+					<div class="col-md-12 mt-2">
+						<mat-expansion-panel class="kt-margin-bottom-20">
+							<mat-expansion-panel-header class="medication-header">
+								<mat-panel-title>
+									Medications
+								</mat-panel-title>
+							</mat-expansion-panel-header>
+							<mat-divider></mat-divider>
+							<div class="row">
+
+								<table mat-table [dataSource]="medicationDataSource">
+
+									<ng-container matColumnDef="No.">
+										<th mat-header-cell *matHeaderCellDef>No.</th>
+										<td mat-cell *matCellDef="let element;let i = index;">{{i+1}}</td>
+									</ng-container>
+								
+									<ng-container matColumnDef="Manufacturer">
+										<th mat-header-cell *matHeaderCellDef>Manufacturer</th>
+										<td mat-cell *matCellDef="let element">{{element.manufacturer}}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="Medicine Name">
+										<th mat-header-cell *matHeaderCellDef>Medicine</th>
+										<td mat-cell *matCellDef="let element">{{element.medicine}}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="formOfMedicine">
+										<th mat-header-cell *matHeaderCellDef>Form</th>
+										<td mat-cell *matCellDef="let element">{{element.formOfMedicine}}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="Amount">
+										<th mat-header-cell *matHeaderCellDef>Amount</th>
+										<td mat-cell *matCellDef="let element">{{element.amount}}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="Expiration Date">
+										<th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+										<td mat-cell *matCellDef="let element">{{element.expirationDate | date}}</td>
+									</ng-container>
+									<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+									<tr mat-row *matRowDef="let row; columns: displayedColumns;"
+										class="example-element-row"
+										[class.example-expanded-row]="expandedElement === row"
+										(click)="expandedElement = expandedElement === row ? null : row"></tr>
+								</table>
+
+
+								<div class="mat-table__message" *ngIf="!medicationhasItems">No records found!</div>
+							</div>
+						</mat-expansion-panel>
+					</div>
+
+					<div class="col-md-12 mt-2">
+						<mat-expansion-panel class="kt-margin-bottom-20">
+							<mat-expansion-panel-header class="allergy-header">
+								<mat-panel-title>
+									Allergies
+								</mat-panel-title>
+							</mat-expansion-panel-header>
+							<mat-divider></mat-divider>
+							<div class="row">
+
+								<table mat-table [dataSource]="allergyDataSource" class="allergy-table">
+
+									<ng-container matColumnDef="No.">
+										<th mat-header-cell *matHeaderCellDef>No.</th>
+										<td mat-cell *matCellDef="let allergy; let i = index;">{{i+1}}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="Clinical Status">
+										<th mat-header-cell *matHeaderCellDef>Clinical Status</th>
+										<td mat-cell *matCellDef="let allergy">{{allergy.clinicalStatus}}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="Critical">
+										<th mat-header-cell *matHeaderCellDef>Critical</th>
+										<td mat-cell *matCellDef="let allergy">{{allergy.critical}}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="Category">
+										<th mat-header-cell *matHeaderCellDef>Category</th>
+										<td mat-cell *matCellDef="let allergy">{{allergy.category}}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="Allergen">
+										<th mat-header-cell *matHeaderCellDef>Allergen</th>
+										<td mat-cell *matCellDef="let allergy">{{allergy.allergen}}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="Last Occurence Date">
+										<th mat-header-cell *matHeaderCellDef>Last Occurence Date</th>
+										<td mat-cell *matCellDef="let allergy">{{allergy.lastOccurenceDate | date}}</td>
+									</ng-container>
+									<tr mat-header-row *matHeaderRowDef="displayedColumnsAllergy"></tr>
+									<tr mat-row *matRowDef="let row; columns: displayedColumnsAllergy;"
+										class="example-element-row"
+										[class.example-expanded-row]="expandedElement === row"
+										(click)="expandedElement = expandedElement === row ? null : row"></tr>
+								</table>
+
+								<div class="mat-table__message" *ngIf="!allergyhasItems">No records found!</div>
+
+							</div>
+						</mat-expansion-panel>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<mat-tab-group [(selectedIndex)]="selectedTab">
+					<mat-tab>
+						<ng-template mat-tab-label>
+							Assessment
+						</ng-template>
+						<ng-template matTabContent>
+							<mat-card *ngFor="let item of assesmentDataSource; index as i">
+								<div *ngIf="item">
+									<mat-card-header class="profile-header">
+										<mat-card-title>Assessment {{i+1}}</mat-card-title>
+									</mat-card-header>
+									<div class="row" *ngIf="item.assessment">
+										<div class="col-md-4 profile-info">
+											<mat-list>
+												<mat-list-item>Appointment Date</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item>Practitioner</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item>Assessment</mat-list-item>
+											</mat-list>
+										</div>
+
+										<div class="col-md-8 profile-info-detail">
+											<mat-list>
+												<mat-list-item *ngIf="item.appointmentDate">
+													{{item.appointmentDate | date}}</mat-list-item>
+												<mat-list-item *ngIf="!item.appointmentDate">
+													N/A</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item *ngIf="item.practitioner">
+													{{item.practitioner}}</mat-list-item>
+												<mat-list-item *ngIf="!item.practitioner">
+													N/A</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item>
+													{{item.assessment}}</mat-list-item>
+											</mat-list>
+										</div>
+									</div>
+								</div>
+							</mat-card>
+						</ng-template>
+					</mat-tab>
+
+					<mat-tab>
+						<ng-template mat-tab-label>
+							Observation
+						</ng-template>
+						<ng-template matTabContent>
+							<mat-card *ngFor="let item of observationDataSource; index as i">
+								<div>
+									<mat-card-header class="profile-header">
+										<mat-card-title>Observation {{i+1}}</mat-card-title>
+									</mat-card-header>
+									<div class="row">
+										<div class="col-md-4 profile-info">
+											<mat-list>
+												<mat-list-item>Appointment Date</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item>Practitioner</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item>Observation</mat-list-item>
+											</mat-list>
+										</div>
+
+										<div class="col-md-8 profile-info-detail">
+											<mat-list>
+												<mat-list-item *ngIf="item.appointmentDate">
+													{{item.appointmentDate | date}}</mat-list-item>
+												<mat-list-item *ngIf="!item.appointmentDate">
+													N/A</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item *ngIf="!item.practitioner">
+													N/A</mat-list-item>
+												<mat-list-item *ngIf="item.practitioner">
+													{{item.practitioner}}</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item>
+													{{item.observation}}</mat-list-item>
+											</mat-list>
+										</div>
+									</div>
+								</div>
+							</mat-card>
+						</ng-template>
+					</mat-tab>
+
+					<mat-tab>
+						<ng-template mat-tab-label>
+							Treatment
+						</ng-template>
+						<ng-template matTabContent>
+							<mat-card *ngFor="let item of treatmentNoteDataSource; index as i">
+								<div>
+									<mat-card-header class="profile-header">
+										<mat-card-title> Treatment Notes{{i+1}}</mat-card-title>
+									</mat-card-header>
+									<div class="row">
+										<div class="col-md-4 profile-info">
+											<mat-list>
+												<mat-list-item>Appointment Date</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item>Practitioner</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item>Note</mat-list-item>
+											</mat-list>
+										</div>
+
+										<div class="col-md-8 profile-info-detail">
+											<mat-list>
+												<mat-list-item *ngIf="item.appointmentDate">
+													{{item.appointmentDate | date}}</mat-list-item>
+												<mat-list-item *ngIf="!item.appointmentDate">
+													N/A</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item *ngIf="!item.practitioner">
+													N/A</mat-list-item>
+												<mat-list-item *ngIf="item.practitioner">
+													{{item.practitioner}}</mat-list-item>
+												<mat-divider></mat-divider>
+												<mat-list-item *ngIf="!item.treatmentNote">
+													N/A</mat-list-item>
+												<mat-list-item *ngIf="item.treatmentNote">
+													{{item.treatmentNote}}</mat-list-item>
+											</mat-list>
+										</div>
+									</div>
+								</div>
+							</mat-card>
+						</ng-template>
+					</mat-tab>
+				</mat-tab-group>
+			</div>
+		</div> -->
+	</kt-portlet-body>
+</kt-portlet>

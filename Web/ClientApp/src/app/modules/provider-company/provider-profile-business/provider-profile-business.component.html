@@ -1,0 +1,58 @@
+<div class="kt-portlet kt-portlet--height-fluid">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">Business information</h3>
+        </div>
+    </div>
+
+    <div *ngIf="profile">
+        <form [formGroup]="profileForm" class="kt-form">
+            <div class="kt-portlet__body">
+                <div class="kt-section kt-section--first">
+                    <div class="kt-section__body">
+
+                        <div class="form-group row">
+                            <div class="col-lg-4 col-xl-4">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input required matInput placeholder="Phone Number" formControlName="phoneNumber" />
+                                    <mat-error>Phone Number is <strong>required</strong></mat-error>
+                                    <mat-hint align="start">Please enter <strong>Phone Number</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-lg-4 col-xl-4">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input required matInput placeholder="Email" formControlName="businessEmail" />
+                                    <mat-error>Email is <strong>required</strong></mat-error>
+                                    <mat-hint align="start">Please enter <strong>Email</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-lg-4 col-xl-4">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input matInput placeholder="Website" formControlName="businessWebSite" />
+                                    <mat-error>Website is <strong>required</strong></mat-error>
+                                    <mat-hint align="start">Please enter <strong>Website</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <kt-address formControlName="address"></kt-address>
+
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__foot">
+                <div class="kt-form__actions">
+                    <div class="row">
+                        <div class="col-lg-12 col-xl-12">
+                            <button [disabled]="profileForm.invalid" (click)="onSubmit(false)" class="btn btn-brand btn-bold">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>

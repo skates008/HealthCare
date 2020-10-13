@@ -1,0 +1,64 @@
+<kt-portlet [class]="'kt-portlet--tabs'">
+  <div class="kt-portlet__head kt-portlet__head__custom appointment-header">
+    <div class="row">
+      <!-- <div class = "filter-client col-md-4" >
+     
+          <input type="text"
+          placeholder="Search Teams"
+          aria-label="Number"
+          matInput
+          class= "filter-input"
+          (click)="teamInputClick()"
+          [formControl]="selectedTeam"
+          [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete"  (optionSelected)="teamSelected($event)">
+    <mat-option *ngFor="let teamOption of filteredTeamOptions | async"  [value]="teamOption">
+      {{teamOption.name}}
+    </mat-option>
+    </mat-autocomplete>
+    </div> -->
+
+    </div>
+    <div class="row">
+      <button class="ml-2" mat-raised-button matTooltip="Calendar view" color="primary"
+        (click)="goToCalendar()">
+        <i class="la la-calendar"></i>
+        <span class="kt-hidden-mobile">Calendar View</span>
+
+      </button>
+      <button class="ml-2" mat-raised-button matTooltip="Timeline view">
+        <i class="la la-list"></i>
+        <span class="kt-hidden-mobile">
+        Timeline View</span>
+      </button>
+      <button class="ml-2" mat-raised-button matTooltip="Grid view" color="primary"
+        (click)="goToTimeGrid()"><i class="la la-table"></i>
+        <span class="kt-hidden-mobile">
+        Grid View</span>
+      </button>
+      <button class="new-appointment ml-5" mat-raised-button matTooltip="Create new Appointment"
+        (click)="createAppointment('','')">
+        <i class="la la-plus"></i><span class="kt-hidden-mobile">Add Appointment</span> 
+      </button>
+    </div>
+  </div>
+
+  <kt-portlet-body>
+    <!-- <div class='app'>
+    <div class='app-calendar' *ngIf="calendarVisible"> -->
+    <full-calendar #calendar timeZone='UTC' defaultView="resourceTimeline" resourceAreaWidth=230 editable=true
+      aspectRatio=1.5 scrollTime='00:00' slotWidth=200 height="auto" minTime="07:00:00" [header]=" {
+          left: 'prev,next',
+          center: 'title',
+          right: 'resourceTimelineDay,resourceTimelineWeek,resourceTimelineMonth'
+        }" [eventTimeFormat]="{ 
+          hour: 'numeric',
+          minute: '2-digit',
+          meridiem: true
+         }" [plugins]="plugins" resourceLabelText='Teams' [resources]=resources
+      (datesRender)="handleDatesRender($event)" (eventClick)="eventClick($event)" [events]=calendarEvents>
+    </full-calendar>
+    <!-- </div>
+  </div> -->
+  </kt-portlet-body>
+</kt-portlet>

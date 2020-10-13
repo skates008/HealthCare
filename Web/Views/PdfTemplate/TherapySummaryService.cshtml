@@ -1,0 +1,124 @@
+﻿@model CareTaskr.Domain.Entities.Careplan
+
+
+<style>
+
+    th {
+        background-color: #000;
+        color: white;
+    }
+
+    body {
+        font-family: Verdana,Geneva,sans-serif;
+    }
+
+    .page-break {
+        display: block;
+        page-break-before: always;
+    }
+</style>
+
+
+
+<table width="100%" cellpadding="2" style="font-size:10px;">
+    <tbody>
+        <tr>
+            <td style="width:200px;">
+            </td>
+            <td style="width:10px"></td>
+            <td style="padding-left:10px; font-size: 20px; text-align:center;" width="300">
+                <b>
+                    <div>Therapy Service Summary </div>
+                    @Model.PatientRecord.Patient.PreferredName<br />
+                    @Model.PatientRecord.Provider.Name<br />
+
+                    <br />
+
+            </td>
+            <td style="width:220px;">
+            </td>
+        </tr>
+        <tr><td colspan="3">&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<div>
+    Therapy Service Summary
+</div>
+<div>
+
+    Date of Birth: @Model.PatientRecord.Patient.DateOfBirth <br />
+    Address:<br />
+    NDIS Number: @Model.PatientRecord.Patient.NDISNumber<br />
+    Agreed service period: @Model.StartDate - @Model.DueDate<br />
+</div>
+
+<div>
+    <b>Key Worker</b>
+</div>
+<div>
+
+    Name: @Model.KeyPractitioner.FullName<br />
+    Phone: @Model.KeyPractitioner.PhoneNumber<br />
+    Email: @Model.KeyPractitioner.Email
+</div>
+
+<div>
+    <b>Therapy team</b>
+</div>
+<div>
+    @foreach (var practitioner in Model.Practitioners)
+    {
+    <div>
+        Name: @practitioner.User.FullName <br />
+        Email:@practitioner.User.Email <br />
+        Phone:@practitioner.User.PhoneNumber<br />
+        <hr />
+    </div>
+
+}
+/**/
+    /**/
+    /**/
+</div>
+
+    <div class="page-break"></div>
+
+    <div>
+        SUMMARY OF MY GOALS FOR THIS PERIOD:
+    </div>
+    @foreach (var familyGoal in Model.FamilyGoals)
+    {
+        <table id="billable" width="80%" cellspacing="0" style="border-collapse: collapse; margin: 0 auto;text-align: left;border: 1px solid;">
+
+            <thead class="no-wrap">
+                <tr>
+
+                    <th style="padding:5px; background:#000;color:#fff">@familyGoal.Title</th>
+                    <th style="padding:5px; background:#000;color:#fff">Outcome</th>
+                </tr>
+            </thead>
+            <tbody class="no-wrap">
+                @foreach (var shortTermGoal in familyGoal.ShortTermGoals)
+                {
+                    <tr>
+                        <td style="padding:5px; border:1px solid;">
+                            <div>@shortTermGoal.Title :</div>
+                            @shortTermGoal.Description
+                        </td>
+                        <td style="padding:5px; border:1px solid;">
+                            <div>
+                                @shortTermGoal.Outcome
+                            </div>
+                            @shortTermGoal.OutcomeDetail
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+
+    <div class="page-break"></div>

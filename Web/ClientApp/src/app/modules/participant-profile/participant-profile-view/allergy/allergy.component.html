@@ -1,0 +1,91 @@
+<!-- <p>allergy works!</p> -->
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">ADD ALLERGY</h3>
+        </div>
+    </div>
+    <div>
+        <div class="kt-form">
+            <div class="kt-portlet__body">
+                <div>
+
+
+                    <div class="form-group kt-form__group row">
+                        <label for="category" class="col-sm-2 col-form-label">Clinical Status</label>
+                        <div class="col-sm-10">
+                            <select [(ngModel)]="allergy.clinicalStatus" class="form-control">
+                                <option disabled selected value= null> Select your option</option>
+                                <option value = 1>Active</option>
+                                <option value = 2>Inactive</option>
+                                <option value = 3>Resolved</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group kt-form__group row">
+                        <label for="category" class="col-sm-2 col-form-label">Category</label>
+                        <div class="col-sm-10">
+                            <select [(ngModel)]="allergy.category" class="form-control">
+                                <option disabled value= null selected> Select your option</option>
+                                <option  value = 1>Environment</option>
+                                <option  value = 2>Food</option>
+                                <option  value = 3>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group kt-form__group row">
+                        <label for="category" class="col-sm-2 col-form-label">Allergen</label>
+                        <div class="col-sm-10">
+                            <input [(ngModel)]="allergy.allergen" class="form-control"
+                                placeholder="Enter your allergen" />
+                        </div>
+                    </div>
+
+                    <div class="form-group kt-form__group row">
+                        <label for="category" class="col-sm-2 col-form-label">Critical</label>
+                        <div class="col-sm-10">
+                            <select [(ngModel)]="allergy.critical" class="form-control">
+                                <option disabled value= null selected> Select your option</option>
+                                <option  value = 1>High</option>
+                                <option  value = 2>Medium</option>
+                                <option  value = 3>Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group kt-form__group row">
+                        <label for="type" class="col-sm-2 col-form-label">Last Occurence Date</label>
+                        <div class="col-sm-10">
+                            <mat-form-field class="w-100">
+                                <input matInput [matDatepicker]="picker" [(ngModel)]="allergy.lastOccurenceDate"
+                                    placeholder="Choose a date" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-10">
+                                <button (click)="submit()" type="button" mat-raised-button color="primary">
+                                    Add Allergy
+                                </button>
+                                &nbsp;
+                                <button type="button" mat-raised-button [mat-dialog-close]="" cdkFocusInitial
+                                    matTooltip="Cancel changes">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>

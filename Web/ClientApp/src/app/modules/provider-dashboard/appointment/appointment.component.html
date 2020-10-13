@@ -1,0 +1,33 @@
+<!-- <div class="kt-widget1">
+	<ng-container *ngFor="let item of futureAppointments">
+		<ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: item}"></ng-container>
+	</ng-container>
+</div>
+
+<ng-template #itemTemplate let-item="item">
+	<div class="kt-widget1__item">
+		<div class="kt-widget1__info">
+			<a class="kt-widget4__title" (click)="openAppointment('', item)" href="javascript:;">
+				<h3 class="kt-widget1__title">{{item.patientName}}</h3>
+				<span class="kt-widget1__desc">{{item.appointmentType}}</span>
+			</a>
+		</div>
+		<span class="kt-widget1__number" [ngClass]="item.valueClass">{{item.appointmentDate | date}}</span>
+		<span class="kt-widget1__desc">{{item.appointmentDate | date:'shortTime'}}</span>
+	</div>
+</ng-template> -->
+
+		<div  class="kt-widget4">
+			<div  class="kt-widget4__item ng-star-inserted" *ngFor="let item of futureAppointments">
+				<div  class="kt-widget4__pic kt-widget4__pic--pic ng-star-inserted"><img
+						 alt="" src="./assets/media/users/100_5.jpg"></div>
+				<div  class="kt-widget4__info ng-star-inserted"><a 
+						class="kt-widget4__username" href="javascript:;" (click)="openAppointment('', item)">{{item.patientName}}</a><a
+						 class="kt-widget4__title" href="javascript:;"></a>
+					<p  class="kt-widget4__text ng-star-inserted"> <i class="flaticon-map-location"></i> {{item.location}} &nbsp; <i class="flaticon-user-add"></i> <b> {{item.practitionerName}} </b></p>
+				</div>
+				<a  class="btn btn-sm btn-label-dark ng-star-inserted"
+					href="javascript:;" (click)="openAppointment('', item)">Open</a>
+			</div>
+		</div>
+

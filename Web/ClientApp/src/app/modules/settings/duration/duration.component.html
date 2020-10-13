@@ -1,0 +1,40 @@
+<kt-portlet [class]="'kt-portlet--tabs'">
+    <kt-portlet-header title="Rules" [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTools>
+            <!-- <a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" (click)="onSubmit(setting)"
+                mat-raised-button matTooltip="Save & Continue">
+                <span class="kt-hidden-mobile">Save</span>
+            </a> -->
+            <button class="save-setting ml-5" (click)="onSubmit(setting)" mat-raised-button
+                matTooltip="Save settings changes">Save</button>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div>
+            <div class="kt-form">
+                <div class="kt-portlet__body">
+                    <div>
+                        <div class="form-group kt-form__group row">
+                            <label for="pratitioner" class="col-sm-4 col-form-label">Standard Appointment
+                                Duration</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" required [(ngModel)]="setting.standardAppointmentTime"
+                                    required>
+                                    <option disabled value="" selected>Select Time</option>
+                                    <option> 60 minutes</option>
+                                    <option> 30 minutes</option>
+                                    <option> 20 minutes</option>
+                                    <option> 15 minutes</option>
+                                    <option> 12 minutes</option>
+                                    <option> 10 minutes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

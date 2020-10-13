@@ -1,0 +1,231 @@
+<kt-portlet>
+    <kt-portlet-header title="Careplan #{{careplan.id}}" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTools>
+            <a [routerLink]="['../../']" class="kt-margin-r-10" mat-raised-button
+                matTooltip="Back to the careplan list">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+            <!-- <a href="javascript:;" class="kt-margin-r-10" color="primary" (click)="edit(careplan.id)" mat-raised-button
+                matTooltip="edit">
+                <span class="kt-hidden-mobile">Edit</span>
+            </a> -->
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="row">
+            <div class="col-md-12">
+
+            </div>
+            <div class="col-md-6">
+                <!-- General Information Card -->
+                <mat-card class="kt-margin-bottom-20">
+                    <div class="row">
+                        <div class="col-md-4 profile-info">
+                            <mat-list>
+                                <mat-list-item>Title</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Participant</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Practitioner</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Status</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>Total Budget</mat-list-item>
+                            </mat-list>
+                        </div>
+                        <div class="col-md-8 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    {{ careplan.title}}
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                  <a href="javacript:;" (click)="viewParticipant(careplan.patientId)">{{ careplan.patientName }}</a>  
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ careplan.practitionerName }}
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <span
+                                        class="kt-badge kt-badge--inline kt-badge--pill kt-badge--success kt-badge--wide">{{ careplan.status }}</span>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    {{ careplan.totalBudget }}
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-md-6">
+                <mat-card class="kt-margin-bottom-20">
+                    <div class="row">
+                       
+                        <div class="col-md-12">
+                            <button mat-button class="participant-buttons mb-2">Add
+                                Information</button>
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <mat-tab-group [(selectedIndex)]="selectedTab">
+
+                                <!-- Participant Specifics -->
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        Assessment
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <mat-card *ngFor="let item of assessmentList; index as i">
+                                            <div *ngIf="item">
+                                                <mat-card-header class="profile-header">
+                                                    <mat-card-title>Assessment {{i+1}}</mat-card-title>
+                                                </mat-card-header>
+                                                <div class="row">
+                                                    <div class="col-md-4 profile-info">
+                                                        <mat-list>
+                                                            <mat-list-item>Note</mat-list-item>
+                                                            <mat-divider></mat-divider>
+                                                            <mat-list-item>Practitioner</mat-list-item>
+                                                        </mat-list>
+                                                    </div>
+            
+                                                    <div class="col-md-8 profile-info-detail">
+                                                        <mat-list>
+                                                            <mat-list-item *ngIf="item.note">
+                                                                {{item.note}}</mat-list-item>
+                                                            <mat-list-item *ngIf="!item.note">
+                                                                N/A</mat-list-item>
+                                                            <mat-divider></mat-divider>
+                                                            <mat-list-item *ngIf="item.practitionerNamer">
+                                                                {{item.practitionerNamer}}</mat-list-item>
+                                                            <mat-list-item *ngIf="!item.practitionerNamer">
+                                                                N/A</mat-list-item>
+                                                        </mat-list>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <!-- Language Specifics -->
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        Observation
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <mat-card *ngFor="let item of observationList; index as i">
+                                            <div>
+                                                <mat-card-header class="profile-header">
+                                                    <mat-card-title>Observation {{i+1}}</mat-card-title>
+                                                </mat-card-header>
+                                                <div class="row">
+                                                    <div class="col-md-4 profile-info">
+                                                        <mat-list>
+                                                            <mat-list-item>Note</mat-list-item>
+                                                            <mat-divider></mat-divider>
+                                                            <mat-list-item>Practitioner</mat-list-item>
+                                                        </mat-list>
+                                                    </div>
+
+                                                    <div class="col-md-8 profile-info-detail">
+                                                        <mat-list>
+                                                            <mat-list-item *ngIf="item.note">
+                                                                {{item.note}}</mat-list-item>
+                                                            <mat-list-item *ngIf="!item.note">
+                                                                N/A</mat-list-item>
+                                                            <mat-divider></mat-divider>
+                                                            <mat-list-item *ngIf="!item.practitionerNamer">
+                                                                N/A</mat-list-item>
+                                                            <mat-list-item *ngIf="item.practitionerNamer">
+                                                                {{item.practitionerNamer}}</mat-list-item>
+                                                        </mat-list>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <!-- Language Specifics -->
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        Treatment
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <mat-card *ngFor="let item of treatmentNotes; index as i">
+                                            <div>
+                                                <mat-card-header class="profile-header">
+                                                    <mat-card-title> Treatment Notes{{i+1}}</mat-card-title>
+                                                </mat-card-header>
+                                                <div class="row">
+                                                    <div class="col-md-4 profile-info">
+                                                        <mat-list>
+                                                            <mat-list-item>Note</mat-list-item>
+                                                            <mat-divider></mat-divider>
+                                                            <mat-list-item>Practitioner</mat-list-item>
+                                                        </mat-list>
+                                                    </div>
+
+                                                    <div class="col-md-8 profile-info-detail">
+                                                        <mat-list>
+                                                            <mat-list-item *ngIf="item.note">
+                                                                {{item.note }}</mat-list-item>
+                                                            <mat-list-item *ngIf="!item.note">
+                                                                N/A</mat-list-item>
+                                                            <mat-divider></mat-divider>
+                                                            <mat-list-item *ngIf="!item.practitionerNamer">
+                                                                N/A</mat-list-item>
+                                                            <mat-list-item *ngIf="item.practitionerNamer">
+                                                                {{item.practitionerNamer}}</mat-list-item>
+                                                        </mat-list>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card>
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-md-12" style="margin-bottom: 30px;" *ngIf="familyGoalsList">
+                <div class="familgoal" *ngFor="let careplan of familyGoalsList; index as i">
+                    <h5>{{ careplan.title }}</h5>
+                    <table class="table table-striped">
+                        <thead class="bg-light-blue">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Goal Title</th>
+                                <th scope="col">Goal Description</th>
+                                <th scope="col">Goal OutCome</th>
+                                <th scope="col">Goal OutCome Detail</th>
+                                <th scope="col">Goal Strategy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let careplanItem of careplan.shortTermGoals; index as i" >
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{ careplanItem.title }} </td>
+                                <td>{{ careplanItem.description }} </td>
+                                <td>{{ careplanItem.outcome }}</td>
+                                <td>{{ careplanItem.outcomeDetail }}</td>
+                                <td>{{ careplanItem.strategy }} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

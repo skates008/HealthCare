@@ -1,0 +1,82 @@
+<kt-portlet [class]="'kt-portlet--tabs'">
+  <div class="kt-portlet__head kt-portlet__head__custom appointment-header">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="filter-client col-md-2">
+          <input type="text" placeholder="Search Teams" aria-label="Number" matInput class="filter-input"
+            (click)="teamInputClick()" [formControl]="selectedTeam" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="teamSelected($event)">
+            <mat-option *ngFor="let teamOption of filteredTeamOptions | async" [value]="teamOption">
+              {{teamOption.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </div>
+        <div class="filter-practitioner col-md-2">
+          <input type="text" placeholder="Search Practitioner" aria-label="Number" matInput class="filter-input"
+            (click)="practitionerInputClick()" [formControl]="selectedPractitioner" [matAutocomplete]="autoPractitioner">
+          <mat-autocomplete #autoPractitioner="matAutocomplete" (optionSelected)="practitionerSelected($event)">
+            <mat-option *ngFor="let practitionerOption of filteredPractitionerOptions | async"
+              [value]="practitionerOption">
+              {{practitionerOption.text}}
+            </mat-option>
+          </mat-autocomplete>
+        </div>
+        <div class="col-md-2">
+          <input matInput [matDatepicker]="picker" (click)="picker.open()" class="filter-input" placeholder="Select Date"
+            [formControl]="selectedDate" (dateChange)="viewDateChange($event)" required>
+  
+          <mat-datepicker #picker></mat-datepicker>
+        </div>
+        <div class="col-md-6 text-right">
+            <button class="ml-2 mt-3" mat-raised-button color="primary" matTooltip="Calendar view" (click)="goToCalendar()">
+              <i class="la la-calendar"></i>
+              <span class="kt-hidden-mobile">Calendar View</span>
+            </button>
+            <button class="ml-2 mt-3" mat-raised-button color="primary" matTooltip="Timeline view" (click)="goToTimeline()">
+              <i class="la la-list"></i>
+              <span class="kt-hidden-mobile">
+                Timeline View</span>
+            </button>
+            <button class="ml-2 mt-3" mat-raised-button matTooltip="Grid view">
+              <i class="la la-table"></i>
+              <span class="kt-hidden-mobile">
+                Grid View</span>
+            </button>
+            <button class="ml-2 mt-3" mat-raised-button color="primary" matTooltip="Create new Appointment"
+              (click)="createAppointment('','')">
+              <i class="la la-plus"></i><span class="kt-hidden-mobile">Add Appointment</span> 
+            </button>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+  <kt-portlet-body>
+    <full-calendar #calendar defaultView="resourceTimeGridDay" 
+        timeGridEventMinHeight=500px
+        eventDurationEditable=false 
+        minTime="07:00:00"
+         [header]="{
+          left: 'prev,next today',
+          center: 'title',
+          right: ''
+        }" [eventTimeFormat]="{ 
+          hour: 'numeric',
+          minute: '2-digit',
+          meridiem: true
+         }" [plugins]="plugins"
+          dayMinWidth=900
+          [resources]="resources" 
+          [events]="calendarEvents"
+          (eventDrop)="handleEventDrop($event)"
+          (datesRender)="handleDatesRender($event)"
+          (eventRender)="calendarEventRender($event)"
+            contentHeight="auto"
+            (eventClick)="eventClick($event)"
+      (dateClick)="handleDateClick($event)">
+
+    </full-calendar>
+
+  </kt-portlet-body>
+</kt-portlet>

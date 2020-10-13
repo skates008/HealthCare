@@ -1,0 +1,32 @@
+// import login css
+@import "sass/pages/login/login-1";
+
+kt-auth,
+.kt-login {
+  height: 100%;
+
+  .mat-form-field {
+    width: 100%;
+  }
+
+  // add extra right padding when displaying spinner in button
+  .kt-spinner {
+    padding-right: 3rem !important;
+  }
+}
+
+$primaryColor: #e44868;
+
+.login-button {
+  font-weight: 500;
+  height: 50px;
+  font-size: 1rem;
+  padding-right: 2.75rem;
+  padding-left: 2.75rem;
+  background-color: $primaryColor;
+  color: kt-brand-color(inverse);
+}
+.login-button:hover {
+  background-color: darken($primaryColor, (20%));
+  color: kt-brand-color(inverse);
+}

@@ -1,0 +1,163 @@
+﻿@model Caretaskr.Common.ViewModel.Invoice
+@{ var provider = Model.Careplan.PatientRecord.Provider; }
+
+<style>
+
+    th {
+        background-color: #000;
+        color: white;
+    }
+
+    body {
+        font-family: Verdana,Geneva,sans-serif;
+    }
+
+    .page-break {
+        display: block;
+        page-break-before: always;
+    }
+</style>
+
+
+
+<table width="90%" cellpadding="2" style="font-size:10px; margin:0 auto">
+    <tbody>
+        <tr>
+            <td id="provider-details">
+                <img id="provider-logo" src="" />
+                <p><span><b>Company Name</b></span> : <span>@provider.Name </span></p>
+                <p><span><b>Address</b></span> : <span id="provider-address">@provider.BusinessAddress</span></p>
+                <p><span><b>Phone</b></span> : <span id="provider-contacts">@provider.PhoneNumber</span></p>
+                <p><span><b>ABN</b></span> : <span id="provider-abn">@provider.ABNNumber</span></p>
+                <p><span><b>Email</b></span> : <span id="provider-abn">@provider.BusinessEmail</span></p>
+            </td>
+            <td id="invoice-details">
+                <table width="70%" cellpadding="2" style="font-size:10px;border: 1px solid;padding: 8px;">
+                    <tbody>
+                        <tr>
+                            <td>Tax Invoice #</td>
+                            <td>@Model.Reference</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td>@Model.Date</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Due Date</td>
+                            <td>@Model.DueDate</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr><td colspan="3">&nbsp;</td></tr>
+    </tbody>
+</table>
+
+<table width="90%" cellpadding="2" style="font-size:10px; margin:0 auto 30px">
+    <tbody>
+        <tr style="margin-bottom:15px;display:block">
+            <td style="font-weight:600; font-size:14px;">Invoice to:</td>
+        </tr>
+        <tr>
+            <td>National Disability Support Partners (NDSP)</td>
+        </tr>
+        <tr>
+            <td>14b Henley Beach Rd</td>
+        </tr>
+        <tr>
+            <td>Mile End SA 5031 </td>
+        </tr>
+    </tbody>
+</table>
+
+<table width="90%" cellpadding="2" style="font-size:10px; margin:0 auto 30px">
+    <tbody>
+        <tr style="margin-bottom:15px;display:block">
+            <td style="font-weight:600; font-size:14px;">Participant:</td>
+        </tr>
+        <tr>
+            <td><span><b>Participant Name</b></span> : <span>@Model.CustomerName </span></td>
+        </tr>
+        <tr>
+            <td><span><b>NDIS Number</b></span> : <span>@Model.CustomerNDISReference </span></td>
+        </tr>
+
+    </tbody>
+</table>
+
+<table id="invoice-items" width="90%" cellspacing="0" style="border-collapse: collapse; margin: 0 auto;text-align: left;border: 1px solid;">
+    <thead class="no-wrap">
+        <tr>
+            <th style="padding:5px;background:#000;color:#fff;width:12%;font-size:12px;">Date</th>
+            <th style="padding:5px;background:#000;color:#fff;width:23%; font-size:12px">Description</th>
+            <th style="padding:5px;background:#000;color:#fff;width:26%;font-size:12px">Quantity</th>
+            <th style="padding:5px;background:#000;color:#fff;width:6%;font-size:12px">Units</th>
+            <th style="padding:5px;background:#000;color:#fff;width:8%;font-size:12px">GST</th>
+            <th style="padding:5px;background:#000;color:#fff;width:20%;font-size:12px">Subtotal</th>
+        </tr>
+    </thead>
+
+    <tbody class="no-wrap">
+        @foreach (var item in Model.InvoiceItems)
+        {
+            <tr>
+                <td style="padding:5px; border:1px solid; font-size:12px">@item.Date</td>
+                <td style="padding:5px; border:1px solid; font-size:12px">@item.Description</td>
+                <td style="padding:5px; border:1px solid; font-size:12px">@item.Quantity</td>
+                <td style="padding:5px; border:1px solid; font-size:12px">@item.UnitPrice</td>
+                <td style="padding:5px; border:1px solid; font-size:12px">@item.GSTCode (@item.GSTRate %)</td>
+                <td style="padding:5px; border:1px solid; font-size:12px">@item.SubTotal</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<table id="invoice-summary" width="40%" cellspacing="0" style="border-collapse: collapse; float:right;text-align: left;margin-right:5%;">
+
+    <tbody class="no-wrap">
+        <tr>
+            <td style="padding:5px; font-size:12px;width:55.8%;text-align:right;">SubTotal</td>
+            <td style="padding:5px; border:1px solid;font-size:12px;">@Model.SubTotal</td>
+        </tr>
+        <tr>
+            <td style="padding:5px;font-size:12px;width:55.8%;text-align:right;">GST</td>
+            <td style="padding:5px; border:1px solid;font-size:12px;">@Model.SubTotalGST</td>
+        </tr>
+        <tr>
+            <td style="padding:5px; font-size:12px;width:55.8%;text-align:right;">Total Amount</td>
+            <td style="padding:5px; border:1px solid;font-size:12px;">@Model.Total</td>
+        </tr>
+
+    </tbody>
+</table>
+
+<table width="90%" cellpadding="2" style="font-size:10px; margin:0 auto 30px">
+    <tbody>
+        <tr style="margin-bottom:15px;display:block">
+            <td style="font-weight:600; font-size:14px;">BANKING DETAILS</td>
+        </tr>
+        <tr>
+            <td><span>Bank Name</span> : <span>@provider.ProviderBankDetails.FirstOrDefault(x=>x.IsActive)?.BankName  </span></td>
+        </tr>
+        <tr>
+            <td><span>Account Number</span> : <span>@provider.ProviderBankDetails.FirstOrDefault(x => x.IsActive)?.AccountNumber</span></td>
+        </tr>
+
+        <tr>
+            <td><span>Ref Invoice Number</span> : <span>@Model.Reference </span></td>
+        </tr>
+        <tr>
+            <td><span><b>Please email all remittance to:</b></span> : <span>@provider.BusinessEmail </span></td>
+        </tr>
+
+    </tbody>
+</table>
+
+
+<div id="footer">
+
+</div>

@@ -1,0 +1,516 @@
+<kt-portlet>
+    <kt-portlet-header [title]="getComponentTitle()" [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTools>
+            <a href="javascript:;" (click)="back()" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+         
+            <a href="javascript:;" class="btn kt-margin-r-10" color="primary" [disabled]="careplanForm.invalid || careplanFormFundedSupport.invalid" (click)="submitHandler()"
+                mat-raised-button matTooltip="Save & Continue">
+                <i class="la la-save"></i>
+                <span class="kt-hidden-mobile">Save</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="kt-form kt-form--group-separator-dashed">
+            
+            <mat-tab-group [(selectedIndex)]="selectedTab">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="mat-tab-label-icon flaticon-user"></i>
+                        Care plan Details
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <form [formGroup]="careplanForm">
+                            <!-- Begin Form -->
+                            <div class="col-md-12">
+                                    <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="3000" [showCloseButton]="true"
+                                        (close)="onAlertClose($event)">
+                                        Something went wrong, please make changes and try saving again.
+                                    </kt-alert>
+
+                                    <div class="kt-form__section kt-form__section--first">
+                                        <div class="form-group kt-form__group row">
+                                            <!-- Title -->
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <input matInput placeholder="Enter title" required formControlName="title" />
+                                                    <mat-error>Title is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please enter <strong>title</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                        
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Status</mat-label>
+                                                    <mat-select required formControlName="status">
+                                                        <mat-option value="Draft">Draft</mat-option>
+                                                        <mat-option value="Active">Active</mat-option>
+                                                        <mat-option value="Cancelled">Cancelled</mat-option>
+                                                        <mat-option value="Completed">Completed</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group kt-form__group row">
+                                            <!-- Title -->
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <input (click)="picker.open()" matInput [matDatepicker]="picker" placeholder="Choose start date"
+                                                        formControlName="startDate">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker></mat-datepicker>
+                                                    <mat-hint align="start">Please choose  <strong>Start Date </strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+        
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <input (click)="startpicker.open()" matInput [matDatepicker]="startpicker" placeholder="Choose due date"
+                                                        formControlName="dueDate">
+                                                    <mat-datepicker-toggle matSuffix [for]="startpicker">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #startpicker></mat-datepicker>
+                                                    <mat-hint align="start">Please choose <strong>Due Date </strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group kt-form__group row">
+                                          
+                                              <!-- practitioner Name -->
+                                              <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Select Main Practitioner</mat-label>
+                                                        <mat-select required formControlName="practitioner"
+                                                        (selectionChange)="practitionerSelected($event.value)">
+                                                        <mat-option>None</mat-option>
+                                                        <mat-option *ngFor="let item of practitionerList" [value]="item.id">
+                                                            {{item.text}}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- Practitioners -->
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="example-chip-list">
+                                                    <mat-chip-list #chipList aria-label="Practitioner selection">
+                                                    <mat-chip
+                                                        *ngFor="let subPractitioner of selectedTherapist"
+                                                        [selectable]="selectable"
+                                                        [removable]="removable"
+                                                        (removed)="remove(subPractitioner)">
+                                                        {{subPractitioner.text}}
+                                                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                                    </mat-chip>
+                                                    <input
+                                                        placeholder="Other Practitioners..."
+                                                        #subPractitionerInput
+                                                        [formControl]="subPractitionerCtrl"
+                                                        [matAutocomplete]="auto"
+                                                        [matChipInputFor]="chipList"
+                                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                        (matChipInputTokenEnd)="add($event)">
+                                                    </mat-chip-list>
+                                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                                                    <mat-option *ngFor="let subPractitioner of subpractitionerList" [value]="subPractitioner">
+                                                        {{subPractitioner.text}}
+                                                    </mat-option>
+                                                    </mat-autocomplete>
+                                                </mat-form-field>
+                                            </div>
+                                         
+
+                                            <!-- <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Select Participant</mat-label>
+                                                    <mat-select formControlName="patientId"
+                                                        (selectionChange)="participantSelected($event.value)">
+                                                        <mat-option>None</mat-option>
+                                                        <mat-option *ngFor="let item of participant" [value]="item.id">
+                                                            {{item.fullName}}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div> -->
+                                        </div>
+
+                                        <div class="form-group kt-form__group row">
+                                            
+                                             <!-- Billing Type -->
+                                             <!-- <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Select Billing Type</mat-label>
+                                                        <mat-select formControlName="billingType" (selectionChange)="billingSelected($event.value)">
+                                                        <mat-option *ngFor="let item of billingType" [value]="item.id">
+                                                            {{item.text}}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div> -->
+
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile" *ngIf="showHideBilling">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <input matInput placeholder="Enter service booking reference" formControlName="serviceBookingReference" />
+                                                    <mat-error>Service booking reference is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please enter <strong>service booking reference</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group kt-form__group row">
+
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile" *ngIf="currentParticipant">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Participant of Birth</mat-label>
+                                                    <input matInput placeholder="Participant's Date of Birth" disabled value="{{currentParticipant?.dateOfBirth | date}}" />
+                                                    <mat-error>Date of birth is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please enter <strong>participant's DOB</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile" *ngIf="currentParticipant">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Preferred Name</mat-label>
+                                                    <input matInput placeholder="Preferred Name" disabled value="{{currentParticipant?.preferredName}}" />
+                                                    <mat-error>Preferred Name is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please input <strong>Preferred Name</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="form-group kt-form__group row" *ngIf="currentParticipant">
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Participant's Gender</mat-label>
+                                                    <input matInput placeholder="Participant's Gender" disabled value="{{currentParticipant?.gender}}" />
+                                                    <mat-error>Gender is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please select <strong>participant's gender</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Participant's Ndis Number</mat-label>
+                                                    <input matInput placeholder="Participant's Ndis Number" disabled value="{{currentParticipant?.ndisNumber}}" />
+                                                    <mat-error>Phone is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please enter <strong>participant's Ndis Number</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>                                        
+                                        </div>
+
+                                        <div class="form-group kt-form__group row" *ngIf="currentParticipant?.friendfullName">
+                                            <div class="col-md-12">
+                                                <h5>My Family and friends section</h5>
+                                            </div>
+
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile" *ngIf="currentParticipant?.friendfullName">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Full Name</mat-label>
+                                                    <input matInput placeholder="Full Name" disabled value="{{currentParticipant?.friendfullName}}" />
+                                                    <mat-error>Full Name is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please enter <strong>Full Name</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile" *ngIf="currentParticipant?.relation">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Relationship to patient</mat-label>
+                                                    <input matInput placeholder="Relationship to patient" disabled value="{{currentParticipant?.relation}}" />
+                                                    <mat-error>Relationship to patient is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please enter <strong>Relationship to patient</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile" *ngIf="currentParticipant?.contactinfo">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Contact info</mat-label>
+                                                    <input matInput placeholder="contact info" disabled value="{{currentParticipant?.contactinfo}}" />
+                                                    <mat-error>Contact info is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please enter <strong>contact info </strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group kt-form__group row" *ngIf="currentParticipant?.service">
+                                            <div class="col-md-12">
+                                                <h5>Service/involvement</h5>
+                                            </div>
+
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile" *ngIf="currentParticipant?.service">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Service</mat-label>
+                                                    <input matInput placeholder="Service" disabled value="{{currentParticipant?.service}}" />
+                                                    <mat-error>Service is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please enter <strong>Service</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile" *ngIf="currentParticipant?.description">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Description</mat-label>
+                                                    <input matInput placeholder="Description" disabled value="{{currentParticipant?.description}}" />
+                                                    <mat-error>Description is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please enter <strong>Description</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                            
+                            </div>
+                        </form>
+                    </ng-template>
+                </mat-tab>
+
+                <!-- My goals -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="mat-tab-label-icon fas fa-tasks"></i>
+                        My Goals
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <form [formGroup]="careplanFormFamilyGoal">
+                            <div class="col-md-12">
+                                <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="3000" [showCloseButton]="true"
+                                    (close)="onAlertClose($event)">
+                                    Something went wrong, please make changes and try saving again.
+                                </kt-alert>
+
+                                                    <div class="kt-wizard-v2__content" formArrayName="familyGoalArray">
+                                                        <div class="kt-form__section kt-form__section--first kt-form--group-separator-dashed" 
+                                                        *ngFor="let group1 of careplanFormFamilyGoal.get('familyGoalArray').controls; let i = index;" [formGroupName]="i">        
+
+                                                            <div class="kt-wizard-v2__form">
+                                                                <div class="row">
+                                                                    <div class="col-md-11">
+                                                                        <div class="row">
+
+                                                                            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                                                                <mat-form-field class="mat-form-field-fluid">
+                                                                                    <textarea matInput placeholder="What is your goal?" formControlName="title"></textarea>
+                                                                                    <mat-error>Goal title is <strong>required</strong></mat-error>
+                                                                                    <mat-hint align="start">Please enter <strong>goal title</strong>
+                                                                                    </mat-hint>
+                                                                                </mat-form-field>
+                                                                            </div>
+
+                                                                            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                                                                <mat-form-field class="mat-form-field-fluid">
+                                                                                    <textarea matInput placeholder="How will I achieve this goal
+                                                                                    ?" formControlName="strategy"></textarea>
+                                                                                    <mat-error>Goal is <strong>required</strong></mat-error>
+                                                                                    <mat-hint align="start">Please enter <strong>goal</strong>
+                                                                                    </mat-hint>
+                                                                                </mat-form-field>
+                                                                            </div>
+
+                                                                            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                                                                <mat-form-field class="mat-form-field-fluid">
+                                                                                    <textarea matInput placeholder="How will I be supported ?" formControlName="support"></textarea>
+                                                                                    <mat-error>Goal supported is <strong>required</strong></mat-error>
+                                                                                    <mat-hint align="start">Please enter <strong>goal supported</strong>
+                                                                                    </mat-hint>
+                                                                                </mat-form-field>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div *ngFor="let shortTermGoals of group1.controls.shortTermGoals.controls; let j=index">
+                                                                            <div class="kt-wizard-v2__form" [formGroup]="shortTermGoals">
+                                                                                <div class="row mt-2">
+                                                                                    <mat-expansion-panel [expanded]="panelOpenState" class="kt-margin-bottom-20">
+                                                                                        <mat-expansion-panel-header class="short-header">
+                                                                                            <mat-panel-title>
+                                                                                                {{shortTermGoals.controls.title.value}}
+                                                                                            </mat-panel-title>
+                                                                                        </mat-expansion-panel-header>
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                                                                                <mat-form-field class="mat-form-field-fluid"> 
+                                                                                                    <textarea matInput placeholder="Goal title" formControlName="title"></textarea>
+                                                                                                    <mat-error>Goal title is <strong>required</strong></mat-error>
+                                                                                                    <mat-hint align="start">Please enter <strong>goal title</strong>
+                                                                                                    </mat-hint>
+                                                                                                </mat-form-field>
+                                                                                            </div>
+                                                                                            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                                                                                <mat-form-field class="mat-form-field-fluid"> 
+                                                                                                    <textarea matInput placeholder="Goal description" formControlName="description"></textarea>
+                                                                                                    <mat-error>Goal description is <strong>required</strong></mat-error>
+                                                                                                    <mat-hint align="start">Please enter <strong>Goal description</strong>
+                                                                                                    </mat-hint>
+                                                                                                </mat-form-field>
+                                                                                            </div>
+                                                                                            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                                                                                <mat-form-field class="mat-form-field-fluid">
+                                                                                                    <mat-label>Goal outcome</mat-label>
+                                                                                                    <mat-select formControlName="outcome">
+                                                                                                        <mat-option [value]="1">Achieved</mat-option>
+                                                                                                        <mat-option [value]="2">Partially Achieved</mat-option>
+                                                                                                        <mat-option [value]="3">Not Achieved</mat-option>
+                                                                                                        <mat-option [value]="4">Other</mat-option>
+                                                                                                    </mat-select>
+                                                                                                </mat-form-field>
+                                                                                            </div>
+
+                                                                                            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                                                                                <mat-form-field class="mat-form-field-fluid">
+                                                                                                    <textarea matInput placeholder="Goal outcome detail" formControlName="outcomeDetail"></textarea>
+                                                                                                    <mat-error>Goal outcome detail is <strong>required</strong></mat-error>
+                                                                                                    <mat-hint align="start">Please enter <strong>goal outcome detail</strong>
+                                                                                                    </mat-hint>
+                                                                                                </mat-form-field>
+                                                                                            </div>
+                                                                                            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                                                                                <mat-form-field class="mat-form-field-fluid">
+                                                                                                    <textarea matInput placeholder="Goal strategy" formControlName="strategy"></textarea>
+                                                                                                    <mat-error>Goal strategy is <strong>required</strong></mat-error>
+                                                                                                    <mat-hint align="start">Please enter <strong>goal strategy</strong>
+                                                                                                    </mat-hint>
+                                                                                                </mat-form-field>
+                                                                                            </div>
+
+                                                                                            <div class="col-lg-4 mt-1 kt-margin-bottom-20-mobile">
+                                                                                                <button type="button" (click)="deleteMyGoalItem(i,j)"
+                                                                                                    name="builder_submit" class="btn btn-warn mt-2"
+                                                                                                    mat-raised-button>
+                                                                                                    <i class="la la-trash"></i>
+                                                                                                    Delete Goal
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </mat-expansion-panel>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div> 
+                                                                    </div>
+                                                                    <div class="col-md-1">
+                                                                        <div class="form-group">
+                                                                            <label>Action</label>
+                                                                            <div class="label">
+                                                                                <button mat-icon-button color="warn"
+                                                                                    matTooltip="Delete Careplan Item"
+                                                                                    type="button" (click)="removeFamilyGoal(i)">
+                                                                                    <mat-icon>delete</mat-icon>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                        <button class="mt-2" mat-raised-button color="secondry"
+                                                                            matTooltip="Add New Short term Goal"
+                                                                            type="button" (click)="addShortTermGoals(i)">
+                                                                            <mat-icon>add</mat-icon>
+                                                                            Add New Short term Goal
+                                                                        </button>
+
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                        </div>
+
+                                                        <div class="col-lg-12">
+                                                            <button type="button" (click)="addFamilyGoal()"
+                                                                name="builder_submit" class="btn btn-secondary"
+                                                                mat-raised-button>
+                                                                <i class="la la-plus"></i>
+                                                                Add New Goal
+                                                            </button>
+                                                            
+                                                        </div>
+
+                                                    </div>
+                            </div>
+                        </form>
+                    </ng-template>
+                </mat-tab> 
+
+                <!-- Budget -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="mat-tab-label-icon fas fa-tasks"></i>
+                        Billing/Budget
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <form [formGroup]="careplanFormFundedSupport">
+                            <div class="col-md-12">
+
+                                <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="3000" [showCloseButton]="true"
+                                    (close)="onAlertClose($event)">
+                                    Something went wrong, please make changes and try saving again.
+                                </kt-alert>              
+
+                               
+
+                                <div class="kt-form__section kt-form__section--first">
+                                    <div class="form-group kt-form__group row">
+
+                                            <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Select Fund Category</mat-label>
+                                                    <mat-select formControlName="fundCategoryId">
+                                                        <mat-option [value]="1">Self Funded</mat-option>
+                                                        <mat-option [value]="2">NDIS</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Select Budget Plan</mat-label>
+                                                        <mat-select formControlName="budgetPlanId">
+                                                        <mat-option *ngFor="let item of budgetPlan" [value]="item.id">
+                                                            {{item.text}}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div> -->
+
+                                            <div class="col-lg-5 kt-margin-bottom-20-mobile">
+                                                <mat-form-field class="mat-form-field-fluid">
+                                                    <mat-label>Fund Allocated</mat-label>
+                                                    <input type="number" matInput placeholder="Fund Allocated" formControlName="fundAllocated" />
+                                                    <mat-error>Fund Allocated is <strong>required</strong></mat-error>
+                                                    <mat-hint align="start">Please enter <strong>Fund Allocated</strong>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </ng-template>
+                </mat-tab>
+
+            </mat-tab-group>
+        
+            <div class="col-md-12">
+                <a href="javascript:;" (click)="nextStep()" *ngIf="selectedTab < 2" class="btn kt-margin-r-10 pull-right" color="primary" mat-raised-button matTooltip="Next">
+                    <span class="kt-hidden-mobile">Next</span>
+                    <i class="la la-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

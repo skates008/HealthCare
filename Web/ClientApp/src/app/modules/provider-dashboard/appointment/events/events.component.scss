@@ -1,0 +1,41 @@
+@import '../../../../../assets/sass/config';
+$primaryColor: #5867dd;
+.event-actions {
+  height: 35px;
+  display: block;
+  margin: auto;
+  background-color: $primaryColor;
+  color: kt-brand-color(inverse);
+
+}
+.new-user:hover{
+  background-color: darken($primaryColor, (20%));
+}
+
+.kt-footer {
+    background: #e2e2e2;
+    width: 100%;
+}
+.invoice-btn{
+  padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+    text-align: left;
+}
+
+.mat-form-field-fluid {
+  width: 100%;
+}
+.close-icon{
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  border-radius: 14px;
+  cursor: pointer!important;
+}
+
+.kt-portlet .kt-portlet__head .kt-portlet__head-label {
+  width: 100% !important;
+  padding-top: 12px !important;
+  display: flow-root;
+}

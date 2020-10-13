@@ -1,0 +1,24 @@
+.upload {
+    min-width: 64px;
+    line-height: 30px;
+    padding: 0 10px;
+}
+
+.kt-widget__media {
+    position: relative;
+}
+
+.upload-icon {
+    position: absolute;
+    right: -9px;
+    bottom: -6px;
+    color: gray;
+    cursor: pointer;
+    border: 1px dotted gray;
+    border-radius: 2px;
+    font-size: 22px !important;
+}
+
+.upload-icon:hover{
+    color: #e44868;
+}

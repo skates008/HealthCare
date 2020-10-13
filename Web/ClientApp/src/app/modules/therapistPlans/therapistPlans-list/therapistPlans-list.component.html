@@ -1,0 +1,137 @@
+<kt-portlet [class]="'kt-portlet--tabs'">
+    <kt-portlet-header [title]="'Therapy Service Summary list'" [class]="'kt-portlet__head--lg'">
+        <!-- <ng-container ktPortletTools>
+            <button class="new-user" [routerLink]="['/therapistPlans/therapistPlans/add']" mat-raised-button
+                matTooltip="Create new Therapy Service Summary">New Therapy Service Summary</button>
+        </ng-container> -->
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="kt-form">
+            <div class="kt-form__filtration">
+                <div class="row align-items-center">
+                    <div class="col-md2 kt-margin-bottom-10-mobile">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Search Therapy Service Summary" #searchInput>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center collapse kt-form__group-actions kt-margin-top-5 kt-margin-bottom-5"
+			[ngClass]="{'show' : selection.selected.length > 0}">
+			<!-- We show 'Group Actions' div if smth are selected -->
+			<div class="col-xl-12">
+				<div class="kt-form__group kt-form__group--inline">
+					<div class="kt-form__label kt-form__label-no-wrap">
+						<label class="kt--font-bold kt-font-danger-">
+							<span translate="ECOMMERCE.COMMON.SELECTED_RECORDS_COUNT"></span>
+							TherapyServices Selected: {{ selection.selected.length }}
+						</label>
+						<!-- selectedCountsTitle => function from codeBehind (users-list.component.ts file) -->
+						<!-- selectedCountsTitle => just returns title of selected items count -->
+						<!-- for example: Selected records count: 4 -->
+					</div>
+					<div class="kt-form__control kt-form__group--inline">
+						<button  mat-raised-button matTooltip="Fetch selected users"
+							class="mat-button-mt-4">
+							<mat-icon>clear_all</mat-icon>
+							Fetch Selected
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="mat-table__wrapper">
+			<table mat-table class="mat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
+				matSortActive="id" matSortDirection="asc" matSortDisableClear multiTemplateDataRows>
+
+				<!-- Checkbox -->
+				<ng-container matColumnDef="select">
+					<th mat-header-cell *matHeaderCellDef class="mat-column-checkbox">
+						<mat-checkbox (change)="$event ? masterToggle() : null"
+							[checked]="selection.hasValue() && isAllSelected()"
+							[indeterminate]="selection.hasValue() && !isAllSelected()">
+						</mat-checkbox>
+					</th>
+					<td mat-cell *matCellDef="let row" class="mat-column-checkbox Invoice-checkbox">
+						<mat-checkbox (click)="$event.stopPropagation()"
+							(change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+						</mat-checkbox>
+					</td>
+				</ng-container>
+				<!-- ID -->
+				<ng-container matColumnDef="id">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+					<td mat-cell *matCellDef="let TherapyService">{{TherapyService.id}}</td>
+				</ng-container>
+				<!-- Issue Date -->
+				<ng-container matColumnDef="startDate">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+					<td mat-cell *matCellDef="let TherapyService">{{TherapyService.startDate | date: 'mediumDate'}}</td>
+				</ng-container>
+				<!-- End Date -->
+				<ng-container matColumnDef="endDate">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+					<td mat-cell *matCellDef="let TherapyService">{{TherapyService.endDate | date: 'mediumDate'}}</td>
+				</ng-container>
+				<!-- participant Name -->
+				<ng-container matColumnDef="participantName">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Participant</th>
+					<td mat-cell *matCellDef="let TherapyService">
+					<a (click)='viewParticipant(TherapyService.participant)' href="javascript:;">{{ TherapyService.participantName}}</a></td>
+				</ng-container>
+				<!-- careplan Name -->
+				<ng-container matColumnDef="careplan">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Careplan</th>
+					<td mat-cell *matCellDef="let TherapyService">
+					<a (click)='viewCareplan(TherapyService.careplan)' href="javascript:;">{{ getCareplanStr(TherapyService.careplan*1)}}</a></td>
+				</ng-container>
+				<!-- business Name -->
+				<ng-container matColumnDef="familyGoal">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Family Goal</th>
+					<td mat-cell *matCellDef="let TherapyService">{{ TherapyService.familyGoal }}</td>
+				</ng-container>
+					<!-- status Name -->
+					<ng-container matColumnDef="status">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+						<td mat-cell *matCellDef="let TherapyService">
+							<span
+								class="kt-badge kt-badge--inline kt-badge--pill kt-badge--success kt-badge--wide">{{ TherapyService.status }}</span>
+						</td>
+					</ng-container>
+				<!-- Action -->
+				<ng-container matColumnDef="actions">
+					<th mat-header-cell *matHeaderCellDef>Actions</th>
+					<td mat-cell *matCellDef="let TherapyService" class="Invoice-actions">
+						<button (click)="viewTherapyService(TherapyService.id)" mat-icon-button color="primary"
+							matTooltip="View TherapyService">
+							<mat-icon>visibility</mat-icon>
+						</button>&nbsp;
+						<button mat-icon-button color="warn" matTooltip="Delete TherapyService" type="button"
+							(click)="deleteTherapyService(TherapyService)">
+							<mat-icon>delete</mat-icon>
+						</button>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+					[class.example-expanded-row]="expandedElement === row"
+					(click)="expandedElement = expandedElement === row ? null : row"></tr>
+			</table>
+			<!-- <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found!</div>
+			<div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait..
+			</div> -->
+		</div>
+
+		<div class="mat-table__bottom">
+			<mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+			<mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
+				[showFirstLastButtons]="true"></mat-paginator>
+		</div>
+
+    </kt-portlet-body>
+</kt-portlet>

@@ -1,0 +1,96 @@
+<kt-portlet [class]="'kt-portlet--tabs'">
+  <!-- <kt-portlet-header [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTools> -->
+  <div class="kt-portlet__head kt-portlet__head__custom appointment-header">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="filter-client col-md-3">
+          <!-- <mat-form-field class=""                
+              > -->
+          <input type="text" placeholder="Search Client" aria-label="Number" matInput class="filter-input"
+            [formControl]="selectedParticipant" (click)="clientInputClick()" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="clientSelected($event)">
+            <mat-option *ngFor="let participantOption of filteredOptions | async" [value]="participantOption">
+              {{participantOption.text}}
+            </mat-option>
+          </mat-autocomplete>
+          <!-- </mat-form-field> -->
+        </div>
+        <div class="filter-practitioner col-md-3">
+          <!-- <mat-form-field class="mat-form-field-fluid"  appearance="outline"> -->
+          <input type="text" placeholder="Search Practitioner" aria-label="Number" matInput class="filter-input"
+            (click)="practitionerInputClick()" [formControl]="selectedPractitioner" [matAutocomplete]="autoPractitioner">
+          <mat-autocomplete #autoPractitioner="matAutocomplete" (optionSelected)="practitionerSelected($event)">
+            <mat-option *ngFor="let practitionerOption of filteredPractitionerOptions | async"
+              [value]="practitionerOption">
+              {{practitionerOption.text}}
+            </mat-option>
+          </mat-autocomplete>
+          <!-- </mat-form-field> -->
+        </div>
+
+        <div class="col-md-6 text-right">
+
+          <button class="ml-2 mt-3" mat-raised-button matTooltip="Calendar view" (click)="goToCalendar()">
+            <i class="la la-calendar"></i>
+            <span class="kt-hidden-mobile">Calendar View</span>
+          </button>
+          <button class="ml-2 mt-3" mat-raised-button color="primary" matTooltip="Timeline view"
+            (click)="goToTimeline()">
+            <i class="la la-list"></i>
+            <span class="kt-hidden-mobile">
+              Timeline View</span>
+          </button>
+          <button class="ml-2 mt-3" mat-raised-button matTooltip="Grid view" color="primary"
+            (click)="goToTimeGrid()">
+            <i class="la la-table"></i>
+            <span class="kt-hidden-mobile">
+              Grid View</span>
+          </button>
+          <button class="ml-2 mt-3" mat-raised-button color="primary" matTooltip="Create new Appointment"
+            (click)="createAppointment('','')">
+            <i class="la la-plus"></i><span class="kt-hidden-mobile">Add Appointment</span> 
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <button class="new-appointment ml-5" mat-raised-button matTooltip="List of Appointment Request"
+                (click)="requestAppointment()">Appointment Requests</button> -->
+  <!-- Buttons (Material Angular) | See off.documenations 'https://material.angular.io/components/button/overview' -->
+  <!-- mat-raised-button | Rectangular contained button w/ elevation  -->
+  <!-- </ng-container> -->
+  <!-- </kt-portlet-header> -->
+  <kt-portlet-body>
+    <!-- <div class='app'>
+    <div class='app-calendar' *ngIf="calendarVisible"> -->
+    <full-calendar #calendar defaultView="dayGridMonth" 
+        minTime="07:00:00" 
+        [header]="{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+          }" 
+        [eventTimeFormat]="{ 
+          hour: 'numeric',
+          minute: '2-digit',
+          meridiem: true
+         }" 
+         eventLimit=true,
+          views=" {
+           timeGrid: {
+             eventLimit: 6
+           }
+         }" 
+         [plugins]="calendarPlugins" 
+         [weekends]="calendarWeekends" 
+         [events]="calendarEvents"
+         (dateClick)="handleDateClick($event)"
+         (eventClick)="eventClick($event)"
+          (datesRender)="handleDatesRender($event)"
+         (eventRender)="calendarEventRender($event)">
+      </full-calendar>
+    <!-- </div>
+  </div> -->
+  </kt-portlet-body>
+</kt-portlet>

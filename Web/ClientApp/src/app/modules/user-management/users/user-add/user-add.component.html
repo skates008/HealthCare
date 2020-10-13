@@ -1,0 +1,258 @@
+<kt-portlet>
+	<kt-portlet-header [title]="getComponentTitle()" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+		<ng-container ktPortletTools>
+			<a href="javascript:;" (click)="back()"  class="btn btn-secondary kt-margin-r-10" mat-raised-button
+				matTooltip="" >
+				<i class="la la-arrow-left"></i>
+				<span class="kt-hidden-mobile">Back</span>
+			</a>
+		
+			<a href="javascript:;" class="btn btn-primary kt-margin-r-10"  color="primary" (click)="onSumbit(false)" [disabled]="userForm.invalid"
+				mat-raised-button matTooltip="Save & Continue">
+				<i class="la la-save"></i>
+				<span class="kt-hidden-mobile">Save</span>
+			</a>
+		
+		</ng-container>
+	</kt-portlet-header>
+
+	<kt-portlet-body>
+		<mat-tab-group [(selectedIndex)]="selectedTab">
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-user"></i>
+					Basic info
+				</ng-template>
+				<ng-template matTabContent>
+					<!--begin::Form-->
+					<div *ngIf="user">
+						<form [formGroup]="userForm" class="kt-form">
+
+							<kt-alert *ngIf="hasFormErrors" type="warn" [showCloseButton]="true" [duration]="10000"
+								(close)="onAlertClose($event)">
+								Oh snap! Change a few things up and try submitting again. <br>
+								{{message}}
+							</kt-alert>
+							<div class="kt-form__section kt-form__section--first">
+								<div class="form-group kt-form__group row">
+		
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput placeholder="Enter First Name" formControlName="firstName" required/>
+											<mat-error>First Name is
+												<strong>required</strong>
+											</mat-error>
+											<mat-hint align="start">Please enter
+												<strong>First Name</strong>
+											</mat-hint>
+										</mat-form-field>
+									</div>
+
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput placeholder="Enter Last Name" formControlName="lastName" required/>
+											<mat-error>Last Name is
+												<strong>required</strong>
+											</mat-error>
+											<mat-hint align="start">Please enter
+												<strong>Last Name</strong>
+											</mat-hint>
+										</mat-form-field>
+									</div>
+
+
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input type="email" matInput placeholder="Enter Email"
+												formControlName="email" required/>
+											<mat-error>Email is
+												<strong>required</strong>
+											</mat-error>
+											<mat-hint align="start">Please enter
+												<strong>Email</strong>
+											</mat-hint>
+										</mat-form-field>
+									</div>	
+								</div>
+								<div class="form-group kt-form__group row">
+
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-label>Select Role</mat-label>
+                                                <mat-select formControlName="roleId" required>
+                                                <mat-option>None</mat-option>
+                                                <mat-option *ngFor="let item of roleslist" [value]="item.id">
+                                                    {{item.text}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+									</div>
+
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput placeholder="Enter Occupation"
+												formControlName="occupation" required />
+											<mat-hint align="start">Please enter
+												<strong>Occupation</strong>
+											</mat-hint>
+										</mat-form-field>
+									</div>
+
+									<!-- Team name -->
+									<!-- <div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput placeholder="Enter Team Name"
+												formControlName="companyName" />
+											<mat-hint align="start">Please enter
+												<strong>team name</strong>
+											</mat-hint>
+										</mat-form-field>
+									</div> -->
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput type="number" placeholder="Enter phone" formControlName="phoneNumber" required/>
+											<mat-hint align="start">Please enter
+												<strong>10 digit Phone number</strong>
+											</mat-hint>
+										</mat-form-field>
+									</div>
+								
+
+								</div>
+								
+								<div class="form-group kt-form__group row">
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<mat-chip-list #chipList aria-label="Team selection">
+											<mat-chip
+												*ngFor="let subTeam of selectedTherapist"
+												[selectable]="selectable"
+												[removable]="removable"
+												(removed)="remove(subTeam)">
+												{{subTeam.name}}
+												<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+											</mat-chip>
+											<input
+												placeholder="Teams..."
+												#subTeamInput
+												[formControl]="subTeamCtrl"
+												[matAutocomplete]="auto"
+												[matChipInputFor]="chipList"
+												[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+												(matChipInputTokenEnd)="add($event)">
+											</mat-chip-list>
+											<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+											<mat-option *ngFor="let subTeam of subteamList" [value]="subTeam">
+												{{subTeam.name}}
+											</mat-option>
+											</mat-autocomplete>
+										</mat-form-field>
+									</div>
+								 
+								</div>
+
+								
+    <div class="kt-form__section kt-form__section--first" formGroupName = "userAddress"> 
+        <div class="form-group kt-form__group row" >
+
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input  matInput placeholder = "Search address" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" formControlName = "address" [options] = "options"/>
+                    <mat-icon matSuffix>map</mat-icon>
+                    <mat-hint align="start">Please enter <strong>your address</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter your Unit"
+                        formControlName="unit"/>
+                    <mat-error>Unit is <strong>required</strong></mat-error>
+                    <mat-hint align="start">Please enter <strong>your Unit</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter your Street Number"
+                        formControlName="streetNumber" required/>
+                    <mat-error>Street Number <strong>required</strong></mat-error>
+                    <mat-hint align="start">Please enter <strong>your street number</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>           
+        </div>
+    
+        <div class="form-group kt-form__group row">
+
+
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter your streetname"
+                        formControlName="streetName" required/>
+                    <mat-error>Street Name <strong>required</strong></mat-error>
+                    <mat-hint align="start">Please enter <strong>your street name</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter your city"
+                        formControlName="city" required/>
+                    <mat-error>City <strong>required</strong></mat-error>
+                    <mat-hint align="start">Please enter <strong>your city</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+           
+             <!-- <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter your state" formControlName="state" required />
+                    <mat-error>State is <strong>required</strong></mat-error>
+                    <mat-hint align="start">Please enter <strong>state</strong>
+                    </mat-hint>
+                </mat-form-field>
+			</div> -->
+			<div class="col-lg-4 kt-margin-bottom-20-mobile">
+				<mat-form-field class="mat-form-field-fluid">
+					<mat-label>Enter  your state</mat-label>
+						<mat-select formControlName="state">
+						<mat-option value="New South Wales">New South Wales</mat-option>
+						<mat-option value="Victoria">Victoria</mat-option>
+						<mat-option value="Queensland">Queensland</mat-option>
+						<mat-option value="Western Australia">Western Australia</mat-option>
+						<mat-option value="South Australia">South Australia</mat-option>
+						<mat-option value="Tasmania">Tasmania</mat-option>
+						<mat-option value="Northern Territory">Northern Territory</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+
+           
+        </div>
+        <div class="form-group kt-form__group row">
+
+        <div class="col-lg-4 kt-margin-bottom-20-mobile">
+            <mat-form-field class="mat-form-field-fluid">
+                <input matInput placeholder="Enter your postcode"
+                    formControlName="postalCode" required/>
+                <mat-error>Post Code <strong>required</strong></mat-error>
+                <mat-hint align="start">Please enter <strong>your postcode</strong>
+                </mat-hint>
+            </mat-form-field>
+        </div>
+        </div>
+    </div>
+
+							</div>
+						</form>
+					</div>
+					<!--end::Form-->
+				</ng-template>
+			</mat-tab>
+		</mat-tab-group>
+	</kt-portlet-body>
+</kt-portlet>

@@ -1,0 +1,285 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~material-design-icons/iconfont/material-icons.css";
+@import "~highlight.js/styles/googlecode.css";
+
+
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+@import '~@fullcalendar/timegrid/main.css';
+@import '~@fullcalendar/timeline/main.css';
+@import '~@fullcalendar/resource-timeline/main.css';
+
+
+
+
+// hide bootstrap dropdown arrow globally
+$someColor: #e44868;
+
+.dropdown-toggle::after {
+	display: none !important;
+}
+
+.mat-table__wrapper--dashboard .mat-table {
+	min-width: 600px !important;
+	width: 100% !important;
+}
+
+.position-static {
+	position: static;
+}
+
+
+.mt-2 {
+	margin-top: 20px;
+}
+
+.cdk-overlay-container {
+    z-index: 500 !important;
+}
+
+// #cdk-overlay-0{	
+// 	max-height: 40%!important;
+//   }
+
+.cdk-overlay-pane.kt-mat-dialog-container__wrapper{
+		max-height: 100vh!important;
+
+}
+
+// .mat-dialog-container{
+// 	min-height: 80vh !important;
+// }
+.timepicker {
+
+	.timepicker__header {
+	  background-color: $someColor !important;
+	}
+  
+	.clock-face__clock-hand {
+	  background-color: $someColor !important;
+  
+	  &::after {
+		background-color: $someColor !important;
+	  }
+  
+	  &::before {
+		border-color: $someColor !important;
+	  }
+	}
+  
+	.clock-face__number {
+	  > span.active {
+		background-color: $someColor !important;
+	  }
+	}
+  
+	button:not(.timepicker-dial__item) {
+	  color: $someColor !important;
+	}
+  }
+  .owl-dt-inline-container, .owl-dt-popup-container{
+	  width: 35em!important;
+  }
+  .owl-dt-container-row {
+    border-bottom: 0px solid rgba(0,0,0,.12)!important;
+}
+.owl-dt-inline-container .owl-dt-calendar, .owl-dt-popup-container .owl-dt-calendar {
+	height: 100%!important;
+}
+.owl-dt-timer-content .owl-dt-timer-input {
+	border: 0px solid rgba(0,0,0,.5)!important;
+	font-size: 1.65rem;
+}
+
+
+  .owl-dt-container-inner {
+	display: inline-grid;
+	width: 100%;
+	
+	.owl-dt-timer {
+		grid-column-start: 2;
+		grid-row-start: 1;
+		align-items: center;
+		margin-top: 4em;
+		font-size: 150%;
+	}
+	.owl-dt-calendar {
+		grid-column-start: 1;
+	}
+	.owl-dt-container-buttons {
+		grid-column-start: 1;
+		grid-column-end: 3;
+	}
+  }
+
+  
+  select2 .select2-container--default .select2-selection--single {
+    border: 1px solid #e2e5ec !important;
+    padding: 3px !important;
+    height: 36px !important;
+    width: 100% !important;
+}
+  
+
+  .owl-dt-timer-divider:after {
+    bottom: 42% !important;
+}
+
+.owl-dt-timer-divider:before {
+	top: 40% !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+	color: #e2e5ec!important;
+	&:focus{
+		border:#e44868!important
+	}
+  }
+
+  thead.fc-head {
+    background: #ededed;
+    text-transform: uppercase;
+	font-size: 1rem;
+	font-weight: 300;
+}
+.fc-button.fc-button-primary{
+	background: $someColor;
+    border-color: $someColor;
+}
+
+.fc-button.fc-button-primary.fc-button-active{
+	background: #b11a38;
+    border-color: #b11a38;
+}
+
+.fc-event{
+    color: white;
+    font-size: 12px;
+    margin-bottom: 4px;
+	padding: 4px;
+}
+
+.fc-content{
+	display: grid;
+	font-weight: bold!important;
+  }
+ 
+  .fc-time{
+	grid-column-start: 1;
+  }
+
+  .fc-title{
+	grid-column-start: 2;
+  }
+
+  .fc-client-content{
+    display: grid;
+  }
+
+  .fc-client{
+	grid-column-start: 1;
+	font-weight: normal!important;
+  }
+
+  .fc-client-name{
+	grid-column-start: 2;
+  }
+
+  .fc-event-container{
+	  cursor: pointer!important;
+  }
+
+  .fc-time-grid .fc-slats td {
+    height: 2.5em !important;
+    border-bottom: 0;
+}
+
+
+
+//Styles added to show Horizontal Scroll Bar
+
+// #calendar {
+// 	max-width: 900px;
+// 	margin: 0 auto;
+//   }
+
+// .fc-view-container {
+// 	width: auto;
+//   }
+  
+//   .fc-view-container .fc-view {
+// 	overflow-x: scroll;
+//   }
+
+//   .fc-view-container {
+// 	width: auto;
+// 	}
+	
+// 	.fc-view-container .fc-view {
+// 	overflow-x: scroll;
+// 	}
+	
+// 	.fc-view-container .fc-view > table {
+// 	width: 2500px;
+// 	}
+  
+//   .fc-view-container .fc-view > table {
+// 	width: 2500px;
+//   }
+
+// .fc-view {
+//     overflow-x: auto;
+//  }
+
+// .fc-view > table {
+//     min-width: 100%;
+//     width: 1600px;
+//  }
+      
+// .fc-time-grid .fc-slats {
+//     z-index: 4;
+//     pointer-events: none;
+//  }
+      
+// .fc-scroller.fc-time-grid-container {
+//     overflow: initial !important;
+//  }
+      
+// .fc-axis {
+//     position: sticky;
+//     left: 0;
+//     background: white;
+//  }
+
+//  .form-field-color .mat-form-field-infix{
+// 	background: lightgrey!important;
+//   }
+
+
+//  .checkout-form .mat-form-field-infix{
+// 	background: lightgray!important;
+// }
+
+
+// .form-field-color.mat-form-field-infix {
+//     background: lightgrey!important;
+// }
+
+.kt-mat-dialog-container__wrapper .mat-dialog-container .kt-portlet .kt-portlet__body {
+    overflow: auto;
+    max-height: 150vh!important;
+}
+
+.kt-portlet .kt-portlet__body {
+    display: flex;
+    flex-direction: column;
+    /* padding: 0px 25px 0px 25px; */
+    padding: 10px 25px !important;
+    border-radius: 4px;
+}
+
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+    line-height: 48px;
+    padding: 0 7px !important;
+}

@@ -1,0 +1,12 @@
+:host {
+	::ng-deep {
+		ngb-tabset > .nav-tabs {
+			display: none;
+		}
+	}
+}
+
+.upcoming-appointments{
+	height: 45vh;
+	overflow-y: auto;
+}

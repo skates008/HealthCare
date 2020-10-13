@@ -1,0 +1,56 @@
+<kt-portlet [class]="'kt-portlet--height-fluid'">
+	<kt-portlet-header [title]="'Appointment types'" [class]="'kt-portlet__head--lg'">
+		<ng-container ktPortletTools>
+			<button (click)="addAppointmentType()" mat-raised-button color="primary" matTooltip="Create New AppointmentType"><i
+					class="la la-plus"></i>Add Appointment Type</button>
+		</ng-container>
+	</kt-portlet-header>
+	<!-- end::Header -->
+
+	<!-- start::Body (attribute: ktPortletBody) -->
+	<kt-portlet-body [class]="'kt-portlet__body--fit'">
+			<div class="col-md-12">
+				<div perfectScrollbar [ngStyle]="{'max-height': '100%', 'position': 'relative'}"
+					class="mat-table__wrapper mat-table__wrapper--dashboard ">
+				<mat-table class="mat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
+					matSortActive="name" matSortDirection="asc" matSortDisableClear>
+
+					<ng-container matColumnDef="name">
+						<mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+						<mat-cell *matCellDef="let appointment">{{appointment.name}}</mat-cell>
+					</ng-container>
+
+					<ng-container matColumnDef="isBillable">
+						<mat-header-cell *matHeaderCellDef mat-sort-header>Billable Type</mat-header-cell>
+						<mat-cell *matCellDef="let appointment">
+							<span *ngIf="appointment.isBillable"> Billable </span>	
+							<span *ngIf="!appointment.isBillable"> Non-billable </span>	
+						</mat-cell>
+					</ng-container>
+
+					<ng-container matColumnDef="actions">
+						<mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+						<mat-cell class="actions" *matCellDef="let appointment">
+							<button mat-icon-button color="primary" matTooltip="Edit AppointmentType" (click)="editAppointmentType(appointment)">
+								<mat-icon>create</mat-icon>
+							</button>&nbsp;
+							<button (click)="deleteAppointmentType(appointment)" mat-icon-button
+								color="primary" matTooltip="Delete Note">
+								<mat-icon>delete</mat-icon>
+							</button>
+						</mat-cell>
+					</ng-container>
+
+					<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+					<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+				</mat-table>
+
+				<div class="mat-table__message" *ngIf="!appointmentshasItems">No records found</div>
+				</div>
+			</div>
+
+			<!-- end: BOTTOM -->
+	</kt-portlet-body>
+	<!-- end::Body -->
+</kt-portlet>

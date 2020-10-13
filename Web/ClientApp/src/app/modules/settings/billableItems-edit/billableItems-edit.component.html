@@ -1,0 +1,132 @@
+<kt-portlet>
+    <kt-portlet-header [title]="getComponentTitle()" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTools>
+            <a (click)="back()" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+           
+            <a href="javascript:;" class="btn kt-margin-r-10" color="primary" (click)="onSubmit(false)"
+                mat-raised-button matTooltip="Save & Continue">
+                <i class="la la-save"></i>
+                <span class="kt-hidden-mobile">Save</span>
+            </a>
+          
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+
+        <mat-tab-group [(selectedIndex)]="selectedTab">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <i class="mat-tab-label-icon flaticon-user"></i>
+                    Billable Item Details
+                </ng-template>
+                <ng-template matTabContent>
+                    <!-- Begin Form -->
+                    <div *ngIf="billableItem">
+                        <form [formGroup]="billableItemForm" class="kt-form kt-form--group-separator-dashed">
+
+                            <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="3000" [showCloseButton]="true"
+                                (close)="onAlertClose($event)">
+                                Something went wrong, please make changes and try saving again.
+                            </kt-alert>
+
+
+                            <div class="kt-form__section kt-form__section--first">
+
+                                <div class="form-group kt-form__group row">
+
+                                    <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input matInput placeholder="Enter name"
+                                                   formControlName="name" />
+                                            <mat-error>name is <strong>required</strong></mat-error>
+                                            <mat-hint align="start">
+                                                Please enter <strong>name</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-label>Item Type</mat-label>
+                                            <mat-select formControlName="isBillable" (selectionChange)="isBillableSelected(i,$event.value)">
+                                                <mat-option [value]="true">Billable</mat-option>
+                                                <mat-option [value]="false">Non Billable</mat-option>
+                                            </mat-select>
+                                            <!-- <input matInput placeholder="Enter Preferred Name" formControlName="preferredname"/> -->
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- Unit type -->
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-label>Unit Type</mat-label>
+                                            <mat-select formControlName="unit">
+                                                <mat-option [value]="1">Each</mat-option>
+                                                <mat-option [value]="2">Minutes</mat-option>
+                                                <mat-option [value]="3">Hour</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group kt-form__group row" *ngIf="showBillableFields">
+                                    <!-- billableItemTo -->
+                                    <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input minlength="9" maxlength="9" matInput placeholder="Enter NDISNumber" formControlName="ndisNumber" />
+                                            <mat-error>NDISSupportItem Number is <strong>required</strong></mat-error>
+                                            <mat-hint align="start">Please enter <strong>NDIS Number</strong></mat-hint>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- Price -->
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <input type="number" matInput placeholder="Enter price"
+                                                   formControlName="price" />
+                                            <mat-error>price is <strong>required</strong></mat-error>
+                                            <mat-hint align="start">
+                                                Please enter <strong>price</strong>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+
+
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-label>Gst Code</mat-label>
+                                            <mat-select formControlName="gstCode">
+                                                <mat-option [value]="0">P1</mat-option>
+                                                <mat-option [value]="1">P2</mat-option>
+                                                <mat-option [value]="2">P5</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea rows="6" class="form-control" name="description" formControlName='description'
+                                                      value="Description"></textarea>
+                                            <span class="form-text text-muted">Please add description</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </kt-portlet-body>
+</kt-portlet>

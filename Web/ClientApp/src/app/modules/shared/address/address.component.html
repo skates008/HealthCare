@@ -1,0 +1,84 @@
+<div [formGroup]="addressForm" class="kt-form kt-form--group-separator-dashed">
+
+    <div class="kt-form__section kt-form__section--first">
+        <div class="form-group kt-form__group row">
+
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input  matInput placeholder = "Search address" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" formControlName = "address" [options] = "options"/>
+                    <mat-icon matSuffix>map</mat-icon>
+                    <mat-hint align="start">Please enter <strong>your address</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter your Unit"
+                        formControlName="unit"/>
+                    <mat-error>Unit is <strong>required</strong></mat-error>
+                    <mat-hint align="start">Please enter <strong>your Unit</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter your Street Number"
+                        formControlName="streetNumber" required/>
+                    <mat-error>Street Number <strong>required</strong></mat-error>
+                    <mat-hint align="start">Please enter <strong>your street number</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>           
+        </div>
+    
+        <div class="form-group kt-form__group row">
+
+
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter your streetname"
+                        formControlName="streetName" required/>
+                    <mat-error>Street Name <strong>required</strong></mat-error>
+                    <mat-hint align="start">Please enter <strong>your street name</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter your city"
+                        formControlName="city" required/>
+                    <mat-error>City <strong>required</strong></mat-error>
+                    <mat-hint align="start">Please enter <strong>your city</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+           
+             <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Enter your state" formControlName="state" required />
+                    <mat-error>State is <strong>required</strong></mat-error>
+                    <mat-hint align="start">Please enter <strong>state</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+           
+        </div>
+        <div class="form-group kt-form__group row">
+
+        <div class="col-lg-4 kt-margin-bottom-20-mobile">
+            <mat-form-field class="mat-form-field-fluid">
+                <input matInput placeholder="Enter your postcode"
+                    formControlName="postCode" required/>
+                <mat-error>Post Code <strong>required</strong></mat-error>
+                <mat-hint align="start">Please enter <strong>your postcode</strong>
+                </mat-hint>
+            </mat-form-field>
+        </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+
+@import '../../../../assets/sass/config';
+$primaryColor: #e44868;
+
+.new-appointment-save {
+    height: 35px;
+    margin: auto auto auto -10px;
+    background-color: $primaryColor;
+    color: kt-brand-color(inverse);
+    
+  }
+  .new-appointment-save:hover{
+    background-color: darken($primaryColor, (20%));
+  }
+
+h3 {
+    margin: 0 0 10px;
+  }
+  
+  pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+  }
+  $primaryColor: #e44868;
+
+
+.new-appointment {
+  height: 35px;
+  display: block;
+  background-color: $primaryColor;
+  color: kt-brand-color(inverse);
+  
+}
+.new-appointment:hover{
+  background-color: darken($primaryColor, (20%));
+}
+
+.app-top {
+    margin: 0 0 3em;
+  }
+  
+  .app-calendar {
+    margin: 0 auto;
+    max-width: 900px;
+  }
+
+  .appointment-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+ 
+  .filter-input{
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 15px 0px;
+    border-radius: 5px;
+    color: black;
+  }
+
+  .close-icon{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    border-radius: 14px;
+    cursor: pointer!important;
+  }
+
+  

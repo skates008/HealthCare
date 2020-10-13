@@ -1,0 +1,66 @@
+@import "sass/pages/wizard/wizard-2";
+@import "sass/pages/wizard/wizard-3";
+
+.mat-form-field {
+  .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+  }
+  .mat-form-field-underline {
+    bottom: 0 !important;
+  }
+}
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #e44868 !important;
+}
+
+.participant-header{
+  padding: 15px 20px;
+}
+
+.participant-description {
+  padding: 20px;
+  background-color: #f2f3f7;
+}
+.add-info{
+  font-weight: 400;
+  padding: 20px;
+}
+
+.px-select-container{
+    position: relative;
+    display: block;
+    select{
+        &.px-select-list {
+            width: 100%;
+            height: 60px;
+            border-radius: 0px;
+            position: absolute;
+            top:0;
+            left: 0;
+            z-index: 9;
+        }
+    }
+}
+
+.px-control {
+    width: 100% !important;
+    height: 25px;
+    border: 1px solid #a4bed4;
+    border-radius: 2px;
+    font-size: 15px;
+    color: #424242;
+    padding-left: 4px;
+}
+
+.additional-form-group{
+   border: 1px solid gainsboro;
+   border-radius: 3px;
+   padding:0px 25px 15px;
+   margin-top: 15px;
+}
+.additional-form-header{
+  font-weight: 400;
+  font-size: 1.15rem;
+  padding:15px 0px 0px;
+
+}

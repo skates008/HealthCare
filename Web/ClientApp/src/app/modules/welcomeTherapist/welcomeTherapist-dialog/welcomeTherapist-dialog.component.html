@@ -1,0 +1,61 @@
+<div mat-dialog-content class="pl-2 pr-2 pb-2 welcomeTherapist-card">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+            <form class="kt-form" id="kt-form" [formGroup]="firstFormGroup">
+                <div class="kt-wizard-v2__content">
+                    <div class="kt-heading kt-heading--md">
+                        <h1>Welcome to Caretaskr!</h1>
+                    </div>
+                    <div class="kt-form__section kt-form__section--first">
+                        <div class="kt-wizard-v2__form">
+                            <h2>Let's take care of your details</h2>
+                            <h3>Firstly, please fill these details</h3>
+                            <!-- ROW 1 -->
+                            <div class="form-group row pt-5 pl-3">
+                                   <!-- First Name -->
+                                   <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Enter First Name"
+                                            formControlName="firstname" />
+                                        <mat-error>First name is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>first name</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <!-- Last Name -->
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput placeholder="Enter Last Name" formControlName="lastname" />
+                                        <mat-error>Last name is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>last name</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <select matNativeControl formControlName="gender">
+                                            <option value="">Select</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="unspecified">Unspecified</option>
+                                        </select>
+                                        <!-- <input matInput placeholder="Enter Preferred Name" formControlName="preferredname"/> -->
+                                        <mat-error>Gender is <strong>required</strong></mat-error>
+                                        <mat-hint align="start">Please enter <strong>gender</strong></mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-elevate kt-login__btn-primary next-button" mat-button (click)="onSubmit(false)"
+                                    matStepperNext>Save and Continue</button>
+                            </div>
+                            <!-- END ROW 1 -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

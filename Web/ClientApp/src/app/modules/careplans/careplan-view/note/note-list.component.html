@@ -1,0 +1,56 @@
+<kt-portlet [class]="'kt-portlet--height-fluid'">
+	<kt-portlet-header [title]="'Notes'" [class]="'kt-portlet__head--lg'">
+		<ng-container ktPortletTools>
+			<!-- <button (click)="addNote()" mat-raised-button color="primary" matTooltip="Create New Note"><i
+					class="la la-plus"></i>Add Note</button> -->
+		</ng-container>
+	</kt-portlet-header>
+	<!-- end::Header -->
+
+	<!-- start::Body (attribute: ktPortletBody) -->
+	<kt-portlet-body [class]="'kt-portlet__body--fit'">
+			<div class="col-md-12">
+				<div perfectScrollbar [ngStyle]="{'max-height': '43vh', 'position': 'relative'}"
+					class="mat-table__wrapper mat-table__wrapper--dashboard ">
+				<mat-table class="mat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
+					matSortActive="title" matSortDirection="asc" matSortDisableClear>
+
+					
+					<ng-container matColumnDef="createdByUserName">
+						<mat-header-cell class="email-cell" *matHeaderCellDef mat-sort-header>Created By</mat-header-cell>
+						<mat-cell class="email-cell" *matCellDef="let note">{{note.createdByUserName}}</mat-cell>
+					</ng-container>
+					
+					<ng-container matColumnDef="type">
+						<mat-header-cell class="email-cell" *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+						<mat-cell class="email-cell" *matCellDef="let note">{{note.type}}</mat-cell>
+					</ng-container>
+					
+
+					<ng-container matColumnDef="text">
+						<mat-header-cell *matHeaderCellDef mat-sort-header class="email-cell">Note</mat-header-cell>
+						<mat-cell *matCellDef="let note" class="email-cell">{{note.text | slice:0:16}}..</mat-cell>
+					</ng-container>
+
+					<ng-container matColumnDef="actions">
+						<mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+						<mat-cell class="actions" *matCellDef="let note">
+							<button mat-icon-button color="primary" matTooltip="View Note" (click)="viewNote(note)">
+								<mat-icon>visibility</mat-icon>
+							</button>
+						</mat-cell>
+					</ng-container>
+
+					<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+					<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+				</mat-table>
+
+				<div class="mat-table__message" *ngIf="!noteshasItems">No records found</div>
+				</div>
+			</div>
+
+			<!-- end: BOTTOM -->
+	</kt-portlet-body>
+	<!-- end::Body -->
+</kt-portlet>

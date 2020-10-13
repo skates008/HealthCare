@@ -1,0 +1,76 @@
+<kt-portlet>
+    <kt-portlet-header title="Task {{task.title}}" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTools>
+            <a href="javascript:;" (click)="back()" class="kt-margin-r-10" mat-raised-button
+                matTooltip="Back to the task list">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+            <a  href="javascript:;" class="kt-margin-r-10" color="primary" (click)="edit(task.id)"
+                mat-raised-button matTooltip="edit">
+                <i class="la la-edit"></i>
+                <span class="kt-hidden-mobile">Edit</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="row">
+            <div class="col-md-12">
+                
+            </div>
+            <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Title
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ task.title}} 
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Description
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ task.description}}
+                                    </div>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12 profile-info-detail">
+                            <mat-list>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Issue Date
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{ task.issueDate | date: 'mediumDate'}}
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>
+                                    <div class="col-md-5 profile-info">
+                                        Due Date
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{  task.dueDate | date: 'mediumDate' }} 
+                                    </div>
+                                    </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+            </div>
+
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

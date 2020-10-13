@@ -1,0 +1,18 @@
+@import '../../../../assets/sass/config';
+$primaryColor: #e44868;
+
+.new-appointment-save {
+    height: 35px;
+    margin: auto;
+    background-color: $primaryColor;
+    color: kt-brand-color(inverse);
+    
+  }
+  .new-appointment-save:hover{
+    background-color: darken($primaryColor, (20%));
+  }
+
+  .time-error{
+    color: #e44868;
+  }
+  

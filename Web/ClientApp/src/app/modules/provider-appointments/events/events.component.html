@@ -1,0 +1,244 @@
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- <h3 class="kt-portlet__head-title">{{eventDetails.appointmentType}}</h3> -->
+                    <h3 class="kt-portlet__head-title">Client: {{eventDetails.patientName}}</h3>
+                    <h2 class="kt-portlet__head-title">Practitioner: {{eventDetails.practitionerName}}</h2>
+
+
+                </div>
+                <div class="col-md-6 btn-group" *ngIf="!showFinishApptDialog">
+                    <!-- <button class="btn event-actions" mat-raised-button
+                        (click)="editAppointment(eventDetails)">Edit</button> -->
+                    <button class="btn event-actions" mat-raised-button (click)="showCancelAppointment()">Cancel
+                        Appointment</button>
+                </div>
+                <mat-icon (click)="closeDialogBox()" class="close-icon">close</mat-icon>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <div class="kt-portlet__body">
+                <div>
+                    <p>{{eventDetails.location}}
+                        {{apptStartDate | date: "EEEE, MMM d, yyyy"}} at {{formattedStarttime}} for
+                        {{appointmentInterval}} </p>
+                </div>
+
+                <div class="row kt-margin-t-20">
+                    <div class="col-md-6">
+                        <!-- <h6 class="rowkt-margin-r-20">{{eventDetails.practitioner}} </h6> -->
+                        <div>
+                            <div>
+                                <label>Case</label>
+                            </div>
+                            <!-- <div>
+                                <label>None</label>
+                            </div> -->
+                        </div>
+                        <div class="kt-margin-t-20">
+                            <div>
+                                <label>Next Appointment</label>
+                            </div>
+                            <div>
+                                <label>None</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div>
+                            <div>
+                                <select class="form-control" [(ngModel)]="arrivalStatus">
+                                    <option value="" disabled> Status</option>
+                                    <option value="arrived">Arrived</option>
+                                    <option value="notArrived">Not Arrived</option>
+                                </select>
+                            </div>
+                            <div *ngIf="arrivalStatus == 'arrived'">
+                                <button type="button" class="form-control"
+                                    (click)="addParticipantStatus('observation')">Add
+                                    Observation</button>
+                                <button type="button" class="form-control"
+                                    (click)="addParticipantStatus('assessment')">Add
+                                    Assessment</button>
+                                <button type="button" class="form-control" (click)="addParticipantStatus('treatment')">
+                                    Add
+                                    Treatment Note</button>
+                            </div>
+                            <div *ngIf="arrivalStatus == 'notArrived'">
+                                <mat-radio-group aria-labelledby="example-radio-group-label" [(ngModel)]="selectedRadio"
+                                    class="example-radio-group" (change)="notArrivedRadio($event)">
+                                    <mat-radio-button class="example-radio-button" value="noshow">
+                                        No Show
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="late">
+                                        Running Late
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <!-- <div>
+                            <div class="kt-margin-t-20">
+                                <button type="button" class="time-btn" (click)="openTime(eventDetails)">
+                                    Time(Open)
+                                </button>
+                            </div>
+                            <div>
+                                <input type="text" class="form-control" value="Treatment note" disabled>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="kt-footer" *ngIf="!showCancelApptDialog">
+                <div class="row">
+                    <div class="col-md-10 btn-group">
+                        <button *ngIf="arrivalStatus == 'arrived' || arrivalStatus == 'notArrived'"
+                            class="btn event-actions" mat-raised-button
+                            (click)="showFinishAppointment(arrivalStatus)">Finish</button>
+                        <!-- <button class="btn btn-primary" mat-raised-button (click)="bookAppointment()"
+                            *ngIf="!passAppt">Book
+                            Another</button> -->
+                        <button class="btn btn-primary event-actions" mat-raised-button
+                            (click)="rescheduleAppointment(eventDetails)" *ngIf="!passAppt">Edit</button>
+                    </div>
+                    <div class="col-md-2">
+                        <!-- <button class="btn event-actions" mat-raised-button
+                            (click)="archiveAppointment(eventDetails,expired)">Archive</button> -->
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="showFinishApptDialog">
+                <div class="kt-portlet"
+                    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+                    <div class="kt-portlet__head kt-portlet__head__custom">
+                        <div class="kt-portlet__head-label">
+                            <div class="row">
+                                <h3 class="kt-portlet__head-title">Finalise Appointment</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+
+                        <div class="kt-portlet__body">
+                            <div class="row">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <textarea matInput placeholder="What did client say?" [(ngModel)]="apptClientSay"
+                                        required></textarea>
+                                    <mat-error>What did client say is <strong>required</strong></mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <textarea matInput placeholder="What did you do?" [(ngModel)]="apptDo"
+                                        required></textarea>
+                                    <mat-error>What did you do is <strong>required</strong></mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <textarea matInput placeholder="What feedback did you set?"
+                                        [(ngModel)]="apptFeedback" required></textarea>
+                                    <mat-error>Feedback is <strong>required</strong></mat-error>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kt-form__actions kt-form__actions--solid kt-margin-bottom-10">
+                        <div class="text-right">
+                            <div class="col-lg-12">
+                                <button type="button" mat-raised-button color="primary"
+                                    (click)="finaliseAppointment(eventDetails, cancel)"
+                                    [disabled]="!finalizeFormValid()" matTooltip="Finalise Check-out">
+                                    Finalise Check-out
+                                </button> &nbsp;
+                                <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
+                                    matTooltip="Dont Finalise Check-out">
+                                    Don't Finalise Check-out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf="showCancelApptDialog">
+                <div class="kt-portlet"
+                    [ngClass]="{ 'kt-portlet--body-progress' : viewLoading, 'kt-portlet--body-progress-overlay' : loadingAfterSubmit }">
+                    <div class="kt-portlet__head kt-portlet__head__custom">
+                        <div class="kt-portlet__head-label">
+                            <div class="row">
+                                <h3 class="kt-portlet__head-title">Cancel Appointment</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+
+                        <div class="kt-portlet__body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div>
+                                        <label>Reason</label>
+                                    </div>
+                                    <div>
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            [(ngModel)]="selectedRadio" class="example-radio-group"
+                                            (change)="radioChange($event)">
+                                            <mat-radio-button class="example-radio-button"
+                                                *ngFor="let cancelReason of cancelReasons"
+                                                [value]="cancelReasons.indexOf(cancelReason)+1">
+                                                {{cancelReason}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <textarea matInput placeholder="Notes" [(ngModel)]="cancelNotes"></textarea>
+                                        <!-- <mat-error>Notes<strong>required</strong></mat-error> -->
+                                        <mat-hint align="start">Please enter <strong> notes</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kt-form__actions kt-form__actions--solid kt-margin-bottom-10">
+                        <div class="text-right">
+                            <div class="col-lg-12">
+                                <button type="button" mat-raised-button color="primary"
+                                    (click)="cancelAppointment(eventDetails)" [disabled]="!cancelFormValid()"
+                                    matTooltip="Cancel Appointmet">
+                                    Cancel Appointment
+                                </button> &nbsp;
+                                <button type="button" mat-raised-button (click)="hideCancelApptDialog()" cdkFocusInitial
+                                    matTooltip="Dont cancel Appointment">
+                                    Don't Cancel Appointment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <ng-template #arrivedDetails>
+                <h2 matDialogTitle>{{dialogheaderTitle}}</h2>
+                <mat-dialog-content>
+                    <textarea class="form-control" [placeholder]="dialogheaderTitle"
+                        [(ngModel)]="addApptDetails"></textarea>
+                </mat-dialog-content>
+
+                <mat-dialog-actions align="end">
+                    <button type="button" mat-raised-button mat-button color="primary"
+                        (click)="addApptDetailsfunc(eventDetails,dialogheaderTitle)">Add</button>
+                    <button type="button" mat-raised-button mat-button (click)="closeNotesDialog()">Cancel</button>
+                </mat-dialog-actions>
+            </ng-template>
